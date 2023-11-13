@@ -1,0 +1,303 @@
+{% extends 'default.html' %}
+
+{% block content %}
+
+{#sdfdsf#}
+
+
+      <div class="cart-content">
+      <nav>
+      <div class="breadcrumbs">
+        <a href="/">Главная »</a>
+        <a href="/cart/">Корзина</a>
+      </div>
+    </nav>
+        <h1 style="margin: 0px 0px 20px 0px">{{ title }}</h1>
+        <form action="">
+
+        <div class="cart-items">
+
+            <div class="cart-list">
+              <div class="cart-hover">
+                <input type="checkbox" id="select-all"><label for="">Выбрать все</label>
+              </div>
+
+
+
+                    {% if request.user.is_authenticated%}
+                        {% for item in cart.items.all %}
+                            {% include 'cart/cart_item.html' %}
+                        {% endfor %}
+                        {% else %}
+                        {% for item in cart %}
+                            {% include 'cart/cart_item.html' %}
+                        {% endfor %}
+                    {% endif %}
+
+
+
+
+
+{#                    <div class="cart-item">#}
+{#                      <div class="cart-img">#}
+{#                        <input type="checkbox" id="">#}
+{#                        <img src="static/img/IMG_7361 1.png" alt="">#}
+{#                      </div>#}
+{#                      <div class="item-hover">#}
+{#                      <h2>ВИТАМИН D3 (экстракты ивы и ромашки), БАД для суставов, 120 капсул </h2>#}
+{#                      <div class="del-item">#}
+{#                        <img src="static/img/X.svg" alt="">#}
+{#                      </div>#}
+{#                      <div class="item-count">#}
+{#                        <div class="number" data-step="1" data-min="1" data-max="100">#}
+{#                          <input class="number-text" type="text" name="count" value="1">#}
+{#                          <a href="#" class="number-minus">−</a>#}
+{#                          <a href="#" class="number-plus">+</a>#}
+{#                        </div>#}
+{#                        <div class="summ">#}
+{#                          1200 ₽ \ шт.#}
+{#                        </div>#}
+{#                      </div>#}
+{#                    </div>#}
+{#                    </div>#}
+{#                    <div class="cart-item">#}
+{#                      <div class="cart-img">#}
+{#                        <input type="checkbox" id="">#}
+{#                        <img src="static/img/IMG_7361 1.png" alt="">#}
+{#                      </div>#}
+{#                      <div class="item-hover">#}
+{#                      <h2>ВИТАМИН D3 (экстракты ивы и ромашки), БАД для суставов, 120 капсул </h2>#}
+{#                      <div class="del-item">#}
+{#                        <img src="static/img/X.svg" alt="">#}
+{#                      </div>#}
+{#                      <div class="item-count">#}
+{#                        <div class="number" data-step="1" data-min="1" data-max="100">#}
+{#                          <input class="number-text" type="text" name="count" value="1">#}
+{#                          <a href="#" class="number-minus">−</a>#}
+{#                          <a href="#" class="number-plus">+</a>#}
+{#                        </div>#}
+{#                        <div class="summ">#}
+{#                          1200 ₽ \ шт.#}
+{#                        </div>#}
+{#                      </div>#}
+{#                    </div>#}
+{#                    </div>#}
+{#                    <div class="cart-item">#}
+{#                      <div class="cart-img">#}
+{#                        <input type="checkbox" id="">#}
+{#                        <img src="static/img/IMG_7361 1.png" alt="">#}
+{#                      </div>#}
+{#                      <div class="item-hover">#}
+{#                      <h2>ВИТАМИН D3 (экстракты ивы и ромашки), БАД для суставов, 120 капсул </h2>#}
+{#                      <div class="del-item">#}
+{#                        <img src="static/img/X.svg" alt="">#}
+{#                      </div>#}
+{#                      <div class="item-count">#}
+{#                        <div class="number" data-step="1" data-min="1" data-max="100">#}
+{#                          <input class="number-text" type="text" name="count" value="1">#}
+{#                          <a href="#" class="number-minus">−</a>#}
+{#                          <a href="#" class="number-plus">+</a>#}
+{#                        </div>#}
+{#                        <div class="summ">#}
+{#                          1200 ₽ \ шт.#}
+{#                        </div>#}
+{#                      </div>#}
+{#                    </div>#}
+{#                    </div>#}
+{#                    <div class="cart-item">#}
+{#                      <div class="cart-img">#}
+{#                        <input type="checkbox" id="">#}
+{#                        <img src="static/img/IMG_7361 1.png" alt="">#}
+{#                      </div>#}
+{#                      <div class="item-hover">#}
+{#                      <h2>ВИТАМИН D3 (экстракты ивы и ромашки), БАД для суставов, 120 капсул </h2>#}
+{#                      <div class="del-item">#}
+{#                        <img src="static/img/X.svg" alt="">#}
+{#                      </div>#}
+{#                      <div class="item-count">#}
+{#                        <div class="number" data-step="1" data-min="1" data-max="100">#}
+{#                          <input class="number-text" type="text" name="count" value="1">#}
+{#                          <a href="#" class="number-minus">−</a>#}
+{#                          <a href="#" class="number-plus">+</a>#}
+{#                        </div>#}
+{#                        <div class="summ">#}
+{#                          1200 ₽ \ шт.#}
+{#                        </div>#}
+{#                      </div>#}
+{#                    </div>#}
+{#                    </div>#}
+{#                    <div class="cart-item">#}
+{#                      <div class="cart-img">#}
+{#                        <input type="checkbox" id="">#}
+{#                        <img src="static/img/IMG_7361 1.png" alt="">#}
+{#                      </div>#}
+{#                      <div class="item-hover">#}
+{#                      <h2>ВИТАМИН D3 (экстракты ивы и ромашки), БАД для суставов, 120 капсул </h2>#}
+{#                      <div class="del-item">#}
+{#                        <img src="static/img/X.svg" alt="">#}
+{#                      </div>#}
+{#                      <div class="item-count">#}
+{#                        <div class="number" data-step="1" data-min="1" data-max="100">#}
+{#                          <input class="number-text" type="text" name="count" value="1">#}
+{#                          <a href="#" class="number-minus">−</a>#}
+{#                          <a href="#" class="number-plus">+</a>#}
+{#                        </div>#}
+{#                        <div class="summ">#}
+{#                          1200 ₽ \ шт.#}
+{#                        </div>#}
+{#                      </div>#}
+{#                    </div>#}
+{#                    </div>#}
+
+          </div>
+            <div class="cart-info">
+              <div class="promo">
+                <input type="text" placeholder="Промокод">
+                <button>ПРИМЕНИТЬ</button>
+              </div>
+              <div class="bonus-pay">
+                <div class="bonus">
+                  <input type="checkbox">
+                  <label for="">Оплатить бонусами</label>
+                </div>
+                <p>Доступно {{balance}} бонусов</p>
+              </div>
+              <div class="comment">
+                <input type="text" placeholder="Оставьте комментарий к заказу">
+              </div>
+              <div class="cart-price">
+                <div class="count">
+                  <span>
+                    {{ total_quantity }} шт.  на сумму
+                  </span>
+                  <span>{{ total_without_discount }} ₽</span>
+                </div>
+                <div class="sail">
+                  Скидка <span>{{ total_discount }} ₽</span>
+                </div>
+                <div class="summa">
+                  Итого <span>{{ total }} ₽</span>
+                </div>
+              </div>
+              <button type="submit">ОФОРМИТЬ ЗАКАЗ</button>
+            </div>
+          </div>
+      </form>
+      <script>
+document.addEventListener("DOMContentLoaded", function () {
+    const cartItems = document.querySelectorAll(".item");
+
+    cartItems.forEach((item) => {
+        const quantityInput = item.querySelector(".number-text");
+        const quantityMinus = item.querySelector(".number-minus");
+        const quantityPlus = item.querySelector(".number-plus");
+        const itemID = item.getAttribute("data-item-id");
+
+        quantityMinus.addEventListener("click", function (event) {
+            event.preventDefault();
+            let quantity = parseInt(quantityInput.getAttribute("data-quantity"));
+            if (quantity > 1) {
+                quantity--;
+                updateCartQuantity(itemID, quantity);
+            }
+        });
+
+        quantityPlus.addEventListener("click", function (event) {
+            event.preventDefault();
+            let quantity = parseInt(quantityInput.getAttribute("data-quantity"));
+            quantity++;
+            updateCartQuantity(itemID, quantity);
+        });
+    });
+
+    function updateCartQuantity(itemID, newQuantity) {
+        fetch(`/update_quantity/${itemID}/${newQuantity}`, { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                // Обновите статистику корзины в реальном времени
+                const totalItemsElement = document.querySelector("#total-items");
+                const totalPriceElement = document.querySelector("#total-price");
+                const totalDiscountElement = document.querySelector("#total-discount");
+                const totalWithoutDiscountElement = document.querySelector("#total-without-discount");
+
+                totalItemsElement.textContent = data.total_items;
+                totalPriceElement.textContent = data.total_price;
+                totalDiscountElement.textContent = data.total_discount;
+                totalWithoutDiscountElement.textContent = data.total_without_discount;
+            });
+    }
+});
+
+
+
+
+        // Находим элементы формы
+      var selectAllCheckbox = document.getElementById('select-all');
+      var checkboxes = document.querySelectorAll('input[type=checkbox]');
+
+      // Привязываем обработчик события "click" к флажку "выбрать все"
+      selectAllCheckbox.addEventListener('click', function(event) {
+      // Обходим все элементы формы с флажком checkbox
+      for(var i = 0; i < checkboxes.length; i++) {
+      // Устанавливаем свойство "checked" для всех элементов формы с флажком
+      checkboxes[i].checked = selectAllCheckbox.checked;
+      }
+      });
+      </script>
+      </div>
+    </div>
+
+
+
+      <style>
+    .number {
+	user-select: none;
+	position: relative;
+	text-align: left;
+	padding: 0;
+	width: 140px;
+	display: inline-block;
+  border: none;
+  border-radius: 20px;
+  margin: 0px 20px 0px 0px;
+        background: #edf0f2;
+}
+.number-minus, .number-plus {
+	position: absolute;
+	top: 0;
+	width: 40px;
+	height: 32px;
+	line-height: 32px;
+	display: block;
+	font-size: 20px;
+	font-weight: 600;
+	text-align: center;
+	font-family: arial;
+  color: #CCCCCC;
+	text-decoration: none;
+}
+.number-minus {
+	left: 0;
+}
+.number-plus {
+	right: 0;
+}
+
+.number-text{
+	display: inline-block;
+	font-size: 14px;
+	color: #000;
+	line-height: 32px;
+	height: 32px;
+	padding: 0;
+	margin: 0 0 0 42px;
+	background: inherit;
+	outline: none;
+	border: none;
+	width: 57px;
+	text-align: center;
+}
+  </style>
+
+
+{% endblock %}
