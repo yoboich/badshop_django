@@ -13,7 +13,7 @@ urlpatterns = [
     path('', index, name="index"),
 
     # КАТАЛОГ
-    path('catalog/', catalog_categories, name="catalog"),
+    path('catalog/', catalog_categories, name="catalog_categories"),
     path('catalog/category/item/<item_id>/', item, name="item"),
     # path('catalog/category/<category_id>/', catalog_page, name="catalog_page"),
     path('catalog/filter/', filter, name='filter'),

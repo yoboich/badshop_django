@@ -765,7 +765,7 @@ class CustomUserPasswordChangeView(PasswordChangeView):
 def filter(request):
     query = request.GET.get('search')
     brend = request.GET.get('brend')
-
+    category = request.GET.get('category')
     try:
         brend = brend.split(',')
     except:
@@ -779,7 +779,7 @@ def filter(request):
     
     price_max = request.GET.get('price-max') or max_item_price
 
-    items = get_filter_items(max_item_price, query, brend, price_max, price_min)
+    items = get_filter_items(max_item_price, query, brend, category, price_max, price_min)
     context = {
         'items': items,
         'price_max': max_item_price,
