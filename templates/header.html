@@ -11,6 +11,7 @@
   <link href="
 https://cdn.jsdelivr.net/npm/owl.carousel@2.3.4/dist/assets/owl.carousel.min.css
 " rel="stylesheet">
+
   <link rel="stylesheet" href="{% static 'css/owl.css' %}">
     <meta name="robots" content="noindex">
     <meta name="author" content="https://boich.ru | ARTEM BOYKO">
@@ -43,8 +44,8 @@ https://cdn.jsdelivr.net/npm/owl.carousel@2.3.4/dist/assets/owl.carousel.min.css
       </div>
 
       <div class="search">
-          <form action="{% url 'filter_no_category' %}" method="get">
-            <input type="search" name="search" placeholder="Название товара, категория, симптомы">
+          <form action="{% url 'filter' %}" method="get">
+            <input type="search" name="search" id='search-query-field' placeholder="Название товара, категория, симптомы">
           </form>
        </div>
 

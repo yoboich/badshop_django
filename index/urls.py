@@ -1,10 +1,10 @@
 from django.urls import path
 
 from blog.views import blog, blogPage
-from index.views import index, catalog, filter, catalog_page, item, brends, pay, sail, salePage, about, partners, \
+from index.views import index, catalog_categories, filter, item, brends, pay, sail, salePage, about, partners, \
     contacts, cabinet, cart, my_data, myadress, \
     delete_address, edit_myaddress, favorite, CustomUserPasswordChangeView, toggle_favorites, toggle_cart, \
-    get_cart_count, get_favorite_count, update_cart_quantity
+    get_cart_count, get_favorite_count, update_cart_quantity, filter
 from users.views import AppLoginView, AppLogoutView, AppRegistration
 
 urlpatterns = [
@@ -13,11 +13,12 @@ urlpatterns = [
     path('', index, name="index"),
 
     # КАТАЛОГ
-    path('catalog/', catalog, name="catalog"),
+    path('catalog/', catalog_categories, name="catalog"),
     path('catalog/category/item/<item_id>/', item, name="item"),
-    path('catalog/category/<category_id>/', catalog_page, name="catalog_page"),
-    path('catalog/filter/', filter, name="filter_no_category"),
-    path('catalog/filter/<category_id>/', filter, name="filter"),
+    # path('catalog/category/<category_id>/', catalog_page, name="catalog_page"),
+    path('catalog/filter/', filter, name='filter'),
+    # path('catalog/filter/', filter, name="filter_no_category"),
+    # path('catalog/filter/<category_id>/', filter, name="filter"),
 
     path('brends/', brends, name="brends"),
     path('pay/', pay, name="pay"),

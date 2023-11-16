@@ -17,6 +17,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.sessions.models import Session
 from django.contrib.sessions.backends.db import SessionStore
 from django.http import JsonResponse
+
+from .services import get_filter_items
+
 # Create your views here.
 
 # GLOBAL CONSTANTS
@@ -513,16 +516,16 @@ def index(request):
 
 
 # КАТАЛОГ
-def catalog(request):
+def catalog_categories(request):
     context = {
         'title': 'Каталог',
         'categories': Category.objects.all(),
     }
-    return render(request, 'index/catalog.html', context)
+    return render(request, 'index/catalog_categories.html', context)
 
 
 # СТРАНИЦА КАТЕГОРИИ КАТАЛОГА
-def catalog_page(request, category_id):
+def category_page(request, category_id):
     categories = Category.objects.all()
     minMaxPrice = Item.objects.aggregate(Min('seil_price'), Max('seil_price'))
     minPrice = Item.objects.aggregate(Min('seil_price'))['seil_price__min']
@@ -548,7 +551,7 @@ def catalog_page(request, category_id):
         'cart_items': cart_items,
         'favorite_items': favorite_items,
     }
-    return render(request, 'index/catalogpage.html', context)
+    return render(request, 'index/catalog_items.html', context)
 
 
 
@@ -755,4 +758,34 @@ class CustomUserPasswordChangeView(PasswordChangeView):
 #         return JsonResponse({'status': 'added'})
 #     else:
 #         return JsonResponse({'status': 'already_exists'})
+
+
+
+
+def filter(request):
+    query = request.GET.get('search')
+    brend = request.GET.get('brend')
+
+    try:
+        brend = brend.split(',')
+    except:
+        brend = ''
+
+    price_min = request.GET.get('price-min') or 0
+    print('!', brend)
+    max_item_price = Item.objects.aggregate(
+        price_max=Max('price')
+        )['price_max']
+    
+    price_max = request.GET.get('price-max') or max_item_price
+
+    items = get_filter_items(max_item_price, query, brend, price_max, price_min)
+    context = {
+        'items': items,
+        'price_max': max_item_price,
+        'brends': Brend.objects.all()
+    }
+
+    return render(request, 'index/catalog_items.html', context)
+
 
