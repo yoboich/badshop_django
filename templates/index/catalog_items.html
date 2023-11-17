@@ -4,9 +4,9 @@
     <nav>
       <div class="breadcrumbs">
         <a href="{% url 'index' %}">Главная »</a>
-        <a href="{% url 'filter' %}">Магазин »</a>
+        <a href="{% url 'filter_catalog_view' %}">Магазин »</a>
         {% comment %}
-        <a href="{% url 'filter' %}?category={{category.id}}">{{category.title}}</a>
+        <a href="{% url 'filter_catalog_view' %}?category={{category.id}}">{{category.title}}</a>
         {% endcomment%}
       </div>
     </nav>

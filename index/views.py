@@ -111,7 +111,7 @@ def cart(request):
     if request.user.is_authenticated:
         try:
             cart = Cart.objects.get(user=request.user)
-            total_quantity = sum([cart_item.quantity for cart_item in cart.items.all()])
+            total_quantity = cart.calculate_total_items_count()
             total = calculate_cart_total(cart)
 
             # Получаем объект BonusWallet, связанный с текущим пользователем (предполагая, что пользователь аутентифицирован)
@@ -762,7 +762,7 @@ class CustomUserPasswordChangeView(PasswordChangeView):
 
 
 
-def filter(request):
+def filter_catalog_view(request):
     query = request.GET.get('search')
     brend = request.GET.get('brend')
     category = request.GET.get('category')

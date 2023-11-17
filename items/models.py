@@ -109,6 +109,7 @@ class CartItem(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE, blank=True, null=True, )
     quantity = models.PositiveIntegerField(default=1, blank=True, null=True)
     date_added = models.DateTimeField(auto_now_add=True)
+
     # promocode = models.ForeignKey(PromoCode, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Промокод')
 
     class Meta:
@@ -126,9 +127,22 @@ class Cart(models.Model):
     items = models.ManyToManyField(CartItem, verbose_name='Товары в корзине')  # Множество элементов корзины
     promocode = models.ForeignKey(PromoCode, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Промокод')
 
+    def calculate_total_items_count(self):
+        # for item in self.items.all():
+        #     print(item.quantity)
+        return sum([item.quantity for item in self.items.all()])
+
+    def calculate_items_price_without_discount(self):
+        return sum(item.item.price * item.quantity for item in self.items.all())
+    
+    def calculate_total_discount(self):
+        return sum(item.item.price * item.item.discount / 100 * item.quantity 
+                   for item in self.items.all()
+                   )
+    
     def calculate_total_price(self):
-        total_original_price = sum(item.item.price for item in self.items.all())
-        total_discount = sum(item.item.discount for item in self.items.all())
+        total_original_price = self.calculate_items_price_without_discount()
+        total_discount = self.calculate_total_discount()
         if self.promocode:
             total_discount += total_original_price * (self.promocode.discount_percent / 100)
         return total_original_price - total_discount

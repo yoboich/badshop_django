@@ -8,7 +8,7 @@ def get_filter_items(max_item_price, query, brend, category, price_max, price_mi
     q_objects = Q()
     if category:
         filter_dict['category__id__in'] = category
-        
+
     if brend and brend != ['']:
         filter_dict['brend__id__in'] = brend
         
@@ -16,7 +16,6 @@ def get_filter_items(max_item_price, query, brend, category, price_max, price_mi
         q_objects |= Q(name__icontains=query)
         q_objects |= Q(brend__name__icontains=query)
         q_objects |= Q(category__title__icontains=query)
-    
     
     items = Item.objects.filter(
         q_objects,
