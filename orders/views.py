@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from items.models import CartItem, Cart
+from django.template.loader import render_to_string
+from items.models import CartItem, Cart, Item
 
 
 def update_cart_ajax(request):
@@ -26,3 +27,16 @@ def update_cart_ajax(request):
         'total_price': total_price}
         )
     
+
+def get_item_data_ajax(request):
+    item_id = request.GET.get('item_id')
+    item = CartItem.objects.get(
+        item=Item.objects.get(id=item_id)
+        )
+    
+    rendered_item = render_to_string(
+        'cart/__item_added_render.html', 
+        {'item': item}
+        )
+    
+    return JsonResponse({'success': rendered_item})

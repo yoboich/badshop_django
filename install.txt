@@ -9,3 +9,4 @@ sqlparse==0.4.4
 tzdata==2023.3
 unicode==2.9
 Unidecode==1.3.7
+django-mathfilters-1.0.0

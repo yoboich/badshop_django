@@ -15,7 +15,7 @@
         <img src="static/img/X.svg" alt="">
       </div>
       <div class="item-count">
-        <div class="number" data-step="1" data-min="1" data-max="100">
+        <div class="number" style='margin-right: 24px;' data-step="1" data-min="1" data-max="100">
           <input class="number-text" type="text" name="count" value="{{item.quantity}}">
           <a id='sub-{{item.id}}' href="#" class="number-minus">−</a>
           <a id='add-{{item.id}}' href="#" class="number-plus">+</a>
@@ -58,6 +58,5 @@
 
 
 <script>
-  var csrfToken = '{{csrf_token}}'
-  var update_cart_url = '{% url "update_cart" %}'
+  
 </script>

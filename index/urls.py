@@ -5,7 +5,7 @@ from index.views import index, catalog_categories, filter, item, brends, pay, sa
     contacts, cabinet, cart, my_data, myadress, \
     delete_address, edit_myaddress, favorite, CustomUserPasswordChangeView, toggle_favorites, toggle_cart, \
     get_cart_count, get_favorite_count, update_cart_quantity, filter_catalog_view
-from orders.views import update_cart_ajax
+from orders.views import update_cart_ajax, get_item_data_ajax
 from users.views import AppLoginView, AppLogoutView, AppRegistration
 
 urlpatterns = [
@@ -59,5 +59,5 @@ urlpatterns = [
     path('toggle_cart/<int:item_id>/', toggle_cart, name='toggle_cart'),
     path('toggle_favorites/<int:item_id>/', toggle_favorites, name='toggle_favorites'),
     path('update_quantity/<int:item_id>/<int:new_quantity>/', update_cart_quantity, name='update_quantity'),
-
+    path('get_item_data/', get_item_data_ajax, name='get_item_data'),
 ]

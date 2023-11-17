@@ -11,8 +11,11 @@ $(document).ready(function() {
       }
       $input.val(val);
       $input.change();
+      if (val > 0){
       item_id = e.target.id.split('-')[1]
       update_cart(val, item_id)
+      }
+      
       return false;
     });
 
@@ -36,7 +39,6 @@ $(document).ready(function() {
 
 
 function update_cart(quantity, item_id){
-    console.log('!here')
 
     $.ajax({
         type: 'POST',
@@ -50,10 +52,22 @@ function update_cart(quantity, item_id){
         },
         success: function(json){
             if ('success' in json){
-                  document.getElementById('total-quantity').innerText = json['total_items_count']
-                  document.getElementById('total-price-without-discount').innerText = json['total_price_without_discount']
-                  document.getElementById('total-discount').innerText = json['discount']
-                  document.getElementById('total-price').innerText = json['total_price']
+                  total_quantity = document.getElementById('total-quantity')
+                  if (total_quantity !== null){
+                    total_quantity.innerText = json['total_items_count']
+                  }
+                  total_price_without_discount = document.getElementById('total-price-without-discount')
+                  if (total_price_without_discount !== null){
+                    total_price_without_discount.innerText = json['total_price_without_discount']
+                  }
+                  total_discount = document.getElementById('total-discount')
+                  if(total_discount !== null){
+                    total_discount.innerText = json['discount']
+                  }
+                  total_price = document.getElementById('total-price')
+                  if (total_price !== null){
+                    total_price.innerText = json['total_price']
+                  }
             }else if ('error' in json){
 
             }else{

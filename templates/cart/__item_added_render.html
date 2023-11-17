@@ -1,0 +1,25 @@
+{% load mathfilters %}
+
+<div class='d-flex' style="gap:12px">
+
+    <img height='180' width='160' class='object-fit-cover' src="{{item.item.image.url}}">
+
+    <div class='d-flex flex-column' style="gap:30px">
+        <div class='d-flex flex-column' style="gap:20px">
+            <div style="font-weight:bold">{{item.item.name}}</div>
+            <div style="font-weight:bold">{{item.item.price}} ₽</div>
+        </div>
+        <div class='d-flex flex-column' style="gap:20px">
+            <div><span>В корзине {{item.quantity}} товар(ов)</span> <span>на сумму </span><span id="total-price">{{item.item.price|mul:item.quantity}}</span> <span>₽</span></div>
+            <div class="d-flex gap-3 align-items-center">
+                <div class="number" data-step="1" data-min="1" data-max="100">
+                    <a id='sub-{{item.id}}' href="#" class="number-minus">−</a>
+                    <input class="number-text" type="text" name="count" value="{{item.quantity}}">
+                    <a id='add-{{item.id}}' href="#" class="number-plus">+</a>
+                </div>
+                <button class="button-primary text-nowrap w-auto px-3" onclick="window.location='{% url 'cart' %}'">Перейти в корзину</button>
+                <div class='cursor-pointer' data-bs-toggle="modal" data-bs-target="#item-added-modal">Продолжить покупки</div>
+            </div>
+        </div>
+    </div>
+</div>

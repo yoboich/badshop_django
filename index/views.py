@@ -416,7 +416,7 @@ def toggle_cart(request, item_id):
                 cart_item.delete()  # Удаляем cart_item
                 message = "Товар удален из корзины."
             except CartItem.DoesNotExist:
-                cart_item = CartItem(item=item)
+                cart_item = CartItem(item=item, user=request.user)
                 cart_item.save()
                 cart.items.add(cart_item)  # Добавляем товар в корзину
                 message = "Товар добавлен в корзину."
@@ -780,10 +780,18 @@ def filter_catalog_view(request):
     price_max = request.GET.get('price-max') or max_item_price
 
     items = get_filter_items(max_item_price, query, brend, category, price_max, price_min)
+    
+    cart_item_ids = CartItem.objects \
+        .filter(user=request.user) \
+        .values_list('item__id', flat=True)
+    cart_items = list(cart_item_ids)
+    print(cart_items)
+    
     context = {
         'items': items,
         'price_max': max_item_price,
-        'brends': Brend.objects.all()
+        'brends': Brend.objects.all(),
+        'cart_items': cart_items
     }
 
     return render(request, 'index/catalog_items.html', context)
