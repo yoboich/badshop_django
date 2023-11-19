@@ -106,12 +106,16 @@ class FavoriteItem(models.Model):
 class CartItem(models.Model):
     user = models.ForeignKey(CustomUser, blank=True, null=True, on_delete=models.CASCADE)
     session = models.ForeignKey(Session, on_delete=models.CASCADE, blank=True, null=True,)
-    item = models.ForeignKey(Item, on_delete=models.CASCADE, blank=True, null=True, )
+    item = models.ForeignKey('Item', on_delete=models.CASCADE, blank=True, null=True, )
+    cart = models.ForeignKey('Cart', on_delete=models.CASCADE, blank=True, null=True, )
     quantity = models.PositiveIntegerField(default=1, blank=True, null=True)
     date_added = models.DateTimeField(auto_now_add=True)
 
     # promocode = models.ForeignKey(PromoCode, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Промокод')
 
+    def total_price_with_discount(self):
+        return self.item.seil_price * self.quantity
+    
     class Meta:
         unique_together = ('user', 'item')
         verbose_name = 'Товар корзины'
@@ -124,25 +128,26 @@ class CartItem(models.Model):
 class Cart(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True,)
     session = models.ForeignKey(Session, on_delete=models.CASCADE, blank=True, null=True,)
-    items = models.ManyToManyField(CartItem, verbose_name='Товары в корзине')  # Множество элементов корзины
+    items = models.ManyToManyField(Item, verbose_name='Товары в корзине', through='CartItem')  # Множество элементов корзины
     promocode = models.ForeignKey(PromoCode, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Промокод')
 
-    def calculate_total_items_count(self):
-        # for item in self.items.all():
-        #     print(item.quantity)
-        return sum([item.quantity for item in self.items.all()])
+    def distinct_items_count(self):
+        return self.cartitem_set.count()
 
-    def calculate_items_price_without_discount(self):
-        return sum(item.item.price * item.quantity for item in self.items.all())
+    def total_quantity(self):
+        return sum([item.quantity for item in self.cartitem_set.all()])
+
+    def items_price_without_discount(self):
+        return sum(item.item.price * item.quantity for item in self.cartitem_set.all())
     
-    def calculate_total_discount(self):
+    def total_discount(self):
         return sum(item.item.price * item.item.discount / 100 * item.quantity 
-                   for item in self.items.all()
+                   for item in self.cartitem_set.all()
                    )
     
-    def calculate_total_price(self):
-        total_original_price = self.calculate_items_price_without_discount()
-        total_discount = self.calculate_total_discount()
+    def total_price(self):
+        total_original_price = self.items_price_without_discount()
+        total_discount = self.total_discount()
         if self.promocode:
             total_discount += total_original_price * (self.promocode.discount_percent / 100)
         return total_original_price - total_discount

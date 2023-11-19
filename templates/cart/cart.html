@@ -21,20 +21,10 @@
               <div class="cart-hover">
                 <input type="checkbox" id="select-all"><label for="">Выбрать все</label>
               </div>
-
-
-
-                    {% if request.user.is_authenticated%}
-                        {% for item in cart.items.all %}
-                            {% include 'cart/cart_item.html' %}
-                        {% endfor %}
-                        {% else %}
-                        {% for item in cart %}
-                            {% include 'cart/cart_item.html' %}
-                        {% endfor %}
-                    {% endif %}
-
-
+                {% for cart_item in cart.cartitem_set.all %}
+                    {% include 'cart/cart_item.html' %}
+                {% endfor %}
+          
           </div>
             <div class="cart-info">
               <div class="promo">
@@ -53,21 +43,33 @@
               </div>
               <div class="cart-price">
                 <div class="count">
-                  <span id="total-quantity">{{ total_quantity }}</span>
+                  <span id="total-quantity">{{ cart.total_quantity }}</span>
                     <span> шт.  на сумму</span>
-                  <span id="total-price-without-discount">{{ total_without_discount }} ₽</span>
+                    <div>
+                      <span id="total-price-without-discount">{{ cart.items_price_without_discount }}</span><span> ₽</span>
+                    </div>
                 </div>
                 <div class="sail">
-                  Скидка <span id="total-discount">{{ total_discount }} ₽</span>
+                  <div>Скидка</div> 
+                  <div>
+                      <span id="total-discount">{{ cart.total_discount }}</span>
+                      <span> ₽</span>
+                    </div>
                 </div>
                 <div class="summa">
-                  Итого <span id="total-price">{{ total }} ₽</span>
+                  <div>Итого</div> 
+                  <div>
+                    <span id="total-price">{{ cart.total_price }}</span>
+                    <span> ₽</span>
+                  </div>
                 </div>
               </div>
               <button type="submit">ОФОРМИТЬ ЗАКАЗ</button>
             </div>
           </div>
       </form>
+
+
       <script>
 document.addEventListener("DOMContentLoaded", function () {
     const cartItems = document.querySelectorAll(".item");

@@ -13,6 +13,10 @@ $(document).ready(function() {
       $input.change();
       if (val > 0){
       item_id = e.target.id.split('-')[1]
+      item_quantity = document.getElementById('item-quantity')
+      if (item_quantity !== null){
+        item_quantity.innerText = val
+      }
       update_cart(val, item_id)
       }
       
@@ -68,6 +72,14 @@ function update_cart(quantity, item_id){
                   if (total_price !== null){
                     total_price.innerText = json['total_price']
                   }
+                  total_cart_item_price_with_discount = document.getElementById('total-cart-item-price-with-discount')
+                  if (total_cart_item_price_with_discount !== null){
+                    total_cart_item_price_with_discount.innerText = json['total_cart_item_price_with_discount']
+                  }
+                  // item_quantity = document.getElementById('item-quantity')
+                  // if (item_quantity !== null){
+                  //   item_quantity.innerText = json['item']
+                  // }
             }else if ('error' in json){
 
             }else{

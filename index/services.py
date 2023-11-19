@@ -1,6 +1,8 @@
+from django.contrib.sessions.models import Session
+
 from django.db.models import Q
 
-from items.models import Item
+from items.models import Item, Cart
 
 def get_filter_items(max_item_price, query, brend, category, price_max, price_min):
 
@@ -24,3 +26,16 @@ def get_filter_items(max_item_price, query, brend, category, price_max, price_mi
     )
 
     return items
+
+
+def get_or_create_cart(request):
+    
+    if request.user.is_authenticated:
+        cart, created = Cart.objects.get_or_create(user=request.user)
+    else:
+        session = Session.objects.get(
+            session_key=request.COOKIES['sessionid']
+        )
+        cart, created = Cart.objects.get_or_create(session=session)
+
+    return cart
