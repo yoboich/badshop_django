@@ -15,8 +15,8 @@
       <div class="item-count">
         <div class="number" style='margin-right: 24px;' data-step="1" data-min="1" data-max="100">
           <input class="number-text" type="text" name="count" value="{{cart_item.quantity}}">
-          <a id='sub-{{cart_item.id}}' href="#" class="number-minus">−</a>
-          <a id='add-{{cart_item.id}}' href="#" class="number-plus">+</a>
+          <div id='sub-{{cart_item.id}}' class="number-minus">−</div>
+          <div id='add-{{cart_item.id}}' class="number-plus">+</div>
         </div>
         <div class="summ">
           {{ cart_item.item.seil_price }} ₽ \ шт.

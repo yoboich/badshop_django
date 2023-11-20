@@ -13,9 +13,9 @@
             <div><span>В корзине <span id="item-quantity">{{item.quantity}}</span> товар(ов)</span> <span>на сумму </span><span id="total-cart-item-price-with-discount">{{item.item.seil_price|mul:item.quantity}}</span> <span>₽</span></div>
             <div class="d-flex gap-3 align-items-center">
                 <div class="number" data-step="1" data-min="1" data-max="100">
-                    <a id='sub-{{item.id}}' href="#" class="number-minus">−</a>
+                    <div id='sub-{{item.id}}' class="number-minus">−</div>
                     <input class="number-text" type="text" name="count" value="{{item.quantity}}">
-                    <a id='add-{{item.id}}' href="#" class="number-plus">+</a>
+                    <div id='add-{{item.id}}' class="number-plus">+</div>
                 </div>
                 <button class="button-primary text-nowrap w-auto px-3" onclick="window.location='{% url 'cart' %}'">Перейти в корзину</button>
                 <div class='cursor-pointer' data-bs-toggle="modal" data-bs-target="#item-added-modal">Продолжить покупки</div>

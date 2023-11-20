@@ -1,4 +1,46 @@
-  // Находим элементы формы
+$(document).on('DOMContentLoaded', function () {
+  console.log('!!hey')
+  $('body').on('click', '.number-minus, .number-plus', function (e) {
+    var $row = $(this).closest('.number');
+    var $input = $row.find('.number-text');
+    var step = $row.data('step');
+    var val = parseFloat($input.val());
+    if ($(this).hasClass('number-minus')) {
+      val -= step;
+    } else {
+      val += step;
+    }
+    $input.val(val);
+    $input.change();
+    if (val > 0) {
+      item_id = e.target.id.split('-')[1]
+      item_quantity = document.getElementById('item-quantity')
+      if (item_quantity !== null) {
+        item_quantity.innerText = val
+      }
+      update_cart(val, item_id)
+    }
+
+   
+  });
+  $('body').on('change', '.number-text', function () {
+    var $input = $(this);
+    var $row = $input.closest('.number');
+    var step = $row.data('step');
+    var min = parseInt($row.data('min'));
+    var max = parseInt($row.data('max'));
+    var val = parseFloat($input.val());
+    if (isNaN(val)) {
+      val = step;
+    } else if (min && val < min) {
+      val = min;
+    } else if (max && val > max) {
+      val = max;
+    }
+    $input.val(val);
+  });
+});
+// Находим элементы формы
   var selectAllCheckbox = document.getElementById('select-all');
   var checkboxes = document.querySelectorAll('input[name="cart-item-active"]');
 
@@ -20,49 +62,6 @@
       toggle_cart_item_active_state(cb.id.split('-')[3], cb.checked, true)
     })
   }
-
-$(document).ready(function() {
-    $('body').on('click', '.number-minus, .number-plus', function(e){
-      var $row = $(this).closest('.number');
-      var $input = $row.find('.number-text');
-      var step = $row.data('step');
-      var val = parseFloat($input.val());
-      if ($(this).hasClass('number-minus')) {
-        val -= step;
-      } else {
-        val += step;
-      }
-      $input.val(val);
-      $input.change();
-      if (val > 0){
-      item_id = e.target.id.split('-')[1]
-      item_quantity = document.getElementById('item-quantity')
-      if (item_quantity !== null){
-        item_quantity.innerText = val
-      }
-      update_cart(val, item_id)
-      }
-      
-      return false;
-    });
-
-    $('body').on('change', '.number-text', function(){
-      var $input = $(this);
-      var $row = $input.closest('.number');
-      var step = $row.data('step');
-      var min = parseInt($row.data('min'));
-      var max = parseInt($row.data('max'));
-      var val = parseFloat($input.val());
-      if (isNaN(val)) {
-        val = step;
-      } else if (min && val < min) {
-        val = min;
-      } else if (max && val > max) {
-        val = max;
-      }
-      $input.val(val);
-    });
-  });
 
 
 function update_cart(quantity, item_id){

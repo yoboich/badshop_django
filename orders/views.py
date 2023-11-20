@@ -2,24 +2,8 @@ from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from django.template.loader import render_to_string
 from items.models import CartItem, Cart, Item
-from index.services import get_or_create_cart
+from items.services import get_or_create_cart, get_cart_data
 
-def _get_cart_data(cart):
-    total_items_count = cart.total_quantity()
-    discount = cart.total_discount()
-    total_price = cart.total_price()
-    
-    total_price_without_discount = cart.items_price_without_discount()
-    distinct_items_count = cart.cartitem_set.count()
-
-    cart_data = {
-        'total_items_count': total_items_count,
-        'total_price_without_discount': total_price_without_discount,
-        'discount': discount,
-        'total_price': total_price,
-        'distinct_items_count': distinct_items_count,
-    }
-    return cart_data
 
 # желательно разделить
 def update_cart_ajax(request):
@@ -29,9 +13,7 @@ def update_cart_ajax(request):
     cart_item.quantity = quantity
     cart_item.save()
 
-    cart = get_or_create_cart(request)
-
-    cart_data = _get_cart_data(cart)
+    cart_data = get_cart_data(request)
     cart_data.update({'success': 'success'})
     cart_data.update(
         {'total_cart_item_price_with_discount': \
@@ -52,9 +34,8 @@ def toggle_item_active_state_ajax(request):
 
 
 def get_cart_data_ajax(request):
-    cart = get_or_create_cart(request)
-    cart_data = _get_cart_data(cart)
-
+    cart_data = get_cart_data(request)
+    print(cart_data)
     return JsonResponse(cart_data)
 
 
@@ -74,3 +55,6 @@ def get_item_data_ajax(request):
         )
     
     return JsonResponse({'success': rendered_item})
+
+
+

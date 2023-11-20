@@ -18,7 +18,8 @@ from django.contrib.sessions.models import Session
 from django.contrib.sessions.backends.db import SessionStore
 from django.http import JsonResponse
 
-from .services import get_filter_items, get_or_create_cart, get_or_create_session
+from items.services import get_or_create_cart
+from .services import get_filter_items, get_or_create_session
 
 # Create your views here.
 
@@ -252,7 +253,6 @@ def toggle_cart(request, item_id):
     
     cart = get_or_create_cart(request)
     item = Item.objects.get(id=item_id)
-    filter_dict = {}
 
     if item in cart.items.all():
         cart.items.remove(item)

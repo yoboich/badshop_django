@@ -104,8 +104,7 @@ class FavoriteItem(models.Model):
 
 
 class CartItem(models.Model):
-    user = models.ForeignKey(CustomUser, blank=True, null=True, on_delete=models.CASCADE)
-    session = models.ForeignKey(Session, on_delete=models.CASCADE, blank=True, null=True,)
+    # user = models.ForeignKey(CustomUser, blank=True, null=True, on_delete=models.CASCADE)
     item = models.ForeignKey('Item', on_delete=models.CASCADE, blank=True, null=True, )
     cart = models.ForeignKey('Cart', on_delete=models.CASCADE, blank=True, null=True, )
     quantity = models.PositiveIntegerField(default=1, blank=True, null=True)
@@ -120,7 +119,7 @@ class CartItem(models.Model):
         return self.item.seil_price * self.quantity
     
     class Meta:
-        unique_together = ('user', 'item')
+        unique_together = ('cart', 'item')
         verbose_name = 'Товар корзины'
         verbose_name_plural = 'Товары корзины'
 
@@ -156,6 +155,8 @@ class Cart(models.Model):
             total_discount += total_original_price * (self.promocode.discount_percent / 100)
         return total_original_price - total_discount
 
+    def __str__(self):
+        return f'{self.user if self.user else self.session}'
 
     class Meta:
         verbose_name = 'Корзина'
