@@ -5,28 +5,6 @@ from django.views import View
 from items.forms import AddItemForm, ItemImageForm
 from items.models import Item, FavoriteItem, CartItem
 
-# Create your views here.
-# class CreateItem(View):
-#     template_name = 'bulletinboard/add_advert.html'
-#     form_class = AddItemForm
-#     form_images_class = ItemImageForm
-#     model = Item
-#
-#     def get(self, request):
-#         form = self.form_class()
-#         form_images = self.form_images_class()
-#         return render(request, self.template_name, {'form': form, 'form_images': form_images})
-#
-#     def post(self, request):
-#         form = self.form_class(request.POST)
-#         form_images = self.form_images_class(request.POST, request.FILES, request=request)
-#         if form.is_valid() and form_images.is_valid():
-#             advert = form.save()
-#             form_images.save_for(advert)
-#             return HttpResponseRedirect('/')
-#         return render(request, self.template_name, {'form': form, 'form_images': form_images})
-
-
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.contrib.sessions.models import Session

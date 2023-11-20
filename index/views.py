@@ -106,110 +106,110 @@ def cart(request):
 
 
 # ФИЛЬТРАЦИЯ КАТАЛОГА
-def filter(request, category_id=None, items_id=None):
-    items = Item.objects.all()
-    brends = Brend.objects.all()
-    minMaxPrice = Item.objects.aggregate(Min('seil_price'), Max('seil_price'))
+# def filter(request, category_id=None, items_id=None):
+#     items = Item.objects.all()
+#     brends = Brend.objects.all()
+#     minMaxPrice = Item.objects.aggregate(Min('seil_price'), Max('seil_price'))
 
-    if request.user.is_authenticated:
-        # Если пользователь авторизован, получаем товары из базы данных
-        cart_item_ids = CartItem.objects.filter(cart__user=request.user).values_list('item_id', flat=True)
-        cart_items = list(cart_item_ids)
-        favorite_items_ids = FavoriteItem.objects.filter(user=request.user).values_list('item_id', flat=True)
-        favorite_items = list(favorite_items_ids)
-    else:
-        # Если пользователь не авторизован, получаем товары из сессии
-        cart_items = request.session.get('cart', [])
-        favorite_items = request.session.get('favorites', [])
+#     if request.user.is_authenticated:
+#         # Если пользователь авторизован, получаем товары из базы данных
+#         cart_item_ids = CartItem.objects.filter(cart__user=request.user).values_list('item_id', flat=True)
+#         cart_items = list(cart_item_ids)
+#         favorite_items_ids = FavoriteItem.objects.filter(user=request.user).values_list('item_id', flat=True)
+#         favorite_items = list(favorite_items_ids)
+#     else:
+#         # Если пользователь не авторизован, получаем товары из сессии
+#         cart_items = request.session.get('cart', [])
+#         favorite_items = request.session.get('favorites', [])
 
-    if category_id:
-        category = Category.objects.get(id=category_id)
+#     if category_id:
+#         category = Category.objects.get(id=category_id)
 
-        # Получение параметров из GET-запроса
-        brend = request.GET.getlist("brend")
-        min_price = float(request.GET.get("min_price", 0))
-        max_price = float(request.GET.get("max_price", 999999))
-        search_query = request.GET.get("search", "")
+#         # Получение параметров из GET-запроса
+#         brend = request.GET.getlist("brend")
+#         min_price = float(request.GET.get("min_price", 0))
+#         max_price = float(request.GET.get("max_price", 999999))
+#         search_query = request.GET.get("search", "")
 
-        if brend:
-            # Фильтр по бренду, цене, названию товара и категории
-            items = items.filter(
-                Q(brend__id__in=brend) & Q(seil_price__gte=min_price) & Q(seil_price__lte=max_price))
-        else:
-            # Фильтр по бренду, цене, названию товара и категории
-            items = items.filter(
-                Q(seil_price__gte=min_price) & Q(seil_price__lte=max_price))
+#         if brend:
+#             # Фильтр по бренду, цене, названию товара и категории
+#             items = items.filter(
+#                 Q(brend__id__in=brend) & Q(seil_price__gte=min_price) & Q(seil_price__lte=max_price))
+#         else:
+#             # Фильтр по бренду, цене, названию товара и категории
+#             items = items.filter(
+#                 Q(seil_price__gte=min_price) & Q(seil_price__lte=max_price))
 
-        context = {
-            'category': category,
-            'items': items,
-            'brends': brends,
-            'minMaxPrice': minMaxPrice,
-            'cart_items': cart_items,
-            'favorite_items': favorite_items,
-        }
+#         context = {
+#             'category': category,
+#             'items': items,
+#             'brends': brends,
+#             'minMaxPrice': minMaxPrice,
+#             'cart_items': cart_items,
+#             'favorite_items': favorite_items,
+#         }
 
-        return render(request, 'index/catalogpage_filter.html', context)
+#         return render(request, 'index/catalogpage_filter.html', context)
 
-    if items_id:
-        category = Category.objects.get(id=category_id)
-        items = Item.objects.filter(id=items_id)
-        # Получение параметров из GET-запроса
-        brend = request.GET.getlist("brend")
-        min_price = float(request.GET.get("min_price", 0))
-        max_price = float(request.GET.get("max_price", 999999))
-        search_query = request.GET.get("search", "")
+#     if items_id:
+#         category = Category.objects.get(id=category_id)
+#         items = Item.objects.filter(id=items_id)
+#         # Получение параметров из GET-запроса
+#         brend = request.GET.getlist("brend")
+#         min_price = float(request.GET.get("min_price", 0))
+#         max_price = float(request.GET.get("max_price", 999999))
+#         search_query = request.GET.get("search", "")
 
-        if brend:
-            # Фильтр по бренду, цене, названию товара и категории
-            items = items.filter(
-                Q(brend__id__in=brend) & Q(seil_price__gte=min_price) & Q(seil_price__lte=max_price))
-        else:
-            # Фильтр по бренду, цене, названию товара и категории
-            items = items.filter(
-                Q(seil_price__gte=min_price) & Q(seil_price__lte=max_price))
+#         if brend:
+#             # Фильтр по бренду, цене, названию товара и категории
+#             items = items.filter(
+#                 Q(brend__id__in=brend) & Q(seil_price__gte=min_price) & Q(seil_price__lte=max_price))
+#         else:
+#             # Фильтр по бренду, цене, названию товара и категории
+#             items = items.filter(
+#                 Q(seil_price__gte=min_price) & Q(seil_price__lte=max_price))
 
-        context = {
-            'category': category,
-            'items': items,
-            'brends': brends,
-            'minMaxPrice': minMaxPrice,
-            'cart_items': cart_items,
-            'favorite_items': favorite_items,
-        }
+#         context = {
+#             'category': category,
+#             'items': items,
+#             'brends': brends,
+#             'minMaxPrice': minMaxPrice,
+#             'cart_items': cart_items,
+#             'favorite_items': favorite_items,
+#         }
 
-        return render(request, 'index/catalogpage_filter.html', context)
+#         return render(request, 'index/catalogpage_filter.html', context)
 
-    else:
-        # Получение параметров из GET-запроса
-        brend = request.GET.getlist("brend")
-        min_price = float(request.GET.get("min_price", 0))
-        max_price = float(request.GET.get("max_price", 999999))
-        search_query = request.GET.get("search", "")
+#     else:
+#         # Получение параметров из GET-запроса
+#         brend = request.GET.getlist("brend")
+#         min_price = float(request.GET.get("min_price", 0))
+#         max_price = float(request.GET.get("max_price", 999999))
+#         search_query = request.GET.get("search", "")
 
-        if brend:
-            # Фильтр результатов поиска по бренду и цене
-            items = items.filter(
-                Q(name__iexact=search_query) & Q(seil_price__gte=min_price) & Q(seil_price__lte=max_price) & Q(
-                    category__title__iexact=search_query) & Q(brend__id__in=brend) & Q(seil_price__gte=min_price) & Q(
-                    seil_price__lte=max_price)
-            )
-        else:
-            # Фильтр по бренду, цене, названию товара и категории
-            items = items.filter(
-                Q(name__iexact=search_query) & Q(seil_price__gte=min_price) & Q(seil_price__lte=max_price)
-            )
+#         if brend:
+#             # Фильтр результатов поиска по бренду и цене
+#             items = items.filter(
+#                 Q(name__iexact=search_query) & Q(seil_price__gte=min_price) & Q(seil_price__lte=max_price) & Q(
+#                     category__title__iexact=search_query) & Q(brend__id__in=brend) & Q(seil_price__gte=min_price) & Q(
+#                     seil_price__lte=max_price)
+#             )
+#         else:
+#             # Фильтр по бренду, цене, названию товара и категории
+#             items = items.filter(
+#                 Q(name__iexact=search_query) & Q(seil_price__gte=min_price) & Q(seil_price__lte=max_price)
+#             )
 
-        context = {
-            'items': items,
-            'brends': brends,
-            'minMaxPrice': minMaxPrice,
-            'search_query': search_query,
-            'cart_items': cart_items,
-            'favorite_items': favorite_items,
-        }
+#         context = {
+#             'items': items,
+#             'brends': brends,
+#             'minMaxPrice': minMaxPrice,
+#             'search_query': search_query,
+#             'cart_items': cart_items,
+#             'favorite_items': favorite_items,
+#         }
 
-        return render(request, 'index/catalogpage_filter_search.html', context)
+#         return render(request, 'index/catalogpage_filter_search.html', context)
 
 
 def update_cart_quantity(request, item_id, new_quantity):
@@ -375,11 +375,13 @@ def item(request, item_id):
 
     items = Item.objects.all()
     item = items.get(id=item_id)
+    cart = get_or_create_cart(request)
     context = {
         'item': items.get(id=item_id),
         'items': items,
         'certificates': CertificateImages.objects.filter(item=item),
         'title': f'{item.name}',
+        'cart': cart,
         'cart_items': cart_items,
         'favorite_items': favorite_items,
     }
@@ -585,7 +587,7 @@ def filter_catalog_view(request):
     items = get_filter_items(max_item_price, query, brend, category, price_max, price_min)
 
     cart = get_or_create_cart(request)
-
+    
     context = {
         'items': items,
         'cart': cart,
