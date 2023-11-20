@@ -59,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'items.middleware.AddToDatabaseMiddleware',
+    'items.middleware.InitSessionMiddleware',
 ]
 
 AUTH_USER_MODEL = 'users.CustomUser'

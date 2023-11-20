@@ -3,8 +3,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.db.models import Q, Min, Max, F, Sum
 
-from django.contrib.sessions.models import Session
-
 from balance.models import BonusWallet
 from users.forms import UserUpdateForm, AddressForm, AddressEditForm, CustomUserSetPasswordForm
 from items.models import *
@@ -20,7 +18,7 @@ from django.contrib.sessions.models import Session
 from django.contrib.sessions.backends.db import SessionStore
 from django.http import JsonResponse
 
-from .services import get_filter_items, get_or_create_cart
+from .services import get_filter_items, get_or_create_cart, get_or_create_session
 
 # Create your views here.
 
@@ -89,23 +87,15 @@ def get_favorite_count(request):
 
 
 def cart(request):
-    # cart = None
-    # total_quantity = 0
-    # total_discount = 0
-    # total_without_discount = 0
-    # total = 0
-    # bonus_wallet = 0
 
+    # request = get_or_create_session(request)
+    # print('!', request.session.__dict__)
     cart = get_or_create_cart(request)
-    # total_quantity = cart.calculate_total_items_count()
-    # total = cart.calculate_items_price_without_discount()
+
     try:
         bonus_wallet = BonusWallet.objects.get(user=request.user).balance
     except:
         bonus_wallet = ''
-
-    # total_discount = cart.calculate_total_discount()
-    # total_without_discount = cart.calculate_items_price_without_discount()
 
 
     context = {
@@ -113,7 +103,6 @@ def cart(request):
         'title': 'Корзина',
         'balance': bonus_wallet,
     }
-
     return render(request, 'cart/cart.html', context)
 
 
@@ -267,13 +256,13 @@ def toggle_cart(request, item_id):
     item = Item.objects.get(id=item_id)
     filter_dict = {}
     
-    if request.user.is_authenticated:
-        filter_dict['user'] = request.user
-    else:
-        session = Session.objects.get(
-            session_key=request.COOKIES['sessionid']
-        )
-        filter_dict['session'] = session
+    # if request.user.is_authenticated:
+    #     filter_dict['user'] = request.user
+    # else:
+    #     session = Session.objects.get(
+    #         session_key=request.COOKIES['sessionid']
+    #     )
+    #     filter_dict['session'] = session
 
     if item in cart.items.all():
         cart.items.remove(item)
@@ -334,6 +323,7 @@ def index(request):
         'cart_items': cart_items,
         'favorite_items': favorite_items,
     }
+
     return render(request, 'index/index.html', context)
 
 
@@ -349,32 +339,33 @@ def catalog_categories(request):
 
 # СТРАНИЦА КАТЕГОРИИ КАТАЛОГА
 def category_page(request, category_id):
-    categories = Category.objects.all()
-    minMaxPrice = Item.objects.aggregate(Min('seil_price'), Max('seil_price'))
-    minPrice = Item.objects.aggregate(Min('seil_price'))['seil_price__min']
-    category = categories.get(id=category_id)
-    if request.user.is_authenticated:
-        # Если пользователь авторизован, получаем товары из базы данных
-        cart_item_ids = CartItem.objects.filter(cart__user=request.user).values_list('item_id', flat=True)
-        cart_items = list(cart_item_ids)
-        favorite_items_ids = FavoriteItem.objects.filter(user=request.user).values_list('item_id', flat=True)
-        favorite_items = list(favorite_items_ids)
-    else:
-        # Если пользователь не авторизован, получаем товары из сессии
-        cart_items = request.session.get('cart', [])
-        favorite_items = request.session.get('favorites', [])
-    context = {
-        'category': category,
-        'items': Item.objects.filter(category_id=category_id),
-        'categories': categories,
-        'brends': Brend.objects.all(),
-        'minMaxPrice': minMaxPrice,
-        'minPrice': minPrice,
-        'title': f'{category.title}',
-        'cart_items': cart_items,
-        'favorite_items': favorite_items,
-    }
-    return render(request, 'index/catalog_items.html', context)
+    pass
+    # categories = Category.objects.all()
+    # minMaxPrice = Item.objects.aggregate(Min('seil_price'), Max('seil_price'))
+    # minPrice = Item.objects.aggregate(Min('seil_price'))['seil_price__min']
+    # category = categories.get(id=category_id)
+    # if request.user.is_authenticated:
+    #     # Если пользователь авторизован, получаем товары из базы данных
+    #     cart_item_ids = CartItem.objects.filter(cart__user=request.user).values_list('item_id', flat=True)
+    #     cart_items = list(cart_item_ids)
+    #     favorite_items_ids = FavoriteItem.objects.filter(user=request.user).values_list('item_id', flat=True)
+    #     favorite_items = list(favorite_items_ids)
+    # else:
+    #     # Если пользователь не авторизован, получаем товары из сессии
+    #     cart_items = request.session.get('cart', [])
+    #     favorite_items = request.session.get('favorites', [])
+    # context = {
+    #     'category': category,
+    #     'items': Item.objects.filter(category_id=category_id),
+    #     'categories': categories,
+    #     'brends': Brend.objects.all(),
+    #     'minMaxPrice': minMaxPrice,
+    #     'minPrice': minPrice,
+    #     'title': f'{category.title}',
+    #     'cart_items': cart_items,
+    #     'favorite_items': favorite_items,
+    # }
+    # return render(request, 'index/catalog_items.html', context)
 
 
 
@@ -584,7 +575,7 @@ class CustomUserPasswordChangeView(PasswordChangeView):
 
 
 
-
+# отображает товары в каталоге с фильтрами и без
 def filter_catalog_view(request):
     query = request.GET.get('search')
     brend = request.GET.get('brend')
@@ -602,13 +593,7 @@ def filter_catalog_view(request):
     price_max = request.GET.get('price-max') or max_item_price
 
     items = get_filter_items(max_item_price, query, brend, category, price_max, price_min)
-    try:
-        cart_item_ids = CartItem.objects \
-            .filter(user=request.user) \
-            .values_list('item__id', flat=True)
-    except:
-        cart_item_ids = request.session.get('cart', [])
-    cart_items = list(cart_item_ids)
+
     cart = get_or_create_cart(request)
 
     context = {
@@ -616,7 +601,6 @@ def filter_catalog_view(request):
         'cart': cart,
         'price_max': max_item_price,
         'brends': Brend.objects.all(),
-        'cart_items': cart_items
     }
 
     return render(request, 'index/catalog_items.html', context)

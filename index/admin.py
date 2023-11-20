@@ -1,6 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
+from django.contrib.sessions.models import Session
 
 from .models import *
 
@@ -17,3 +18,7 @@ admin.site.register(Sale, SaleAdmin)
 admin.site.register(SliderTop, SliderTopAdmin)
 admin.site.register(SliderTwo, SliderTwoAdmin)
 admin.site.register(Partner)
+
+class SessionAdmin(admin.ModelAdmin):
+    list_display = ['session_key', 'session_data', 'expire_date']
+admin.site.register(Session, SessionAdmin)

@@ -32,6 +32,7 @@ def update_cart_ajax(request):
         })
     
 
+# для модалки при добавлении продукта в корзину
 def get_item_data_ajax(request):
     item_id = request.GET.get('item_id')
     print(item_id)
