@@ -5,7 +5,7 @@ from index.views import index, catalog_categories, filter, item, brends, pay, sa
     contacts, cabinet, cart, my_data, myadress, \
     delete_address, edit_myaddress, favorite, CustomUserPasswordChangeView, toggle_favorites, toggle_cart, \
     get_cart_count, get_favorite_count, update_cart_quantity, filter_catalog_view
-from orders.views import update_cart_ajax, get_item_data_ajax
+from orders.views import update_cart_ajax, get_item_data_ajax, toggle_item_active_state_ajax, get_cart_data_ajax
 from users.views import AppLoginView, AppLogoutView, AppRegistration
 
 urlpatterns = [
@@ -52,6 +52,8 @@ urlpatterns = [
     # КОРЗИНА
     path('cart/', cart, name="cart"),
     path('update_cart/', update_cart_ajax, name='update_cart'),
+    path('toggle_item_active_state/', toggle_item_active_state_ajax, name='toggle_item_active_state'),
+    path('get_cart_data/', get_cart_data_ajax, name='get_cart_data'),
 
     # РАБОТА С КАРЗИНОЙ И ИЗБРАННЫМИ
     path('get_cart_count/', get_cart_count, name="get_cart_count"),

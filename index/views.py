@@ -88,8 +88,6 @@ def get_favorite_count(request):
 
 def cart(request):
 
-    # request = get_or_create_session(request)
-    # print('!', request.session.__dict__)
     cart = get_or_create_cart(request)
 
     try:
@@ -255,14 +253,6 @@ def toggle_cart(request, item_id):
     cart = get_or_create_cart(request)
     item = Item.objects.get(id=item_id)
     filter_dict = {}
-    
-    # if request.user.is_authenticated:
-    #     filter_dict['user'] = request.user
-    # else:
-    #     session = Session.objects.get(
-    #         session_key=request.COOKIES['sessionid']
-    #     )
-    #     filter_dict['session'] = session
 
     if item in cart.items.all():
         cart.items.remove(item)

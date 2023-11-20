@@ -110,6 +110,9 @@ class CartItem(models.Model):
     cart = models.ForeignKey('Cart', on_delete=models.CASCADE, blank=True, null=True, )
     quantity = models.PositiveIntegerField(default=1, blank=True, null=True)
     date_added = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(
+        verbose_name='Товар выбран для заказа в корзине',
+        default=True)
 
     # promocode = models.ForeignKey(PromoCode, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Промокод')
 
@@ -135,14 +138,15 @@ class Cart(models.Model):
         return self.cartitem_set.count()
 
     def total_quantity(self):
-        return sum([item.quantity for item in self.cartitem_set.all()])
+        return sum([item.quantity for item in self.cartitem_set.all() if item.is_active])
 
     def items_price_without_discount(self):
-        return sum(item.item.price * item.quantity for item in self.cartitem_set.all())
+        return sum(item.item.price * item.quantity for item in self.cartitem_set.all() if item.is_active)
     
     def total_discount(self):
         return sum(item.item.price * item.item.discount / 100 * item.quantity 
                    for item in self.cartitem_set.all()
+                   if item.is_active
                    )
     
     def total_price(self):
