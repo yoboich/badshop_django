@@ -25,5 +25,4 @@ def get_favorite_status(item, request):
                 session=session,
                 item=item
                 )
-    print('!', bool(fav_item))
     return bool(fav_item)

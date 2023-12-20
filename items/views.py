@@ -104,7 +104,7 @@ def toggle_item_favorite_state_ajax(request):
     favorite_item, created = create_or_delete_favorite_item(
         request, item
         )
-
+    
     return JsonResponse({
         'created': created,
         })
@@ -112,5 +112,4 @@ def toggle_item_favorite_state_ajax(request):
 
 def get_favorite_total_count_ajax(request):
     favorite_total_count = FavoriteItem.count_favorite_items(request)
-    print(favorite_total_count)
     return JsonResponse({'favorite_total_count': favorite_total_count})

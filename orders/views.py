@@ -19,7 +19,6 @@ def update_cart_ajax(request):
         {'total_cart_item_price_with_discount': \
          cart_item.total_price_with_discount()}
          )
-    print(cart_data)
     return JsonResponse(cart_data)
     
 
@@ -35,14 +34,12 @@ def toggle_item_active_state_ajax(request):
 
 def get_cart_data_ajax(request):
     cart_data = get_cart_data(request)
-    print(cart_data)
     return JsonResponse(cart_data)
 
 
 # для модалки при добавлении продукта в корзину
 def get_item_data_ajax(request):
     item_id = request.GET.get('item_id')
-    print(item_id)
     item = Item.objects.get(id=item_id)
     cart = get_or_create_cart(request)
     cart_item = CartItem.objects.get(

@@ -69,5 +69,4 @@ def create_or_delete_favorite_item(request, item):
     if not created and favorite_item != None:
             favorite_item.delete()
 
-    print('!', favorite_item)
     return favorite_item, created

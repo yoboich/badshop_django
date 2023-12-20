@@ -34,37 +34,16 @@ BRENDS = Brend.objects.all()
 POSTS = Post.objects.all()
 
 
-
-# СТРАНИЦА ИЗБРАННЫЕ
 def favorite(request):
-    items = []
-
-    if request.user.is_authenticated:
-        # Если пользователь авторизован, получаем товары из базы данных
-        cart_item_ids = CartItem.objects.filter(user=request.user).values_list('item_id', flat=True)
-        cart_items = list(cart_item_ids)
-        favorite_items_ids = FavoriteItem.objects.filter(user=request.user).values_list('item_id', flat=True)
-        favorite_items = list(favorite_items_ids)
-    else:
-        # Если пользователь не авторизован, получаем товары из сессии
-        cart_items = request.session.get('cart', [])
-        favorite_items = request.session.get('favorites', [])
-
-
-    if request.user.is_authenticated:
-        items = FavoriteItem.objects.filter(user=request.user)
-
-    elif 'favorites' in request.session:
-        item_ids = request.session['favorites']
-        items = Item.objects.filter(id__in=item_ids)
+    
+    items = FavoriteItem.get_favorite_items(request)
 
     context = {
         'title': 'Избранные',
         'items': items,
-        'cart_items': cart_items,
-        'favorite_items': favorite_items,
     }
     return render(request, 'cabinet/favorite.html', context)
+
 
 def get_cart_count(request):
     cart = get_or_create_cart(request)

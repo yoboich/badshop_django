@@ -92,17 +92,26 @@ class FavoriteItem(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
 
     @classmethod
-    def count_favorite_items(cls, request):
+    def get_favorite_items(cls, request):
         if request.user.is_authenticated:
-            return FavoriteItem.objects.filter(
+            f_items = FavoriteItem.objects.filter(
                 user=request.user,
-                ).count()
-        if request.session.session_key != None:
+                )
+        elif request.session.session_key != None:
             session = get_current_session(request)
-            return FavoriteItem.objects.filter(
+            f_items = FavoriteItem.objects.filter(
                 session=session,
-            ).count()
-        return 0
+            )
+        items = Item.objects.filter(
+            id__in=f_items.values('item__id')
+            )
+        return items
+
+    @classmethod
+    def count_favorite_items(cls, request):
+        
+        return cls.get_favorite_items(request).count()
+        
 
     class Meta:
         unique_together = ('user', 'item')
