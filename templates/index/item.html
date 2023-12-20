@@ -34,7 +34,12 @@
           <div class="clearboth"></div>
           <p>Будет начислино <span>25</span> бонусов</p>
 {#          <a href="#"> ДОБАВИТЬ В КОРЗИНУ</a>#}
-            <button onclick="toggleCart({{ item.id }})" class="button-add-to-cart {% if item.id in cart_items%}item-added-to-cart{% endif %}" id="button-add-to-cart-{{ item.id }}">
+            <button 
+              onclick="toggleCart({{ item.id }})" 
+              class="button-add-to-cart {% if item.id in cart_items%}item-added-to-cart{% endif %}" 
+              id="button-add-to-cart-{{ item.id }}"
+              data-like-item-id="{{item.id}}"
+              >
 
 
                 {% if item.id in cart_items %}
@@ -139,46 +144,7 @@
         
         {% for item in items %}
 
-        <div class="item">
-            <div class="item-content">
-              <div class="item-img">
-                <div class="sale-button">-{{item.discount}}%</div>
-                <div class="like-button {% if item|get_favorite_status:request %}item-favorited{% endif %}" onclick="toggle_favorite({{ item.id }})" id="button-add-to-favorites-{{ item.id }}" data-item-id="{{ item.id }}">
-                  <svg fill="#000000" height="32px" width="32px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-42.45 -42.45 556.60 556.60" xml:space="preserve" transform="matrix(1, 0, 0, 1, 0, 0)" stroke="#000000" stroke-width="23.113349"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="1.8868040000000001"></g><g id="SVGRepo_iconCarrier"> <g> <path d="M433.601,67.001c-24.7-24.7-57.4-38.2-92.3-38.2s-67.7,13.6-92.4,38.3l-12.9,12.9l-13.1-13.1 c-24.7-24.7-57.6-38.4-92.5-38.4c-34.8,0-67.6,13.6-92.2,38.2c-24.7,24.7-38.3,57.5-38.2,92.4c0,34.9,13.7,67.6,38.4,92.3 l187.8,187.8c2.6,2.6,6.1,4,9.5,4c3.4,0,6.9-1.3,9.5-3.9l188.2-187.5c24.7-24.7,38.3-57.5,38.3-92.4 C471.801,124.501,458.301,91.701,433.601,67.001z M414.401,232.701l-178.7,178l-178.3-178.3c-19.6-19.6-30.4-45.6-30.4-73.3 s10.7-53.7,30.3-73.2c19.5-19.5,45.5-30.3,73.1-30.3c27.7,0,53.8,10.8,73.4,30.4l22.6,22.6c5.3,5.3,13.8,5.3,19.1,0l22.4-22.4 c19.6-19.6,45.7-30.4,73.3-30.4c27.6,0,53.6,10.8,73.2,30.3c19.6,19.6,30.3,45.6,30.3,73.3 C444.801,187.101,434.001,213.101,414.401,232.701z"></path> </g> </g></svg>
-{#                    <img src="{% static 'img/like.svg' %}" class="like-img" class="like-img" alt="">#}
-                </div>
-                <a href="{% url 'item' item.id %}">
-                    {% if item.image %}
-                       <img src="{{item.image.url}}" class="image-item" alt="">
-                    {% endif %}
-
-                </a>
-              </div>
-              <a href="{% url 'item' item.id %}">
-                <h2>{{item.name}} </h2>
-              </a>
-              <div class="item-info">
-                <div class="item-price"><span>{{item.seil_price}} ₽</span>{{item.price}} ₽</div>
-                <div class="item-rating"><svg width="26" height="24" viewBox="0 0 26 24" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M12.0489 0.927052C12.3483 0.00574112 13.6517 0.00573993 13.9511 0.927051L16.1432 7.67376C16.2771 8.08578 16.661 8.36475 17.0943 8.36475H24.1882C25.1569 8.36475 25.5597 9.60436 24.7759 10.1738L19.0369 14.3435C18.6864 14.5981 18.5397 15.0495 18.6736 15.4615L20.8657 22.2082C21.1651 23.1295 20.1106 23.8956 19.3269 23.3262L13.5878 19.1565C13.2373 18.9019 12.7627 18.9019 12.4122 19.1565L6.67312 23.3262C5.88941 23.8956 4.83493 23.1295 5.13428 22.2082L7.32642 15.4615C7.46029 15.0495 7.31363 14.5981 6.96315 14.3435L1.22405 10.1738C0.440337 9.60436 0.843112 8.36475 1.81184 8.36475H8.90575C9.33897 8.36475 9.72293 8.08578 9.8568 7.67376L12.0489 0.927052Z"
-                      fill="#FFB800" />
-                  </svg>
-                  {{item.rating}}
-                </div>
-              </div>
-              {{cart_items}}
-            <button onclick="toggleCart({{ item.id }})" class="item-buy {% if item in cart.cartitem_set.all %}item-added-to-cart{% endif %}" id="button-add-to-cart-{{ item.id }}">
-                  {% if item in cart.cartitem_set.all %}
-                    В корзине
-
-                	{% else %}
-                КУПИТЬ
-            {% endif %}
-            </button>
-            </div>
-          </div>
+          {% include 'index/_catalog_item.html' %}
 
         {% endfor %}
 

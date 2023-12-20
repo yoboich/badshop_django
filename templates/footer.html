@@ -79,7 +79,7 @@
 
   // Вызовите функцию для обновления количества товаров в корзине при загрузке страницы
   updateCartCount();
-  updatefavoriteCount();
+  // updatefavoriteCount();
 
   // Модифицируйте функцию toggleCart для обновления количества товаров в корзине в реальном времени
   function toggleCart(item_id) {
@@ -126,41 +126,41 @@
 
 
   // Модифицируйте функцию toggleCart для обновления количества товаров в корзине в реальном времени
-  function toggleFavorites(item_id) {
-    // Найти все элементы с заданным item_id
-    const buttons = document.querySelectorAll(`[id^="button-add-to-favorites-${item_id}"]`);
-    //const addFavoriteButton = document.querySelectorAll('.add-favorite-item');
-    const addFavoriteButton = document.getElementById('add-favorite-item');
-    fetch(`/toggle_favorites/${item_id}`, { method: 'GET' })
-      .then(response => response.json())
-      .then(data => {
-        showNotification(data.message);
+  // function toggleFavorites(item_id) {
+  //   // Найти все элементы с заданным item_id
+  //   const buttons = document.querySelectorAll(`[id^="button-add-to-favorites-${item_id}"]`);
+  //   //const addFavoriteButton = document.querySelectorAll('.add-favorite-item');
+  //   const addFavoriteButton = document.getElementById('add-favorite-item');
+  //   fetch(`/toggle_favorites/${item_id}`, { method: 'GET' })
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       showNotification(data.message);
 
-        buttons.forEach(button => {
-          if (button.classList.contains('item-favorited')) {
-            button.classList.remove('item-favorited');
-
-
-            if (addFavoriteButton !== null) {
-              addFavoriteButton.textContent = 'Добавить в избранное';
-            }
-
-            updatefavoriteCount();
-
-          } else {
+  //       buttons.forEach(button => {
+  //         if (button.classList.contains('item-favorited')) {
+  //           button.classList.remove('item-favorited');
 
 
-            button.classList.add('item-favorited');
+  //           if (addFavoriteButton !== null) {
+  //             addFavoriteButton.textContent = 'Добавить в избранное';
+  //           }
 
-            if (addFavoriteButton !== null) {
-              addFavoriteButton.textContent = 'В избранном';
-            }
-            updatefavoriteCount();
+  //           updatefavoriteCount();
 
-          }
-        });
-      });
-  }
+  //         } else {
+
+
+  //           button.classList.add('item-favorited');
+
+  //           if (addFavoriteButton !== null) {
+  //             addFavoriteButton.textContent = 'В избранном';
+  //           }
+  //           updatefavoriteCount();
+
+  //         }
+  //       });
+  //     });
+  // }
 
   // Показать всплывающее сообщение
   function showNotification(message) {

@@ -13,14 +13,22 @@ function toggle_favorite(item_id){
         success: function(json){
             
             const btn_fav_main = document.getElementById('add-favorite-item')
-            const btn_fav_suggestions = document.getElementById('button-add-to-favorites-' + item_id)
+            const fav_btns = document.querySelectorAll(`[data-like-item-id="${item_id}"]`);
+         
             if (json['created'] === true){
-                btn_fav_main.innerHTML = 'В избранном'
-                
-                btn_fav_suggestions.classList.add('item-favorited');
+                if (btn_fav_main !== null){
+                    btn_fav_main.innerHTML = 'В избранном'
+                }
+                fav_btns.forEach((btn) => {
+                    btn.classList.add('item-favorited');
+                })
             }else{
-                btn_fav_main.innerHTML = 'Добавить в избранное'
-                btn_fav_suggestions.classList.remove('item-favorited');
+                if (btn_fav_main !== null){
+                    btn_fav_main.innerHTML = 'Добавить в избранное'
+                }
+                fav_btns.forEach((btn) => {
+                    btn.classList.remove('item-favorited');
+                })
             }
             update_favorite_total_count()
         }
