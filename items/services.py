@@ -1,5 +1,7 @@
 from django.contrib.sessions.models import Session
-from items.models import Cart
+from items.models import Cart, FavoriteItem
+
+from utils.services import get_current_session
 
 def get_cart_data(request):
     cart = get_or_create_cart(request)
@@ -33,13 +35,6 @@ def get_or_create_cart(request):
     return cart
 
 
-def get_current_session(request):
-    session = Session.objects.get(
-        session_key=request.session.session_key
-        )
-    return session
-
-
 def trasfer_cart_items_from_session_to_user(request):
 
     try:
@@ -55,3 +50,24 @@ def trasfer_cart_items_from_session_to_user(request):
     except:
         pass
 
+
+def create_or_delete_favorite_item(request, item):
+    created = False
+    favorite_item = None
+    if request.user.is_authenticated:
+        favorite_item, created = FavoriteItem.objects.get_or_create(
+            user=request.user,
+            item=item)
+    else:
+        if request.session.session_key != None:
+            session = get_current_session(request)
+            favorite_item, created = FavoriteItem.objects.get_or_create(
+                session=session,
+                item=item
+                )
+
+    if not created and favorite_item != None:
+            favorite_item.delete()
+
+    print('!', favorite_item)
+    return favorite_item, created

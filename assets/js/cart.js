@@ -1,5 +1,4 @@
 $(document).on('DOMContentLoaded', function () {
-  console.log('!!hey')
   $('body').on('click', '.number-minus, .number-plus', function (e) {
     var $row = $(this).closest('.number');
     var $input = $row.find('.number-text');
@@ -20,9 +19,9 @@ $(document).on('DOMContentLoaded', function () {
       }
       update_cart(val, item_id)
     }
-
-   
   });
+
+  
   $('body').on('change', '.number-text', function () {
     var $input = $(this);
     var $row = $input.closest('.number');

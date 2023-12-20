@@ -19,6 +19,7 @@ from django.contrib.sessions.backends.db import SessionStore
 from django.http import JsonResponse
 
 from items.services import get_or_create_cart
+from items.models import FavoriteItem
 from .services import get_filter_items, get_or_create_session
 
 # Create your views here.
@@ -70,19 +71,8 @@ def get_cart_count(request):
     cart_count = cart.distinct_items_count()
     return JsonResponse({'count': cart_count})
 
-def get_favorite_count(request):
-    if request.user.is_authenticated:
-        favorites_count = FavoriteItem.objects.filter(user=request.user).count()
-        return JsonResponse({'count': favorites_count})
-    else:
-        session_favorites = request.session.get('favorites', [])
-        print(f"session_favorites: {session_favorites}")  # добавить отладочный вывод
-        if isinstance(session_favorites, list):  # проверка, что session_cart - это список
-            favorites_count = len(session_favorites)  # считает количество элементов в списке
-            print(favorites_count)
-        else:
-            favorites_count = 0
-        return JsonResponse({'count': favorites_count})
+
+
 
 # СТРАНИЦА КОРЗИНЫ
 
@@ -596,5 +586,6 @@ def filter_catalog_view(request):
     }
 
     return render(request, 'index/catalog_items.html', context)
+
 
 

@@ -7,6 +7,7 @@ from django.dispatch import receiver
 
 from balance.models import PromoCode
 from users.models import CustomUser
+from utils.services import get_current_session
 
 
 # Create your models here.
@@ -28,22 +29,13 @@ class Item(models.Model):
 
     def calculate_bonus_points(self, purchase_amount):
         return int((self.bonus_percentage / 100) * purchase_amount)
+
     class Meta:
         verbose_name = "Товар"
         verbose_name_plural = "Товары"
 
     def __str__(self):
         return self.name
-
-    # @property
-    # def seil_price(self):
-    #     return self.price - (self.price * self.discount / 100)
-    # def save(self, *args, **kwargs):
-    #     if self.price is not None and self.discount is not None:
-    #         self.seil_price = self.price - (self.price * self.discount / 100)
-    #     else:
-    #         self.seil_price = None
-    #     super(Item, self).save(*args, **kwargs)
 
     def save(self, *args, **kwargs):
         if self.price is not None and self.discount is not None:
@@ -99,12 +91,24 @@ class FavoriteItem(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
 
+    @classmethod
+    def count_favorite_items(cls, request):
+        if request.user.is_authenticated:
+            return FavoriteItem.objects.count(
+                user=request.user,
+                )
+        if request.session.session_key != None:
+            # session = get_current_session(request)
+            return FavoriteItem.objects.count(
+                # session=session,
+            )
+        return 0
+
     class Meta:
         unique_together = ('user', 'item')
 
 
 class CartItem(models.Model):
-    # user = models.ForeignKey(CustomUser, blank=True, null=True, on_delete=models.CASCADE)
     item = models.ForeignKey('Item', on_delete=models.CASCADE, blank=True, null=True, )
     cart = models.ForeignKey('Cart', on_delete=models.CASCADE, blank=True, null=True, )
     quantity = models.PositiveIntegerField(default=1, blank=True, null=True)
