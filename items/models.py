@@ -94,14 +94,14 @@ class FavoriteItem(models.Model):
     @classmethod
     def count_favorite_items(cls, request):
         if request.user.is_authenticated:
-            return FavoriteItem.objects.count(
+            return FavoriteItem.objects.filter(
                 user=request.user,
-                )
+                ).count()
         if request.session.session_key != None:
-            # session = get_current_session(request)
-            return FavoriteItem.objects.count(
-                # session=session,
-            )
+            session = get_current_session(request)
+            return FavoriteItem.objects.filter(
+                session=session,
+            ).count()
         return 0
 
     class Meta:
