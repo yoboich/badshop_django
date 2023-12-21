@@ -4,6 +4,7 @@ from django.template.loader import render_to_string
 from items.models import CartItem, Cart, Item
 from items.services import get_or_create_cart, get_cart_data
 
+from badshop_django.logger import logger
 
 # желательно разделить
 def update_cart_ajax(request):
@@ -42,9 +43,12 @@ def get_item_data_ajax(request):
     item_id = request.GET.get('item_id')
     item = Item.objects.get(id=item_id)
     cart = get_or_create_cart(request)
-    cart_item = CartItem.objects.get(
+    cart_item, _ = CartItem.objects.get_or_create(
         item=item,
-        cart=cart)
+        cart=cart,
+        defaults={'quantity': 1}
+        )
+    logger.debug(f'cart_item: {cart_item.__dict__}')
     
     rendered_item = render_to_string(
         'cart/__item_added_render.html', 

@@ -27,9 +27,15 @@ class CategoryAdmin(admin.ModelAdmin):
 class FavoriteItemAdmin(admin.ModelAdmin):
     list_display = ('item', 'user', 'session', 'date_added')
 
+@admin.register(Cart)
+class CartAdmin(admin.ModelAdmin):
+    list_display = ('user', 'session', 'total_price')
+
+@admin.register(CartItem)
+class CartItemAdmin(admin.ModelAdmin):
+    list_display = ('item', 'quantity', 'cart', 'date_added')
+
 admin.site.register(Category)
 admin.site.register(Item, ItemAdmin)
 admin.site.register(CertificateImages)
 admin.site.register(Brend)
-admin.site.register(CartItem)
-admin.site.register(Cart)

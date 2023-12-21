@@ -1,7 +1,9 @@
 
-
 from .models import CartItem, FavoriteItem, Item, Cart 
 from .services import trasfer_cart_items_from_session_to_user
+
+from badshop_django.logger import logger
+from items.services import get_or_create_cart
 
 class AddToDatabaseMiddleware:
     def __init__(self, get_response):
@@ -9,8 +11,6 @@ class AddToDatabaseMiddleware:
 
     def __call__(self, request):
         response = self.get_response(request)
-        if request.user.is_authenticated:
-            trasfer_cart_items_from_session_to_user(request)
 
         return response
     

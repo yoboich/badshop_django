@@ -7,8 +7,8 @@ from balance.models import BonusWallet
 from users.forms import UserUpdateForm, AddressForm, AddressEditForm, CustomUserSetPasswordForm
 from items.models import *
 from users.models import Address
-from .models import *
-from blog.models import *
+from .models import Sale, SliderTop, SliderTwo
+from blog.models import Post
 from django.contrib.auth.forms import PasswordChangeForm  # Добавьте импорт формы смены пароля
 from django.contrib.auth import update_session_auth_hash  # Добавьте импорт для обновления сессии после смены пароля
 from django.contrib.auth.views import PasswordChangeView
@@ -20,7 +20,7 @@ from django.http import JsonResponse
 
 from items.services import get_or_create_cart
 from items.models import FavoriteItem
-from .services import get_filter_items, get_or_create_session
+from .services import get_filter_items
 
 # Create your views here.
 
@@ -522,18 +522,6 @@ class CustomUserPasswordChangeView(PasswordChangeView):
     def form_valid(self, form):
         update_session_auth_hash(self.request, form.user)
         return super().form_valid(form)
-
-
-
-# @login_required
-# def add_to_favorites(request, item_id):
-#     item = get_object_or_404(Item, pk=item_id)
-#     favorite, created = FavoriteItem.objects.get_or_create(user=request.user, item=item)
-#     if created:
-#         return JsonResponse({'status': 'added'})
-#     else:
-#         return JsonResponse({'status': 'already_exists'})
-
 
 
 # отображает товары в каталоге с фильтрами и без

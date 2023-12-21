@@ -33,11 +33,11 @@ from django.utils import timezone
 
 
 
-def get_or_create_session(request):
-    if not request.session.session_key is None:
-        session = Session.objects.get(
-            session_key=request.session.session_key
-            )
-    else:
-        request.session['hey'] = 'hello'
-    return request
+# def get_or_create_session(request):
+#     if not request.session.session_key is None:
+#         session = Session.objects.get(
+#             session_key=request.session.session_key
+#             )
+#     else:
+#         request.session['hey'] = 'hello'
+#     return request
