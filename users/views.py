@@ -10,7 +10,7 @@ from items.models import Cart
 from users.forms import LoginForm, CustomUserCreationForm
 from users.services import (
     transfer_items_from_session_to_user_cart,
-    transfer_items_form_session_to_user_favorites
+    transfer_items_from_session_to_user_favorites
 )
 
 from badshop_django.logger import logger
@@ -28,7 +28,7 @@ class AppLoginView(LoginView):
     def form_valid(self, form):
         """Переносим предметы корзины из сессии юзеру"""
         transfer_items_from_session_to_user_cart(self.request)
-        transfer_items_form_session_to_user_favorites(self.request)
+        transfer_items_from_session_to_user_favorites(self.request)
         auth_login(self.request, form.get_user())
         
         return HttpResponseRedirect(self.get_success_url())
@@ -44,7 +44,7 @@ class AppRegistration(CreateView):
     def form_valid(self, form):
         response = super().form_valid(form)
         transfer_items_from_session_to_user_cart(self.request)
-        transfer_items_form_session_to_user_favorites(self.request)
+        transfer_items_from_session_to_user_favorites(self.request)
         auth_login(self.request, self.object)  # Use auth_login instead of login
         return response
 

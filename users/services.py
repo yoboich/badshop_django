@@ -18,7 +18,7 @@ def transfer_items_from_session_to_user_cart(request):
             pass
 
 
-def transfer_items_form_session_to_user_favorites(request):
+def transfer_items_from_session_to_user_favorites(request):
     user = get_user_from_auth_form(request)
     session = get_current_session(request)
     session_favs = FavoriteItem.objects.filter(

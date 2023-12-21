@@ -29,6 +29,10 @@ function toggle_favorite(item_id){
                 fav_btns.forEach((btn) => {
                     btn.classList.remove('item-favorited');
                 })
+                console.log(window.location.href)
+                if (window.location.href.includes('cabinet/favorite')){
+                    document.getElementById('item-' + item_id).hidden = true
+                }
             }
             update_favorite_total_count()
         }
