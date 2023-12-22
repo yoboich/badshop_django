@@ -4,7 +4,7 @@ from blog.views import blog, blogPage
 from index.views import index, catalog_categories, item, brends, pay, sail, salePage, about, partners, \
     contacts, cabinet, cart, my_data, myadress, \
     delete_address, edit_myaddress, favorite, CustomUserPasswordChangeView, toggle_favorites, toggle_cart, \
-    get_cart_count, update_cart_quantity, filter_catalog_view
+    get_cart_count, update_cart_quantity, filter_catalog_view, order
 from orders.views import update_cart_ajax, get_item_data_ajax, toggle_item_active_state_ajax, get_cart_data_ajax
 from users.views import AppLoginView, AppLogoutView, AppRegistration
 from items.views import toggle_item_favorite_state_ajax, get_favorite_total_count_ajax
@@ -62,4 +62,5 @@ urlpatterns = [
     path('update_quantity/<int:item_id>/<int:new_quantity>/', update_cart_quantity, name='update_quantity'),
     path('get_item_data/', get_item_data_ajax, name='get_item_data'),
     path('toggle_item_favorite_state/', toggle_item_favorite_state_ajax, name='toggle_item_favorite_state'),
+    path('order/', order, name="order")
 ]
