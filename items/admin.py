@@ -14,7 +14,6 @@ class ItemAdmin(admin.ModelAdmin):
     inlines = (CertificateImageInline,)
     list_display = ('name', 'price')
     list_filter = ('name', 'price')
-    exclude = ('seil_price',)
     search_fields = ('name', 'price')
 
 class CategoryAdmin(admin.ModelAdmin):

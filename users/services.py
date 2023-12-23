@@ -9,7 +9,7 @@ def transfer_items_from_session_to_user_cart(request):
     user = get_user_from_auth_form(request)
     session = get_current_session(request)
     session_cart = Cart.objects.get(session=session)
-    cart = get_or_create_cart(request, user=user)
+    cart = Cart.get_or_create_cart(request, user=user)
     for cart_item in session_cart.cartitem_set.all():
         try:
             cart_item.cart = cart

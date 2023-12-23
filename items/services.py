@@ -1,14 +1,14 @@
 
 from django.contrib.sessions.models import Session
 from items.models import Cart, FavoriteItem
-from utils.services import get_current_session
+from utils.services import get_current_session, create_user_or_session_filter_dict
 
 from badshop_django.logger import logger
 
 
 
 def get_cart_data(request):
-    cart = get_or_create_cart(request)
+    cart = Cart.get_or_create_cart(request)
     total_items_count = cart.total_quantity()
     discount = cart.total_discount()
     total_price = cart.total_price()
@@ -27,34 +27,12 @@ def get_cart_data(request):
 
 
 
-def get_or_create_cart(request, user=None):
-    cart = []
-    if user:
-        cart, created = Cart.objects.get_or_create(
-            user=user
-            )
-        return cart
-
-    if request.user.is_authenticated:
-        cart, created = Cart.objects.get_or_create(
-            user=request.user
-            )
-    else:
-        if request.session.session_key != None:
-            session = get_current_session(request)
-            cart, created = Cart.objects.get_or_create(
-                session=session
-                )
-    logger.debug(f'cart = {cart}')
-    return cart
-
-
 def trasfer_cart_items_from_session_to_user(request):
 
     try:
         session = get_current_session(request)
         session_cart = Cart.objects.get(session=session)
-        cart = get_or_create_cart(request)
+        cart = Cart.get_or_create_cart(request)
         logger.debug(f'!!cart = {cart}')
         for cart_item in session_cart.cartitem_set.all():
             try:

@@ -8,9 +8,11 @@ class OrderAdmin(admin.ModelAdmin):
     list_display = ('user', 'total_price', 'date_created', 'status')
 
 
+@admin.register(Payment)
+class PaymentAdmin(admin.ModelAdmin):
+    list_display = ('order', 'payment_amount', 'payment_date', 'outer_id')
 
 admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderStatus)
-admin.site.register(Payment)
 admin.site.register(AppliedPromoCode)
 admin.site.register(TransportCompany)

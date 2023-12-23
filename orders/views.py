@@ -1,8 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.template.loader import render_to_string
 from items.models import CartItem, Cart, Item
-from items.services import get_or_create_cart, get_cart_data
+from items.services import get_cart_data
 
 from badshop_django.logger import logger
 
@@ -42,7 +42,7 @@ def get_cart_data_ajax(request):
 def get_item_data_ajax(request):
     item_id = request.GET.get('item_id')
     item = Item.objects.get(id=item_id)
-    cart = get_or_create_cart(request)
+    cart = Cart.get_or_create_cart(request)
     cart_item, _ = CartItem.objects.get_or_create(
         item=item,
         cart=cart,
@@ -58,4 +58,47 @@ def get_item_data_ajax(request):
     return JsonResponse({'success': rendered_item})
 
 
+import yookassa
+from yookassa import Configuration
+from yookassa import Payment as yoo_Payment
+import uuid
+import requests
 
+from .models import Order
+
+
+def order_page_view(request):
+    Order.remove_current_user_unpaid_orders(request)
+    order = Order.create_order_for_current_user(request)
+
+    Configuration.account_id = '285619'
+    Configuration.secret_key = 'test_pehJPGfr6C3c-BqjXCg7CzYq5PsIDdGjBxu0hwRQGxY'
+   
+    idempotence_key = str(uuid.uuid4())
+   
+    
+    yoo_payment = yoo_Payment.create({
+            "id": "23d93cac-000f-5111-8010-122628f15141",
+            "status": "pending",
+            "paid": False,
+            "amount": {
+            "value": "2.00",
+            "currency": "RUB"
+            },
+            "payment_method_data": {
+            "type": "bank_card"
+            },
+            "confirmation": {
+            "type": "redirect",
+            "return_url": "https://www.example.com/return_url"
+            },
+            "description": "Order No. 72"
+        }, idempotence_key)
+    logger.debug(yoo_payment.__dict__)
+    logger.debug(yoo_payment._PaymentResponse__confirmation.__dict__)
+    return redirect(yoo_payment._PaymentResponse__confirmation._ConfirmationRedirect__confirmation_url)
+  
+
+def payment_success_view(request):
+    logger.debug(f'request body: {request._body.__dict__}')
+    return render(request, 'orders/payment_success.html')

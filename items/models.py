@@ -5,9 +5,10 @@ from django.contrib.sessions.models import Session  # Для неавториз�
 from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
 
+from badshop_django.logger import logger
 from balance.models import PromoCode
 from users.models import CustomUser
-from utils.services import get_current_session
+from utils.services import get_current_session, create_user_or_session_filter_dict
 
 
 # Create your models here.
@@ -17,7 +18,7 @@ class Item(models.Model):
     image = models.ImageField(upload_to="items/%Y/%m/%d/", blank=True, null=True, verbose_name="Изображение товара")
     price = models.IntegerField(default=0, blank=True, null=True, verbose_name="Цена товара")
     discount = models.IntegerField(default=0, blank=True, null=True, verbose_name="Скидка")
-    seil_price = models.IntegerField(default=0, blank=True, null=True, verbose_name="Цена со скидкой")
+    # seil_price = models.IntegerField(default=0, blank=True, null=True, verbose_name="Цена со скидкой")
     rating = models.IntegerField(default=0, blank=True, null=True, verbose_name="Рэйтинг")
     text = RichTextField(blank=True, null=True, verbose_name="Описание товара")
     compound = RichTextField(blank=True, null=True, verbose_name="Состав товара")
@@ -26,6 +27,9 @@ class Item(models.Model):
     brend = models.ForeignKey('Brend', blank=True, null=True, on_delete=models.CASCADE, verbose_name="Бренд")
 
     bonus_percentage = models.DecimalField(max_digits=5, decimal_places=2, default=15, verbose_name="Процент бонусных баллов", blank=True, null=True)
+
+    def sale_price(self):
+        return self.price * ((100 - self.discount) / 100)
 
     def calculate_bonus_points(self, purchase_amount):
         return int((self.bonus_percentage / 100) * purchase_amount)
@@ -37,12 +41,6 @@ class Item(models.Model):
     def __str__(self):
         return self.name
 
-    def save(self, *args, **kwargs):
-        if self.price is not None and self.discount is not None:
-            self.seil_price = self.price - (self.price * self.discount / 100)
-        else:
-            self.seil_price = None
-        super(Item, self).save(*args, **kwargs)
 
 class Category(models.Model):
     title = models.CharField(max_length=200, blank=True, null=True, verbose_name="Название категории")
@@ -167,6 +165,24 @@ class Cart(models.Model):
         if self.promocode:
             total_discount += total_original_price * (self.promocode.discount_percent / 100)
         return total_original_price - total_discount
+
+    def get_or_create_cart(request, user=None):
+        if user:
+            cart, created = Cart.objects.get_or_create(
+                user=user
+                )
+            return cart
+
+        filter_dict = create_user_or_session_filter_dict(
+            request
+            )
+        
+        cart, created = Cart.objects.get_or_create(
+            **filter_dict
+                )
+
+        logger.debug(f'cart = {cart}')
+        return cart
 
     def __str__(self):
         return f'{self.user if self.user else self.session}'

@@ -19,7 +19,6 @@ from django.contrib.sessions.models import Session
 from django.contrib.sessions.backends.db import SessionStore
 from django.http import JsonResponse
 
-from items.services import get_or_create_cart
 from items.models import FavoriteItem
 from .services import get_filter_items
 
@@ -47,7 +46,7 @@ def favorite(request):
 
 
 def get_cart_count(request):
-    cart = get_or_create_cart(request)
+    cart = Cart.get_or_create_cart(request)
     cart_count = cart.distinct_items_count()
     return JsonResponse({'count': cart_count})
 
@@ -59,7 +58,7 @@ def get_cart_count(request):
 
 def cart(request):
 
-    cart = get_or_create_cart(request)
+    cart = Cart.get_or_create_cart(request)
 
     try:
         bonus_wallet = BonusWallet.objects.get(user=request.user).balance
@@ -75,26 +74,31 @@ def cart(request):
     return render(request, 'cart/cart.html', context)
 
 
-# ФИЛЬТРАЦИЯ КАТАЛОГА
-# def filter(request, category_id=None, items_id=None):
-#     items = Item.objects.all()
-#     brends = Brend.objects.all()
-#     minMaxPrice = Item.objects.aggregate(Min('seil_price'), Max('seil_price'))
 
-#     if request.user.is_authenticated:
-#         # Если пользователь авторизован, получаем товары из базы данных
-#         cart_item_ids = CartItem.objects.filter(cart__user=request.user).values_list('item_id', flat=True)
-#         cart_items = list(cart_item_ids)
-#         favorite_items_ids = FavoriteItem.objects.filter(user=request.user).values_list('item_id', flat=True)
-#         favorite_items = list(favorite_items_ids)
+# def update_cart_quantity(request, item_id, new_quantity):
+
+
+#     item = get_object_or_404(Item, pk=item_id)
+
+#     # Получите или создайте объект CartItem для текущего пользователя
+#     cart_item, created = CartItem.objects.get_or_create(user=request.user, item=item)
+
+#     if new_quantity <= 0:
+#         # Если новое количество товара равно или меньше нуля, удалите товар из корзины
+#         cart_item.delete()
 #     else:
-#         # Если пользователь не авторизован, получаем товары из сессии
-#         cart_items = request.session.get('cart', [])
-#         favorite_items = request.session.get('favorites', [])
+#         # Обновите количество товара в корзине
+#         cart_item.quantity = new_quantity
+#         cart_item.save()
 
-#     if category_id:
-#         category = Category.objects.get(id=category_id)
+#     # Пересчитайте обновленные данные корзины
+#     cart_items = CartItem.objects.filter(user=request.user)
+#     total_price = calculate_cart_total(cart_items)  # Пересчитать общую стоимость корзины
+#     total_quantity = cart_items.aggregate(total_quantity=Sum('quantity'))['total_quantity'] or 0  # Пересчитать общее количество товаров
+#     total_discount = calculate_cart_discount(cart_items)  # Пересчитать общую сумму скидки
+#     total_without_discount = calculate_cart_total_without_discount(cart_items)  # Пересчитать общую сумму товаров без скидки
 
+<<<<<<< HEAD
 #         # Получение параметров из GET-запроса
 #         brend = request.GET.getlist("brend")
 #         min_price = float(request.GET.get("min_price", 0))
@@ -238,13 +242,25 @@ def update_cart_quantity(request, item_id, new_quantity):
         'total_without_discount': total_without_discount,
     }
     return JsonResponse(data)
+=======
+#     # Верните обновленные данные в формате JSON
+#     data = {
+#         'message': 'Количество товара обновлено успешно',
+#         'new_quantity': new_quantity,
+#         'total_items': total_quantity,
+#         'total_price': total_price,
+#         'total_discount': total_discount,
+#         'total_without_discount': total_without_discount,
+#     }
+#     return JsonResponse(data)
+>>>>>>> 13a4d2c (creating order)
 
 
 
 ## ДОБАВЛЕНИЕ ТОВАРОВ В КОРЗИНУ
 def toggle_cart(request, item_id):
     
-    cart = get_or_create_cart(request)
+    cart = Cart.get_or_create_cart(request)
     item = Item.objects.get(id=item_id)
 
     if item in cart.items.all():
@@ -368,7 +384,7 @@ def item(request, item_id):
 
     items = Item.objects.all()
     item = items.get(id=item_id)
-    cart = get_or_create_cart(request)
+    cart = Cart.get_or_create_cart(request)
     context = {
         'item': items.get(id=item_id),
         'items': items,
@@ -567,7 +583,7 @@ def filter_catalog_view(request):
 
     items = get_filter_items(max_item_price, query, brend, category, price_max, price_min)
 
-    cart = get_or_create_cart(request)
+    cart = Cart.get_or_create_cart(request)
     
     context = {
         'items': items,
