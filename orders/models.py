@@ -9,6 +9,8 @@ from items.models import CartItem, Cart
 from users.models import CustomUser, Address
 from utils.services import create_user_or_session_filter_dict
 
+from badshop_django.logger import logger
+
 
 # Create your models here.
 class OrderItem(models.Model):
@@ -26,13 +28,57 @@ class OrderItem(models.Model):
     
 
 class Order(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name='Пользователь', blank=True, null=True)
-    session = models.ForeignKey(Session, on_delete=models.CASCADE, blank=True, null=True)
-    order_items = models.ManyToManyField('OrderItem', verbose_name='Предметы заказа', related_name='order_item_set')
-    date_created = models.DateTimeField(auto_now_add=True)
-    comment = models.CharField(max_length=240, blank=True, null=True, verbose_name='Комментарий к заказу')
-    delivery_address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Адрес доставки')
-
+    user = models.ForeignKey(
+        CustomUser, 
+        on_delete=models.CASCADE, 
+        verbose_name='Пользователь', 
+        blank=True, null=True
+        )
+    session = models.ForeignKey(
+        Session, 
+        on_delete=models.CASCADE, 
+        blank=True, null=True
+        )
+    order_items = models.ManyToManyField(
+        'OrderItem', 
+        verbose_name='Предметы заказа', 
+        related_name='order_item_set'
+        )
+    date_created = models.DateTimeField(
+        auto_now_add=True
+        )
+    comment = models.CharField(
+        max_length=240, 
+        blank=True, 
+        null=True, 
+        verbose_name='Комментарий к заказу'
+        )
+    transport_company = models.ForeignKey(
+        to='TransportCompany',
+        verbose_name='Транспортная компания',
+        on_delete=models.PROTECT,
+        null=True, blank=True
+        )
+    delivery_address = models.CharField(
+        max_length=255,
+        verbose_name='Адрес доставки',
+        null=True, blank=True
+        )
+    full_name = models.CharField(
+        max_length=255,
+        verbose_name='ФИО получателя',
+        null=True, blank=True
+        )
+    phone = models.CharField(
+        max_length=16,
+        verbose_name='Телефон получателя',
+        null=True, blank=True
+    )
+    email = models.CharField(
+        max_length=255,
+        verbose_name='Email',
+        null=True, blank=True
+    )
 
     STATUS_CHOICES = (
         ('OP', 'Оплачен'),
@@ -44,14 +90,22 @@ class Order(models.Model):
 
     status = models.CharField(max_length=2, choices=STATUS_CHOICES, default='NP', verbose_name='Статус заказа', blank=True, null=True)
 
+    outer_id = models.UUIDField(
+        verbose_name='айди для банка',
+        default=uuid.uuid4, 
+        editable=False
+        )
+    
+    @property
     def total_price(self):
         total = OrderItem.objects \
             .filter(order=self) \
             .aggregate(
                 total=Sum(F('price'), 
                 output_field=FloatField()
-                ))
-        return total
+                ))['total']
+        print('!', total)
+        return total or 0
     
     @classmethod
     def create_order_for_current_user(cls, request):
@@ -83,7 +137,7 @@ class Order(models.Model):
         filter_dict = create_user_or_session_filter_dict(
             request
             )
-        order = Order.objects.get_or_create(
+        order, _ = Order.objects.get_or_create(
             **filter_dict,  
             status='NP'
         )
@@ -92,15 +146,42 @@ class Order(models.Model):
     @classmethod
     def add_cart_items_to_order(cls, request):
         cart = Cart.get_or_create_cart(request)
-        order = cls.get_current_user_order
-        for cart_item in cart.items.all():
+        order = cls.get_current_user_order(request)
+        for cart_item in cart.cartitem_set.all():
             OrderItem.objects.create(
                 order=order,
-                item=cart_item,
-                price=cart_item.item.sale_price,
+                item=cart_item.item,
+                price=cart_item.item.sale_price(),
                 quantity=cart_item.quantity
             )
     
+    @classmethod
+    def save_form_data_to_order(cls, request):
+        order = cls.get_current_user_order(request)
+        form = request.POST
+        if 'radio-transport' in form:
+            order.transport_company=TransportCompany.objects.get(
+                id=form['radio-transport']
+                )
+        if 'radio-address' in form:
+            address = Address.objects.get(
+                id=form['radio-address']
+                )
+            order.delivery_address = address.full_address()
+        order.full_name = ' '.join(filter(None, (
+            form['first_name'], 
+            form['last_name'], 
+            form['patronymic']
+            )))
+        order.email = form['email']
+        order.save()
+        return order
+
+    @classmethod
+    def create_new_order_for_current_user(cls, request):
+        cls.remove_current_user_unpaid_orders(request)
+        cls.create_order_for_current_user(request)
+        cls.add_cart_items_to_order(request)
 
     class Meta:
         verbose_name = 'Заказ'
@@ -123,20 +204,9 @@ class Payment(models.Model):
     payment_amount = models.IntegerField()
     payment_date = models.DateTimeField(auto_now_add=True)
 
-    outer_id = models.UUIDField(
-        verbose_name='айди для банка',
-        default=uuid.uuid4, 
-        editable=False
-        )
-
-
     class Meta:
         verbose_name = 'Платеж'
         verbose_name_plural = 'Платежи'
-
-
-
-
 
 
 class AppliedPromoCode(models.Model):

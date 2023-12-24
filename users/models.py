@@ -47,7 +47,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     objects = CustomUserManager()
 
     def __str__(self):
-        return f'{self.last_name} {self.first_name}  {self.patronymic}'
+        return ' '.join(filter(None, (self.last_name, self.first_name, self.patronymic)))
+        
 
     class Meta:
         verbose_name = 'Пользователь'
@@ -57,7 +58,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return reverse('user_info', kwargs={'user_id': self.id})
 
 class Address(models.Model):
-    users = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     title = models.CharField(max_length=255, blank=True, null=True)
     city = models.CharField(max_length=255, blank=True, null=True)
     region = models.CharField(max_length=255, blank=True, null=True)
@@ -68,8 +69,19 @@ class Address(models.Model):
     index = models.IntegerField(default=0, blank=True, null=True)
     info = models.CharField(max_length=255, blank=True, null=True)
 
+    def full_address(self):
+        full_address = ', '.join(filter(None, (
+            self.region, 
+            self.city, 
+            self.street, 
+            str(self.home_number), 
+            str(self.room_number), 
+            self.metro,
+        )))
+        return full_address
+
     def __str__(self):
-        return self.title
+        return self.user.__str__() + ' - ' + ','.join(filter(None, (self.city, self.street)))
 
     class Meta:
         verbose_name = 'Адрес'

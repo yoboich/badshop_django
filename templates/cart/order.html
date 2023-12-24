@@ -12,8 +12,8 @@
         <h1 style="margin: 0px 0px 20px 0px">{{ title }}</h1>
 
 
-        <form action="" style="display: flex;box-shadow: 0 8px 24px 0 rgb(8 9 112 / 9%);border-radius: 20px;padding:0px 0px 60px 0px;">
-
+        <form action="{% url 'save_order_data' %}" method='POST' style="display: flex;box-shadow: 0 8px 24px 0 rgb(8 9 112 / 9%);border-radius: 20px;padding:0px 0px 60px 0px;">
+            {% csrf_token %}
             <div class="cart-items" style="min-height: 700px;box-shadow: none;width:100%;">
             <div class="order-list">
              <div class="cart-list">
@@ -23,40 +23,13 @@
              ----->
 
                  <div class="transport-company">
-                    {% for item in transport_companies %}
-                        <div class="form_radio_btn">
-                        <input id="radio-{{ item.id }}" type="radio" name="radio" value="{{ item.id }}" checked>
-                        <label for="radio-{{ item.id }}">{{item.name}}</label>
-                    </div>
+                    {% for transport_company in transport_companies %}
+                        <div class="form-radio-btn">
+                          <input id="radio-transport-{{ transport_company.id }}" type="radio" name="radio-transport" value="{{ transport_company.id }}" checked>
+                          <label for="radio-transport-{{ transport_company.id }}">{{transport_company.name}}</label>
+                      </div>
                     {% endfor %}
-{#                     <div class="form_radio_btn">#}
-{#                        <input id="radio-1" type="radio" name="radio" value="1" checked>#}
-{#                        <label for="radio-1">Доставка курьером по СПБ</label>#}
-{#                    </div>#}
-{##}
-{#                    <div class="form_radio_btn">#}
-{#                        <input id="radio-2" type="radio" name="radio" value="2">#}
-{#                        <label for="radio-2">Самовывоз СПБ</label>#}
-{#                    </div>#}
-{##}
-{#                    <div class="form_radio_btn">#}
-{#                        <input id="radio-3" type="radio" name="radio" value="3">#}
-{#                        <label for="radio-3">СДЭК</label>#}
-{#                    </div>#}
-{##}
-{#                    <div class="form_radio_btn">#}
-{#                        <input id="radio-4" type="radio" name="radio" value="4">#}
-{#                        <label for="radio-4">Почта РФ</label>#}
-{#                    </div>#}
-{#                                           <div class="form_radio_btn">#}
-{#                        <input id="radio-5" type="radio" name="radio" value="5">#}
-{#                        <label for="radio-5">Boxberry</label>#}
-{#                    </div>#}
-{##}
-{#                    <div class="form_radio_btn">#}
-{#                        <input id="radio-6" type="radio" name="radio" value="6">#}
-{#                        <label for="radio-6">Яндекс.Доставка</label>#}
-{#                    </div>#}
+
                    </div>
 
 
@@ -68,35 +41,39 @@
                           <div class="adress-title">Адрес доставки</div>
                           <div class="new-adress" id="openModalButton" style="padding: 9px 0px 9px 20px;color: #00b44e;background: inherit;" data-toggle="modal" data-target="#addAddressModal">Добавить адрес</div>
                    </div>
-                        {% if address %}
+                        {% if addresses %}
 
-                        {% for ad in address %}
+                        {% for address in addresses %}
                             <div class="adress">
-                            <div class="item-adress-title">
-                                <div class="address_info">{{ ad.street }} {{ ad.home_number }}, {{ ad.room_number }}</div>
-
+                            
+                              <div class="form-radio-address-btn">
+                                <div>
+                                  <input id="radio-address-{{ address.id }}" type="radio" name="radio-address" value="{{ address.id }}" checked>
+                                  <label for="radio-address-{{ address.id }}">{{ address.street }} {{ address.home_number }}, {{ address.room_number }}</label>
+                                </div>
                                 <div class="drop-down-address-actions">
 
-                                    <div class="drop-down-address-actions">
+                                   
+                                  <label class="dropdown">
 
+                                    <div class="dd-button">
+                                          <img src="{% static 'img/address.svg' %}" alt="">
                                     </div>
-                                    <label class="dropdown">
 
-                                      <div class="dd-button">
-                                            <img src="{% static 'img/address.svg' %}" alt="">
-                                      </div>
+                                    <input type="checkbox" class="dd-input" id="test">
 
-                                      <input type="checkbox" class="dd-input" id="test">
+                                    <ul class="dd-menu">
+                                      <li><a href="{% url 'edit_myaddress' address.id %}">Изменить</a></li>
+                                      <li><a href="{% url 'delete_address' address.id %}">Удалить</a></li>
+                                    </ul>
 
-                                      <ul class="dd-menu">
-                                        <li><a href="{% url 'edit_myaddress' ad.id %}">Изменить</a></li>
-                                        <li><a href="{% url 'delete_address' ad.id %}">Удалить</a></li>
-                                      </ul>
+                                  </label>
+                              </div>
+                              </div>
 
-                                    </label>
-                                </div>
+                                
                             </div>
-                            </div>
+          
                         {% endfor %}
 
                         {% else %}
@@ -107,8 +84,6 @@
                             </div>
 
                         {% endif %}
-
-
 
                 <!-----
                 КОММЕНТАРИЙ

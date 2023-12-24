@@ -116,7 +116,7 @@ class AddressForm(forms.ModelForm):
 
     def save(self, commit=True):
         instance = super(AddressForm, self).save(commit=False)
-        instance.users = self.initial['user']  # Установка значения user из initial
+        instance.user = self.initial['user']  # Установка значения user из initial
         if commit:
             instance.save()
         return instance

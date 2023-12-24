@@ -6,7 +6,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 from users.forms import CustomUserChangeForm, CustomUserCreationForm
-from users.models import CustomUser, Profile
+from users.models import CustomUser, Profile, Address
 
 
 class CustomUserAdmin(UserAdmin):
@@ -62,9 +62,14 @@ class CustomUserAdmin(UserAdmin):
 
 class ProfileAdmin(admin.ModelAdmin):
     save_as = True
-    list_display = ['user']
-    search_fields = ['user']
-    readonly_fields = ['user']
+    list_display = ('user',)
+    search_fields = ('user',)
+    readonly_fields = ('user',)
+
+
+@admin.register(Address)
+class AddressAdmin(admin.ModelAdmin):
+    list_display = ('user', 'title', 'city', 'region', 'street', 'home_number',)
 
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(CustomUser, CustomUserAdmin)

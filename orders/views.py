@@ -3,8 +3,12 @@ from django.http import JsonResponse
 from django.template.loader import render_to_string
 from items.models import CartItem, Cart, Item
 from items.services import get_cart_data
+from users.forms import AddressForm
+from users.models import Address
+from orders.models import TransportCompany
 
 from badshop_django.logger import logger
+from .services import create_payment
 
 # желательно разделить
 def update_cart_ajax(request):
@@ -58,47 +62,40 @@ def get_item_data_ajax(request):
     return JsonResponse({'success': rendered_item})
 
 
-import yookassa
-from yookassa import Configuration
-from yookassa import Payment as yoo_Payment
-import uuid
-import requests
-
 from .models import Order
 
 
 def order_page_view(request):
-    Order.remove_current_user_unpaid_orders(request)
-    order = Order.create_order_for_current_user(request)
-
-    Configuration.account_id = '285619'
-    Configuration.secret_key = 'test_pehJPGfr6C3c-BqjXCg7CzYq5PsIDdGjBxu0hwRQGxY'
-   
-    idempotence_key = str(uuid.uuid4())
-   
+    Order.create_new_order_for_current_user(request)
     
-    yoo_payment = yoo_Payment.create({
-            "id": "23d93cac-000f-5111-8010-122628f15141",
-            "status": "pending",
-            "paid": False,
-            "amount": {
-            "value": "2.00",
-            "currency": "RUB"
-            },
-            "payment_method_data": {
-            "type": "bank_card"
-            },
-            "confirmation": {
-            "type": "redirect",
-            "return_url": "https://www.example.com/return_url"
-            },
-            "description": "Order No. 72"
-        }, idempotence_key)
-    logger.debug(yoo_payment.__dict__)
-    logger.debug(yoo_payment._PaymentResponse__confirmation.__dict__)
-    return redirect(yoo_payment._PaymentResponse__confirmation._ConfirmationRedirect__confirmation_url)
+    addresses = Address.objects.filter(user=request.user)
+
+    context = {
+        'title': 'Оформление заказа',
+        'addresses': addresses,
+        'transport_companies': TransportCompany.objects.all()
+    }
+    return render(request, 'cart/order.html', context)
+
   
 
 def payment_success_view(request):
-    logger.debug(f'request body: {request._body.__dict__}')
-    return render(request, 'orders/payment_success.html')
+    # logger.debug(f'request body: {request._body.__dict__}')
+    return render(request, 'cart/payment_success.html')
+
+
+def save_order_data_view(request):
+    if request.method == 'POST':
+        order = Order.save_form_data_to_order(request)
+        payment_created, yoo_payment = create_payment(order)
+        if payment_created:
+            return redirect(
+                yoo_payment \
+                ._PaymentResponse__confirmation \
+                ._ConfirmationRedirect__confirmation_url
+                )
+        else:
+            print('!error') # поменять
+        
+
+

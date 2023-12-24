@@ -10,7 +10,7 @@ class OrderAdmin(admin.ModelAdmin):
 
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
-    list_display = ('order', 'payment_amount', 'payment_date', 'outer_id')
+    list_display = ('order', 'payment_amount', 'payment_date',)
 
 admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderStatus)

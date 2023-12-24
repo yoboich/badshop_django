@@ -108,11 +108,12 @@ class FavoriteItem(models.Model):
     @classmethod
     def count_favorite_items(cls, request):
         
-        return cls.get_favorite_items(request).count()
-        
+        return cls.get_favorite_items(request).count()  
 
     class Meta:
         unique_together = ('user', 'item')
+        verbose_name = 'Избранный товар'
+        verbose_name_plural = 'Избранные товары'
 
 
 class CartItem(models.Model):
@@ -127,7 +128,7 @@ class CartItem(models.Model):
     # promocode = models.ForeignKey(PromoCode, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Промокод')
 
     def total_price_with_discount(self):
-        return self.item.seil_price * self.quantity
+        return self.item.sale_price * self.quantity
     
     class Meta:
         unique_together = ('cart', 'item')
@@ -141,7 +142,7 @@ class CartItem(models.Model):
 class Cart(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True,)
     session = models.ForeignKey(Session, on_delete=models.CASCADE, blank=True, null=True,)
-    items = models.ManyToManyField(Item, verbose_name='Товары в корзине', through='CartItem')  # Множество элементов корзины
+    # items = models.ManyToManyField(CartItem, verbose_name='Товары в корзине', through='CartItem')  # Множество элементов корзины
     promocode = models.ForeignKey(PromoCode, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Промокод')
 
     def distinct_items_count(self):

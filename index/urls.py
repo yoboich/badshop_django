@@ -9,7 +9,8 @@ from orders.views import (
     update_cart_ajax, get_item_data_ajax, 
     toggle_item_active_state_ajax, 
     get_cart_data_ajax, 
-    payment_success_view, order_page_view
+    payment_success_view, order_page_view,
+    save_order_data_view
     )
 from users.views import AppLoginView, AppLogoutView, AppRegistration
 from items.views import toggle_item_favorite_state_ajax, get_favorite_total_count_ajax
@@ -69,4 +70,5 @@ urlpatterns = [
 
     path('order_page/', order_page_view, name='order_page'),
     path('payment_success/', payment_success_view, name='payment_success'),
+    path('save_order_data/', save_order_data_view, name='save_order_data'),
 ]
