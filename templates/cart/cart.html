@@ -64,14 +64,18 @@
                   </div>
                 </div>
               </div>
-              <a href="{% url 'order_page' %}">Оплатить заказ</a>
-              <button type="submit">ОФОРМИТЬ ЗАКАЗ</button>
+              <button type='button' onclick='go_to_order_page()'>ОФОРМИТЬ ЗАКАЗ</button>
             </div>
           </div>
       </form>
 
 
       <script>
+
+        function go_to_order_page(){
+          window.location = '{% url "order_page" %}'
+        }
+
 document.addEventListener("DOMContentLoaded", function () {
     const cartItems = document.querySelectorAll(".item");
 
