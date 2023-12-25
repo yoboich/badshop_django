@@ -101,7 +101,7 @@ class Order(models.Model):
         total = OrderItem.objects \
             .filter(order=self) \
             .aggregate(
-                total=Sum(F('price'), 
+                total=Sum(F('price') * F('quantity'), 
                 output_field=FloatField()
                 ))['total']
         print('!', total)
