@@ -204,6 +204,18 @@ class Payment(models.Model):
     payment_amount = models.IntegerField()
     payment_date = models.DateTimeField(auto_now_add=True)
 
+    @classmethod
+    def create_payment_for_current_user(cls, request):
+        filter_dict = create_user_or_session_filter_dict(
+            request
+            )
+        payment = Order.objects.create(
+            **filter_dict,  
+            status='NP'
+        )
+
+        return order
+
     class Meta:
         verbose_name = 'Платеж'
         verbose_name_plural = 'Платежи'
