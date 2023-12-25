@@ -66,14 +66,25 @@ from .models import Order
 
 
 def order_page_view(request):
-    Order.create_new_order_for_current_user(request)
     
+    if request.method == 'POST':
+        address_form = AddressForm(request.POST, initial={'user': request.user})
+        if address_form.is_valid():
+            address_form.save()
+            return redirect('myadress')  # Перенаправление на список адресов после успешного сохранения
+    else:
+        address_form = AddressForm(initial={'user': request.user})
+        
+
+
+    Order.create_new_order_for_current_user(request)
     addresses = Address.objects.filter(user=request.user)
 
     context = {
         'title': 'Оформление заказа',
         'addresses': addresses,
-        'transport_companies': TransportCompany.objects.all()
+        'transport_companies': TransportCompany.objects.all(),
+        'address_form': address_form,
     }
     return render(request, 'cart/order.html', context)
 

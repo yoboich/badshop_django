@@ -206,15 +206,12 @@ class Payment(models.Model):
 
     @classmethod
     def create_payment_for_current_user(cls, request):
-        filter_dict = create_user_or_session_filter_dict(
-            request
-            )
-        payment = Order.objects.create(
-            **filter_dict,  
-            status='NP'
+        order = Order.objects.filter()
+        payment = cls.objects.create(
+            order=order  
         )
 
-        return order
+        return Payment
 
     class Meta:
         verbose_name = 'Платеж'
