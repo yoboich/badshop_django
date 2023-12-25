@@ -1,23 +1,25 @@
+import json
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+from django.http import HttpResponse
 
-from badshop_django.logger import logger
 from yookassa import Configuration, Webhook
 from yookassa import Payment as yoo_Payment
-
+from yookassa.domain.notification import WebhookNotification
+from badshop_django.logger import logger
 
 @method_decorator(csrf_exempt, name='dispatch')
 def yoo_kassa_webhook_view(request):
-    # Configuration.account_id = '285619'
-    # Configuration.secret_key = 'test_pehJPGfr6C3c-BqjXCg7CzYq5PsIDdGjBxu0hwRQGxY'
 
+    logger.debug(f'yoo_kassa request data = {request.body}')
+    event_json = json.loads(request.body)
+    try:
+        notification_object = WebhookNotification(event_json)
+    except Exception:
+        pass
 
-    # response = Webhook.add({
-    #     "event": "payment.succeeded",
-    #     "url": "https://vitanow.ru/test_yoo_kassa_response/",
-    # })
-    # logger.debug(f'yoo_kassa SDK data = {response}')
-    logger.debug(f'yoo_kassa request data = {request.GET}')
-    return HttpResponse('')
+    # Получите объекта платежа
+    payment = notification_object.object
+    logger.debug(f'yoo_kassa payment object = {payment}')
