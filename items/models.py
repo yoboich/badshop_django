@@ -167,7 +167,8 @@ class Cart(models.Model):
             total_discount += total_original_price * (self.promocode.discount_percent / 100)
         return total_original_price - total_discount
 
-    def get_or_create_cart(request, user=None):
+    @classmethod
+    def get_or_create_cart(csl, request, user=None):
         if user:
             cart, created = Cart.objects.get_or_create(
                 user=user
@@ -184,6 +185,11 @@ class Cart(models.Model):
 
         logger.debug(f'cart = {cart}')
         return cart
+    
+    @classmethod
+    def delete_current_user_cart(cls, request):
+        cart = cls.get_or_create_cart(request)
+        cart.delete()
 
     def __str__(self):
         return f'{self.user if self.user else self.session}'

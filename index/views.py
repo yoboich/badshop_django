@@ -330,7 +330,7 @@ def myadress(request):
                 return redirect('myadress')  # Перенаправление на список адресов после успешного сохранения
         else:
             form = AddressForm(initial={'user': request.user})
-            address = Address.objects.filter(users=request.user)
+            address = Address.objects.filter(user=request.user)
             context = {
                 'title': 'Мои адреса',
                 'form': form,
