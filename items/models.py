@@ -128,7 +128,7 @@ class CartItem(models.Model):
     # promocode = models.ForeignKey(PromoCode, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Промокод')
 
     def total_price_with_discount(self):
-        return self.item.sale_price * self.quantity
+        return self.item.sale_price() * self.quantity
     
     class Meta:
         unique_together = ('cart', 'item')

@@ -1,3 +1,8 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 
-# Create your views here.
+from badshop_django.logger import logger
+
+def yoo_kassa_webhook_view(request):
+    logger.debug('')
+    return HttpResponse('')

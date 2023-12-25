@@ -79,9 +79,9 @@ def order_page_view(request):
 
   
 
-def payment_success_view(request):
+def payment_finished_view(request):
     # logger.debug(f'request body: {request._body.__dict__}')
-    return render(request, 'cart/payment_success.html')
+    return render(request, 'cart/payment_finished.html')
 
 
 def save_order_data_view(request):

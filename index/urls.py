@@ -9,11 +9,12 @@ from orders.views import (
     update_cart_ajax, get_item_data_ajax, 
     toggle_item_active_state_ajax, 
     get_cart_data_ajax, 
-    payment_success_view, order_page_view,
+    payment_finished_view, order_page_view,
     save_order_data_view
     )
 from users.views import AppLoginView, AppLogoutView, AppRegistration
 from items.views import toggle_item_favorite_state_ajax, get_favorite_total_count_ajax
+from utils.views import yoo_kassa_webhook_view
 
 urlpatterns = [
 
@@ -69,6 +70,9 @@ urlpatterns = [
     path('toggle_item_favorite_state/', toggle_item_favorite_state_ajax, name='toggle_item_favorite_state'),
 
     path('order_page/', order_page_view, name='order_page'),
-    path('payment_success/', payment_success_view, name='payment_success'),
+    path('payment_finished/', payment_finished_view, name='payment_finished'),
     path('save_order_data/', save_order_data_view, name='save_order_data'),
+
+    path('webhooks/yookassa/', yoo_kassa_webhook_view, name='yoo_kassa_webhook')
+
 ]

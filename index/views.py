@@ -117,11 +117,16 @@ def toggle_cart(request, item_id):
     cart = Cart.get_or_create_cart(request)
     item = Item.objects.get(id=item_id)
 
-    if item in cart.items.all():
-        cart.items.remove(item)
+    cart_item = CartItem.objects.filter(cart=cart, item=item)
+    if cart_item:
+        cart_item.delete()
         message = "Товар удален из корзины."
     else:
-        cart.items.add(item)
+        CartItem.objects.create(
+            cart=cart,
+            item=item,
+            quantity=0
+        )
         message = "Товар добавлен в корзину."
 
     return JsonResponse({'message': message})
