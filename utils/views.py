@@ -4,5 +4,5 @@ from django.http import HttpResponse
 from badshop_django.logger import logger
 
 def yoo_kassa_webhook_view(request):
-    logger.debug('')
+    logger.debug(f'{request.POST}')
     return HttpResponse('')
