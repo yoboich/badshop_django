@@ -1,6 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.template.loader import render_to_string
+
+from django.contrib.auth.forms import PasswordResetForm
+from django.http import HttpRequest
+from django.http import HttpResponse
+from django.core.mail import EmailMessage
+
 from items.models import CartItem, Cart, Item
 from items.services import get_cart_data
 from users.forms import AddressForm

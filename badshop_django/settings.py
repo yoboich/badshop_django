@@ -179,3 +179,12 @@ GRAPPELLI_CLEAN_INPUT_TYPES = False
 # SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # Используем базу данных для хранения сессий
 SESSION_COOKIE_AGE = 1209600  # Время жизни сессии (в секундах)
+
+
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_HOST_USER = 'no-reply@vitanow.ru'
+DEFAULT_FROM_EMAIL = 'no-reply@vitanow.ru'
+EMAIL_HOST_PASSWORD = 'UEzDYVBsRnGe5ArXCFaf'
+EMAIL_PORT = 2525
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False

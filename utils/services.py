@@ -1,4 +1,6 @@
 from django.contrib.sessions.models import Session
+from django.contrib.auth.forms import PasswordResetForm
+from django.http import HttpRequest
 
 from PIL import Image as pil_image
 
@@ -38,3 +40,16 @@ def create_user_or_session_filter_dict(request):
         session = get_current_session(request)
         filter_dict['session'] = session
     return filter_dict  
+
+
+def password_reset_for_new_user(request, email):
+    form = PasswordResetForm({'email': email})
+    if form.is_valid():
+        request = HttpRequest()
+        request.META['SERVER_NAME'] = 'https://vitanow.ru'
+        request.META['SERVER_PORT'] = '443'
+        form.save(
+            request=request,
+            use_https=True,
+            from_email="no-reply@vitanow.ru", 
+            email_template_name='registration/password_reset_email.html')

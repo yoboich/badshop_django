@@ -27,17 +27,3 @@ def get_filter_items(max_item_price, query, brend, category, price_max, price_mi
 
     return items
 
-import datetime
-from django.utils import timezone
-
-
-
-
-# def get_or_create_session(request):
-#     if not request.session.session_key is None:
-#         session = Session.objects.get(
-#             session_key=request.session.session_key
-#             )
-#     else:
-#         request.session['hey'] = 'hello'
-#     return request

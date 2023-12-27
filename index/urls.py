@@ -1,4 +1,8 @@
-from django.urls import path
+from django.urls import path, reverse_lazy
+from django.contrib.auth.views import (
+    PasswordResetView, PasswordResetDoneView,
+    PasswordResetCompleteView, PasswordResetConfirmView
+)
 
 from blog.views import blog, blogPage
 from index.views import index, catalog_categories, item, brends, pay, sail, salePage, about, partners, \
@@ -13,6 +17,7 @@ from orders.views import (
     save_order_data_view
     )
 from users.views import AppLoginView, AppLogoutView, AppRegistration
+from users.forms import CustomUserSetPasswordForm
 from items.views import toggle_item_favorite_state_ajax, get_favorite_total_count_ajax
 from utils.views import yoo_kassa_webhook_view
 
@@ -36,6 +41,17 @@ urlpatterns = [
     path('login/', AppLoginView.as_view(), name="login"),
     path('logout/', AppLogoutView.as_view(), name="logout"),
     path('registration/', AppRegistration.as_view(), name="registration"),
+
+    path('password_reset/', PasswordResetView.as_view(success_url = reverse_lazy('password_reset_done')), name='password_reset'),
+    path('password_reset_done/', PasswordResetDoneView.as_view(), name='password_reset_done'),
+    path('password_reset_confirm/<uidb64>/<token>/', 
+         PasswordResetConfirmView.as_view(
+             form_class=CustomUserSetPasswordForm, 
+             success_url = reverse_lazy('password_reset_complete')
+             ), 
+             name='password_reset_confirm'),
+    path('password_reset_complete/', PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+
 
     # БЛОГ
     path('blog/', blog, name="blog"),

@@ -1,7 +1,9 @@
 {% extends 'default.html' %}
 {% block content %}{% load static %}
 <div class="container" style="height: 535px;width:90%;margin: 0 auto;border-radius: 50px;overflow:hidden;max-width: 1790px;">
-    <div class="swiper mySwiper">
+  <button><a href="{% url 'pass_reset_test' %}">TEST</a></button>  
+  <button><a href="{% url 'test_mail' %}">TEST MAIL</a></button>  
+  <div class="swiper mySwiper">
       <div class="swiper-wrapper">
 
         {% for slider in slider1 %}

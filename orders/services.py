@@ -24,6 +24,7 @@ def create_payment(order):
             "id": order.outer_id,
             "status": "pending",
             "paid": False,
+            "capture": True,
             "amount": {
             "value": order.total_price,
             "currency": "RUB"

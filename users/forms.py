@@ -129,13 +129,13 @@ class AddressEditForm(forms.ModelForm):
 
 class CustomUserSetPasswordForm(SetPasswordForm):
     new_password1 = forms.CharField(
-        label="New password",
+        label="Пароль",
         widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
         strip=False,
         help_text=None,
     )
     new_password2 = forms.CharField(
-        label="New password confirmation",
+        label="Еще раз",
         strip=False,
         widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
     )
@@ -150,4 +150,5 @@ class CustomUserSetPasswordForm(SetPasswordForm):
         if commit:
             self.user.save()
         return self.user
+
 

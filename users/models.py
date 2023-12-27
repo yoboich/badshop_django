@@ -1,7 +1,10 @@
+import uuid
+
 from django.db import models
 
 from django.contrib.auth.models import AbstractBaseUser, Permission, Group
 from django.contrib.auth.models import PermissionsMixin
+
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -46,10 +49,17 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     objects = CustomUserManager()
 
+    @classmethod
+    def create_account_for_unathourized_user(cls, email):
+        user = cls.objects.create_user(
+            email=email, password=uuid.uuid4()
+            )
+        return user
+
+
     def __str__(self):
         return ' '.join(filter(None, (self.last_name, self.first_name, self.patronymic)))
         
-
     class Meta:
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
