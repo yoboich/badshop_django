@@ -125,7 +125,7 @@ def toggle_cart(request, item_id):
         CartItem.objects.create(
             cart=cart,
             item=item,
-            quantity=0
+            quantity=1
         )
         message = "Товар добавлен в корзину."
 

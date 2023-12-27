@@ -2,7 +2,7 @@ import datetime
 import json
 
 from django import template
-from items.models import FavoriteItem
+from items.models import FavoriteItem, Cart, CartItem
 from utils.services import get_current_session
 
 
@@ -26,3 +26,25 @@ def get_favorite_status(item, request):
                 item=item
                 )
     return bool(fav_item)
+
+
+
+@register.filter
+def check_if_item_in_cart(item, request):
+    cart = Cart.get_or_create_cart(request)
+    cart_items = CartItem.objects \
+        .filter(cart=cart) \
+        .values_list('item', flat=True)
+    if item.id in cart_items:
+        return True
+    return False
+
+
+@register.filter
+def get_cart_items(request):
+    print('!!here')
+    cart = Cart.get_or_create_cart(request)
+    cart_items = CartItem.objects \
+        .filter(cart=cart) \
+        .values_list('item', flat=True)
+    return cart_items

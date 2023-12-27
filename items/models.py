@@ -179,13 +179,16 @@ class Cart(models.Model):
             request
             )
         
-        cart, created = Cart.objects.get_or_create(
-            **filter_dict
-                )
+        if filter_dict != {}:
+            cart, created = Cart.objects.get_or_create(
+                **filter_dict
+                    )
 
-        logger.debug(f'cart = {cart}')
-        return cart
-    
+            logger.debug(f'cart = {cart}')
+            return cart
+        
+        return 
+
     @classmethod
     def delete_current_user_cart(cls, request):
         cart = cls.get_or_create_cart(request)

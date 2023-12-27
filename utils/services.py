@@ -34,12 +34,13 @@ def get_current_session(request):
 
 def create_user_or_session_filter_dict(request):
     filter_dict = {}
+
     if request.user.is_authenticated:
         filter_dict['user'] = request.user
     elif request.session.session_key != None:
         session = get_current_session(request)
         filter_dict['session'] = session
-    return filter_dict  
+    return filter_dict
 
 
 def password_reset_for_new_user(request, email):
