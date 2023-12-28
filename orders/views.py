@@ -84,7 +84,10 @@ def order_page_view(request):
 
 
     Order.create_new_order_for_current_user(request)
-    addresses = Address.objects.filter(user=request.user)
+    if request.user.is_authenticated:
+        addresses = Address.objects.filter(user=request.user)
+    else: 
+        addresses = []
 
     context = {
         'title': 'Оформление заказа',
@@ -95,12 +98,6 @@ def order_page_view(request):
     return render(request, 'cart/order.html', context)
 
   
-
-def payment_finished_view(request):
-    # logger.debug(f'request body: {request._body.__dict__}')
-    return render(request, 'cart/payment_finished.html')
-
-
 def save_order_data_view(request):
     if request.method == 'POST':
         order = Order.save_form_data_to_order(request)
@@ -115,4 +112,7 @@ def save_order_data_view(request):
             print('!error') # поменять
         
 
-
+def payment_finished_view(request):
+    # logger.debug(f'request body: {request._body.__dict__}')
+    print('!')
+    return render(request, 'cart/payment_finished.html')

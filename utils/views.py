@@ -15,7 +15,7 @@ from utils.services import password_reset_for_new_user
 
 @method_decorator(csrf_exempt, name='dispatch')
 def yoo_kassa_webhook_view(request):
-
+    print('!here - yoo_kassa_webhook_view')
     logger.debug(f'yoo_kassa request data = {request.body}')
     body_dict = json.loads(request.body)
     order_outer_id = body_dict['object']['id']
@@ -31,15 +31,16 @@ def yoo_kassa_webhook_view(request):
         order.status = 'OP'
         order.save()
         
-        if not request.user.is_authenticated:
-            CustomUser.create_account_for_unathourized_user(order.email)
-            password_reset_for_new_user(request, order.email)
 
         Cart.delete_cart_for_paid_order(order)
         Payment.objects.create(
             order=order,
             amount=order.total_price()
         )
+        
+        if not request.user.is_authenticated:
+            CustomUser.create_account_for_unathourized_user(order.email)
+            password_reset_for_new_user(request, order.email)
 
         message = f'Ура! Ваш платеж прошел успешно. Скоро мы доставим ваши покупки.'
         title = f'Ваша покупка на Vitanow'

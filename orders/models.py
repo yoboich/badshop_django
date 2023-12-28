@@ -168,6 +168,8 @@ class Order(models.Model):
                 id=form['radio-address']
                 )
             order.delivery_address = address.full_address()
+        else:
+            order.delivery_address = form['address']
         order.full_name = ' '.join(filter(None, (
             form['first_name'], 
             form['last_name'], 
@@ -188,7 +190,7 @@ class Order(models.Model):
         verbose_name_plural = 'Заказы'
 
     def __str__(self):
-        return f"{self.user.email}, {self.status}"
+        return f"{self.email}, {self.status}"
 
 
 class OrderStatus(models.Model):

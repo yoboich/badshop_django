@@ -89,6 +89,6 @@ urlpatterns = [
     path('payment_finished/', payment_finished_view, name='payment_finished'),
     path('save_order_data/', save_order_data_view, name='save_order_data'),
 
-    path('webhooks/yookassa/', yoo_kassa_webhook_view, name='yoo_kassa_webhook')
+    path('webhooks/yookassa/', yoo_kassa_webhook_view, name='yoo_kassa_webhook'),
 
 ]

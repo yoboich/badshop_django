@@ -77,12 +77,11 @@
                         {% endfor %}
 
                         {% else %}
-                            <div class="adress">
-                              <div class="item-adress-title" style="justify-content: flex-start;">
-                              <img src="{% static '/img/warning 1.svg' %}" alt="">Нет адресов
+                            
+                            <div class="user-input">
+                              <p>Адрес</p>
+                                <input type="text" name="address" maxlength="100" id="id_address">
                             </div>
-                            </div>
-
                         {% endif %}
 
                 <!-----
