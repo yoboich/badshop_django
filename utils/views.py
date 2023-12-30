@@ -42,8 +42,8 @@ def yoo_kassa_webhook_view(request):
             payment_amount=order.total_price
         )
         
-        if not request.user.is_authenticated:
-            logger.debug(f'user is not authenticated. current user is {request.user}')
+        if not order.user:
+            logger.debug(f"order user doesn't exist, creating new one. current user is {request.user}")
             CustomUser.create_account_for_unathourized_user(order.email)
             password_reset_for_new_user(request, order.email)
 
