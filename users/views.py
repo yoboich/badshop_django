@@ -12,9 +12,9 @@ from users.services import (
     transfer_items_from_session_to_user_cart,
     transfer_items_from_session_to_user_favorites
 )
-
+import sys
 from badshop_django.logger import logger
-
+logger.debug(f'server is - {sys.argv}')
 # Create your views here.
 
 
