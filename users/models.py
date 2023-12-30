@@ -53,6 +53,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def create_account_for_unathourized_user(cls, email):
         try:
             user = CustomUser.objects.get(email=email)
+            created = False
         except:
             user = cls.objects.create_user(
                 email=email, password=str(uuid.uuid4())
