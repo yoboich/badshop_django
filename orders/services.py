@@ -18,7 +18,6 @@ def create_yoo_kassa_payment(order):
     Configuration.account_id = '285619'
     Configuration.secret_key = 'test_pehJPGfr6C3c-BqjXCg7CzYq5PsIDdGjBxu0hwRQGxY'
     logger.debug(f'order.outer_id = {order.outer_id}')
-    logger.debug(f'order.outer_id = {order.outer_id}')
     idempotence_key = str(uuid.uuid4())
     return_url = 'https://vitanow.ru' + reverse_lazy('payment_finished')
     yoo_payment = yoo_Payment.create({

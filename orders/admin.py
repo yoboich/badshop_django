@@ -5,8 +5,8 @@ from orders.models import Order, OrderStatus, Payment, AppliedPromoCode, Transpo
 # Register your models here.
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('user', 'total_price', 'date_created', 'status', 'outer_id',)
-    readonly_fields = ('outer_id',)
+    list_display = ('user', 'total_price', 'date_created', 'status', 'outer_id', 'payment_response_id')
+    readonly_fields = ('outer_id', 'payment_response_id')
 
 
 @admin.register(Payment)

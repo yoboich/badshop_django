@@ -95,6 +95,12 @@ class Order(models.Model):
         default=uuid.uuid4, 
         editable=False
         )
+    payment_response_id = models.CharField(
+        max_length=255,
+        verbose_name='айди платежа в банке',
+        editable=False,
+        null=True, blank=True
+    )
     
     @property
     def total_price(self):
