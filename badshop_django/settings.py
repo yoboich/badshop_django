@@ -12,9 +12,9 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 
-# from django.utils.regex_helper import _lazy_re_compile
-# import django.http.request 
-# django.http.request.host_validation_re = _lazy_re_compile(r"[a-zA-z0-9.:]*")
+from django.utils.regex_helper import _lazy_re_compile
+import django.http.request 
+django.http.request.host_validation_re = _lazy_re_compile(r"[a-zA-z0-9.:]*")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -178,7 +178,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static") # Изначально пусто
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 ADMIN_SITE_HEADER = "BADSHOP"
 CSRF_TRUSTED_ORIGINS=["http://vitanow.ru","https://vitanow.ru"]
-# SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 GRAPPELLI_ADMIN_TITLE = "BADSHOP ADMIN"
 GRAPPELLI_CLEAN_INPUT_TYPES = False
 # SESSION_ENGINE = 'django.contrib.sessions.backends.db'
