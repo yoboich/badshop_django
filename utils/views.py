@@ -19,6 +19,7 @@ def yoo_kassa_webhook_view(request):
     logger.debug(f'yoo_kassa request data = {request.body}')
     body_dict = json.loads(request.body)
     order_outer_id = body_dict['object']['id']
+    logger.debug(f'order_outer_id = {order_outer_id}')
     status =body_dict['object']['status']
     if status == 'succeeded':
         

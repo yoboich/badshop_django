@@ -109,10 +109,8 @@ def save_order_data_view(request):
                 ._ConfirmationRedirect__confirmation_url
                 )
         else:
-            print('!error') # поменять
+            logger.debug('!error') # поменять
         
 
 def payment_finished_view(request):
-    # logger.debug(f'request body: {request._body.__dict__}')
-    print('!')
     return render(request, 'cart/payment_finished.html')
