@@ -11,6 +11,8 @@ from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from django.db.models.signals import post_save
 
+from badshop_django.logger import logger
+
 from .managers import CustomUserManager
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
@@ -54,11 +56,13 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         try:
             user = CustomUser.objects.get(email=email)
             created = False
+            logger.debug(f'this email already in use - {user}')
         except:
             user = cls.objects.create_user(
                 email=email, password=str(uuid.uuid4())
                 )
             created = True
+            logger.debug(f'user created - {user}')
         return user, created
 
 
