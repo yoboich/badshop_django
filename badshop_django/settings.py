@@ -96,7 +96,7 @@ WSGI_APPLICATION = 'badshop_django.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-if DEBUG:
+if os.name == 'nt':
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
