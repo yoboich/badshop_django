@@ -44,8 +44,11 @@ def yoo_kassa_webhook_view(request):
         
         if not order.user:
             logger.debug(f"order user doesn't exist, creating new one. current user is {request.user}")
-            CustomUser.create_account_for_unathourized_user(order.email)
-            password_reset_for_new_user(request, order.email)
+            user, created = CustomUser.create_account_for_unathourized_user(
+                order.email
+                )
+            if created:
+                password_reset_for_new_user(request, order.email)
 
         message = f'Ура! Ваш платеж прошел успешно. Скоро мы доставим ваши покупки.'
         title = f'Ваша покупка на Vitanow'
