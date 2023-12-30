@@ -13,8 +13,7 @@ import os
 from pathlib import Path
 
 from django.utils.regex_helper import _lazy_re_compile
-import django.http.request
-
+import django.http.request 
 django.http.request.host_validation_re = _lazy_re_compile(r"[a-zA-z0-9.:]*")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -34,7 +33,7 @@ ALLOWED_HOSTS = [
     '62.109.7.126', 
     'e5b4-87-255-16-61.ngrok-free.app', 
     'vitanow.ru', 
-    'https://vitanow.ru'
+    'https://vitanow.ru',
     'demo.boich.ru', 
     'localhost', 
     '127.0.0.1'
