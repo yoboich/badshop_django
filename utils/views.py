@@ -39,6 +39,7 @@ def yoo_kassa_webhook_view(request):
         )
         
         if not request.user.is_authenticated:
+            logger.debug(f'user is not authenticated. current user is {request.user}')
             CustomUser.create_account_for_unathourized_user(order.email)
             password_reset_for_new_user(request, order.email)
 
