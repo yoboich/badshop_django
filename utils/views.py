@@ -46,5 +46,7 @@ def yoo_kassa_webhook_view(request):
         title = f'Ваша покупка на Vitanow'
         email = EmailMessage(title, message, "no-reply@vitanow.ru", [order.email])
         email.send()
+
+        return HttpResponse('')
     
 
