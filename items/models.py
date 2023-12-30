@@ -196,11 +196,15 @@ class Cart(models.Model):
 
     @classmethod
     def delete_cart_for_paid_order(cls, order):
-        if order.user:
-            cart = cls.objects.get(user=order.user)
-        else:
-            cart = cls.objects.get(session=order.session)
-        cart.delete()
+        try:
+            if order.user:
+                cart = cls.objects.get(user=order.user)
+            else:
+                cart = cls.objects.get(session=order.session)
+            cart.delete()
+            logger.debug(f'! cart was just deleted')
+        except:
+            logger.debug(f'! cart already deleted')
 
     def __str__(self):
         return f'{self.user if self.user else self.session}'

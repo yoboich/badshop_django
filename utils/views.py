@@ -15,11 +15,10 @@ from utils.services import password_reset_for_new_user
 
 @method_decorator(csrf_exempt, name='dispatch')
 def yoo_kassa_webhook_view(request):
-    print('!here - yoo_kassa_webhook_view')
     logger.debug(f'yoo_kassa request data = {request.body}')
     body_dict = json.loads(request.body)
     payment_response_id = body_dict['object']['id']
-    logger.debug(f'order_outer_id = {payment_response_id}')
+    logger.debug(f'payment_response_id = {payment_response_id}')
     status =body_dict['object']['status']
     if status == 'succeeded':
         
