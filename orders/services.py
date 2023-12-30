@@ -41,6 +41,8 @@ def create_yoo_kassa_payment(order):
     
     logger.debug(yoo_payment.__dict__)
     logger.debug(yoo_payment._PaymentResponse__confirmation.__dict__)
+    order.payment_response_id = yoo_payment._PaymentResponse__id
+    order.save()
     if yoo_payment._PaymentResponse__status == 'pending' \
     and yoo_payment._PaymentResponse__paid == False:
         return True, yoo_payment

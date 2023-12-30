@@ -18,13 +18,13 @@ def yoo_kassa_webhook_view(request):
     print('!here - yoo_kassa_webhook_view')
     logger.debug(f'yoo_kassa request data = {request.body}')
     body_dict = json.loads(request.body)
-    order_outer_id = body_dict['object']['id']
-    logger.debug(f'order_outer_id = {order_outer_id}')
+    payment_response_id = body_dict['object']['id']
+    logger.debug(f'order_outer_id = {payment_response_id}')
     status =body_dict['object']['status']
     if status == 'succeeded':
         
         try:
-            order = Order.objects.get(outer_id=order_outer_id)
+            order = Order.objects.get(payment_response_id=payment_response_id)
         except:
             logger.error("Order doesn't exist")
             return
