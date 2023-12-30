@@ -14,7 +14,7 @@ from users.models import Address
 from orders.models import TransportCompany
 
 from badshop_django.logger import logger
-from .services import create_payment
+from .services import create_yoo_kassa_payment
 
 # желательно разделить
 def update_cart_ajax(request):
@@ -101,7 +101,7 @@ def order_page_view(request):
 def save_order_data_view(request):
     if request.method == 'POST':
         order = Order.save_form_data_to_order(request)
-        payment_created, yoo_payment = create_payment(order)
+        payment_created, yoo_payment = create_yoo_kassa_payment(order)
         if payment_created:
             return redirect(
                 yoo_payment \
