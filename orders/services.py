@@ -20,6 +20,7 @@ def create_yoo_kassa_payment(order):
     logger.debug(f'order.outer_id = {order.outer_id}')
     idempotence_key = str(uuid.uuid4())
     return_url = 'https://vitanow.ru' + reverse_lazy('payment_finished')
+    logger.debug(f'order total price = {order.total_price}')
     yoo_payment = yoo_Payment.create({
             "id": order.outer_id,
             "status": "pending",
@@ -38,7 +39,6 @@ def create_yoo_kassa_payment(order):
             },
             "description": ""
         }, idempotence_key)
-    
     logger.debug(f'yoo_payment.dict - {yoo_payment.__dict__}')
     logger.debug(f'yoo_payment._PaymentResponse__confirmation.__dict__ =' \
                  f' {yoo_payment._PaymentResponse__confirmation.__dict__}'
