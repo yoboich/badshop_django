@@ -39,6 +39,7 @@ def create_yoo_kassa_payment(order):
             },
             "description": ""
         }, idempotence_key)
+    logger.debug(f'!!!')
     logger.debug(f'yoo_payment.dict - {yoo_payment.__dict__}')
     logger.debug(f'yoo_payment._PaymentResponse__confirmation.__dict__ =' \
                  f' {yoo_payment._PaymentResponse__confirmation.__dict__}'
