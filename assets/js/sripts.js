@@ -51,10 +51,12 @@ const modal = document.querySelector('.modal');
 navBurger.addEventListener('click', function() {
   modal.classList.toggle('open-modal');
   document.body.classList.toggle('modal-show');
+  document.body.style.overflow = 'hidden';
 });
 
 closeNavBurger.addEventListener('click', function() {
   modal.classList.remove('open-modal');
   document.body.classList.remove('modal-show');
+  document.body.style.overflow = 'none';
 });
 
