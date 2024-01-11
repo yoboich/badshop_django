@@ -2250,8 +2250,8 @@ input:-webkit-autofill:focus {
 
 @media (max-width: 1300px) {
     .not-login-address-user{
-        margin: -45px auto 15px;
-        width: 90%;
+        margin: -45px auto 15px !IMPORTANT;
+        width: 90% !IMPORTANT;
     }
     
     .order-form .adress-nav{
