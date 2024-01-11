@@ -1883,9 +1883,9 @@ span.large-price {
 }
 
 .user-form {
-    margin: 0 auto;
+    margin: auto auto 100px;
     text-align: center;
-    width: 100%;
+    width: 90%;
     text-align: center;
     max-width: 350px;
 }
