@@ -39,7 +39,9 @@
 
                    <div class="adress-nav">
                           <div class="adress-title">Адрес доставки</div>
+                          {%if request.user.is_authenticated%}
                           <div class="new-adress" id="openModalButton" style="padding: 9px 0px 9px 20px;color: #00b44e;background: inherit;" data-toggle="modal" data-target="#addAddressModal">Добавить адрес</div>
+                          {%endif%}
                    </div>
                         {% if addresses %}
 

@@ -3068,15 +3068,30 @@ input:-webkit-autofill:focus {
         width: 90%;
         margin: 0 auto;
     }
-    .order-form .form-radio-btn{
-        width: 50%;
-        margin: 0px 0px 2% 0px;
+    .order-form .form-radio-btn {
+        width: 100%;
+        margin: 0px 5% 2% 0px;
+        min-width: max-content;
+    }.form-radio-btn label{
+        width: 100%;
+    }
+    .order-form .promo{
+        font-size: 12px;
+    }
+    .order-form button{
+        font-size: 12px;
     }
     .order-form{
         flex-direction: column;
     }
     .header-action {
         margin: 0px 0px 0px 12px;
+    }
+    .order-form .user-input{
+        margin: 0px 0px -25px 0px;
+    }
+    .order-form h2.h2-promocode{
+        margin: 45px 0px 25px 19px!IMPORTANT;
     }
 
     .nav-actions .like-img {
