@@ -2237,6 +2237,10 @@ input:-webkit-autofill:focus {
     padding: 0px 0px 0px 0px!IMPORTANT;
 }
 
+.not-login-address-user{
+    margin: -45px 0px 25px 0px;
+}
+
 @media (max-width: 1460px) {
     .navigation a {
         font-size: 16px;
@@ -2245,6 +2249,11 @@ input:-webkit-autofill:focus {
 
 
 @media (max-width: 1300px) {
+    .not-login-address-user{
+        margin: -45px auto 15px;
+        width: 90%;
+    }
+    
     .order-form .adress-nav{
         width: 90%;
         margin: 5px auto 15px;
