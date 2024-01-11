@@ -49,18 +49,18 @@ const closeNavBurger = document.querySelector('.close-nav-burgers');
 const modal = document.querySelector('.modal-catalog');
 const closeModalCatalog = document.querySelector('.modal-close')
 
-closeModalCatalog.addEventListener('touchstart', () => {
+closeModalCatalog.addEventListener('ontouchstart', () => {
   modal.style.display = 'none'
 })
 
 
 
-navBurger.addEventListener('touchstart', function() {
+navBurger.addEventListener('ontouchstart', function() {
   modal.style.display = 'flex'
   document.body.style.overflow = 'hidden';
 });
 
-closeNavBurger.addEventListener('touchstart', function() {
+closeNavBurger.addEventListener('ontouchstart', function() {
   modal.classList.remove('open-modal');
   document.body.classList.remove('modal-show');
   document.body.style.overflow = 'none';
