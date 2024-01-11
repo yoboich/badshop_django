@@ -49,20 +49,36 @@ const closeNavBurger = document.querySelector('.close-nav-burgers');
 const modal = document.querySelector('.modal-catalog');
 const closeModalCatalog = document.querySelector('.modal-close')
 
-closeModalCatalog.addEventListener('ontouchstart', () => {
+closeModalCatalog.addEventListener('click', () => {
   modal.style.display = 'none'
 })
 
 
 
-navBurger.addEventListener('ontouchstart', function() {
+navBurger.addEventListener('click', function() {
   modal.style.display = 'flex'
   document.body.style.overflow = 'hidden';
 });
 
-closeNavBurger.addEventListener('ontouchstart', function() {
+closeNavBurger.addEventListener('click', function() {
   modal.classList.remove('open-modal');
   document.body.classList.remove('modal-show');
   document.body.style.overflow = 'none';
 });
 
+
+document.addEventListener("DOMContentLoaded", () => {
+
+
+
+
+
+
+});
+
+
+// const menu = document.getElementById('dropdown')
+// menu.addEventListener('click', () => {
+//     const el = document.getElementById('dropdownNav');
+//     el.style.display === 'none' ? el.style.display = 'block' : el.style.display = 'none';
+// })
