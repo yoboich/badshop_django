@@ -376,10 +376,11 @@ img {
 }
 
 .item-content a h2 {
-    margin: 0px 0px 12px 0px;
+    margin: 0px 0px 0px 0px;
     font-size: 15px;
     font-weight: 500;
     height: auto;
+    height: 38px;
     max-height: 2.5em;
     /* Высота блока в 3 строки */
     overflow: hidden;
@@ -923,6 +924,10 @@ img {
     width: 90%;
     padding: 12px 12px 12px 49px;
     font-weight: 700;
+    white-space: nowrap; /* Запрещаем перенос строк */
+    text-overflow: ellipsis; /* Добавляем многоточие */
+    font-size: clamp(12px, 2vw, 15px);
+    overflow: hidden;
 }
 
 /* Checked */
@@ -1231,7 +1236,7 @@ img {
 }
 
 .cabinet-content form {
-    margin: -25px auto;
+    margin: -25px auto 25px;
     width: 100%;
     max-width: 700px;
 }
@@ -1415,7 +1420,7 @@ img {
     width: 30%;
     float: left;
     margin: 0% 5% 5% 0%;
-    min-height: 28vw;
+    /* min-height: 28vw; */
 }
 
 .favorite-content .item:nth-of-type(3n) {
@@ -2206,13 +2211,107 @@ input:-webkit-autofill:focus {
     stroke: #00B44E;
 }
 
+.h2-promocode{
+    margin: 20px 20px 20px 0px !IMPORTANT;
+    font-size: 19px;
+    text-align: left;
+}
+.order-form h2{
+    font-size: 19px !IMPORTANT;
+    font-weight: 700 !IMPORTANT;
+}
+.order-form .user-input p{
+    top: 38px;
+}
+.order-form .order-user{
+    margin: -25px 0px 0px 0px;
+}
+
+.adress-title{
+    font-size: 19px;
+    font-weight: 700;
+}
+
+.transport-company-h2{
+    margin: 0px 0px 19px 0px!IMPORTANT;
+    padding: 0px 0px 0px 0px!IMPORTANT;
+}
+
 @media (max-width: 1460px) {
     .navigation a {
         font-size: 16px;
     }
 }
 
+
 @media (max-width: 1300px) {
+    .order-form .adress-nav{
+        width: 90%;
+        margin: 5px auto 15px;
+    }
+    .order-form .adress{
+        width: 90%;
+        margin: 0 auto;
+    }
+    .order-form .comment{
+        width: 90%;
+        margin: auto auto 12px;
+        padding: 12px 0px 23px 0px;
+    }
+    .order-form h2 {
+        font-weight: 500 !IMPORTANT;
+        width: 90% !IMPORTANT;
+        margin: 20px auto 20px !IMPORTANT;
+        font-size: 19px;
+    }
+    h2.transport-company-h2{
+        margin: 0px 0px 19px 23px!IMPORTANT;
+        padding: 0px 0px 0px 0px!IMPORTANT;
+    }
+    .order-form .order-user{
+        width: 90%;
+        margin: -35px auto 0px;
+    }
+    .nav-info{
+        justify-content: center;
+        text-align: center;
+        max-width: 100%;
+    }
+    .modal{
+        margin: 0 auto !IMPORTANT;
+        padding: 0 !IMPORTANT;
+        width: 100% !IMPORTANT;
+        height: max-content !IMPORTANT;
+    }
+
+    .cart-info button{
+        font-size: 12px;
+        padding: 15px 20px 15px 20px;
+    }
+    .promo input{
+        font-size: 15px;
+        padding: 15px 20px 15px 20px;
+    }
+    .promo{
+        width: 100%;
+        display: flex;
+        margin: auto auto 20px;
+    }
+
+    .order-form .promo input{
+        font-size: 15px;
+        padding: 15px 20px 15px 20px;
+    }
+    .order-form .promo{
+        width: 90%;
+        display: flex;
+        margin: auto auto 20px;
+    }
+    .order-form .bonus-pay{
+        width: 90%;
+        margin: auto auto 12px;
+    }
+
     .favorite .item-content {
         width: 100%;
     }
@@ -2230,14 +2329,72 @@ input:-webkit-autofill:focus {
         margin: 0px 0px 0px 9px;
     }
 
+    .nav-main {
+        margin: auto auto 2%!IMPORTANT;
+        width: 90% !IMPORTANT;
+    }
+    .nav-contacts{
+        display: none;
+    }
+
+    .breadcrumbs{
+        font-size: 12px;
+    }
+
+    .accordion button {
+        position: relative;
+        display: block;
+        text-align: left;
+        width: 100%;
+        padding: 12px 12px 12px 12px!IMPORTANT;
+        color: #7288a2;
+        font-size: 14px!IMPORTANT;
+        font-weight: 400;
+        border: none;
+        background: none;
+        outline: none;
+    }
+    .accordion button .icon {
+        display: inline-block;
+        position: absolute;
+        top: 12px!IMPORTANT;
+        right: 12px!IMPORTANT;
+        width: 22px;
+        height: 22px;
+        border: 1px solid;
+        border-radius: 22px;
+    }
+
+    .button-add-to-cart{
+        padding: 15px 20px 15px 20px;
+    }
+    .add-favorite-item{
+        padding: 15px 20px 15px 20px;
+    }
+
+    .content h1{
+        margin: 0px 0px 15px 0px;
+    }
+
+    .button-add-to-cart{
+        font-size: 12px;
+    }
+    .add-favorite-item{
+        font-size: 12px;
+    }
+    
     .value1 {
         margin: 0px 0px 12px 0px;
         padding: 20px 20px 20px 20px;
     }
 
     .nav-burger img {
-        height: 40px !IMPORTANT;
-        min-height: 40px !IMPORTANT;
+        height: 19px !IMPORTANT;
+        min-height: 19px !IMPORTANT;
+    }
+    
+    .nav-burger{
+        margin: 0px 8px 0px 0px;
     }
 
     .nav-burger {
@@ -2357,7 +2514,7 @@ input:-webkit-autofill:focus {
 
     .adress-title {
         font-size: 19px;
-        font-weight: 600;
+        font-weight: 500;
         display: flex;
     }
 
@@ -2402,7 +2559,7 @@ input:-webkit-autofill:focus {
     .user-input input {
         border: 2px solid #00B44E;
         border-radius: 25px;
-        padding: 12px 12px 12px 20px;
+        padding: 12px 12px 12px 20px !IMPORTANT;
         width: 100%;
         font-size: 16px;
         box-sizing: border-box;
@@ -2469,6 +2626,7 @@ input:-webkit-autofill:focus {
 
     .footer-nav {
         flex-direction: column;
+        margin: auto auto 45px;
     }
 
     .footer-contacts {
@@ -2519,12 +2677,6 @@ input:-webkit-autofill:focus {
     .nav-main:nth-of-type(4n) {
         margin: initial;
     }
-
-    .nav-main {
-        margin: 0% 2% 2% 0% !IMPORTANT;
-        width: 33.4% !IMPORTANT;
-    }
-
 
     .cabinet-layer {
         flex-direction: column;
@@ -2660,15 +2812,22 @@ input:-webkit-autofill:focus {
     }
 
     .cabinet-button svg {
-        height: 28px;
+        height: 25px;
     }
 
     .cart-button img {
-        height: 28px;
+        height: 25px;
     }
 
     .nav-phone svg {
-        height: 28px;
+        height: 25px;
+    }
+
+    .like-count{
+        font-size: 15px;
+    }
+    .cart-count{
+        font-size: 15px;
     }
 
     .nav-content {
@@ -2677,6 +2836,9 @@ input:-webkit-autofill:focus {
 
     .nav-content ul {
         margin: 0px 0px 20px 0px;
+        text-align: center;
+        margin: 0 auto !IMPORTANT;
+        padding: 0px !IMPORTANT;
     }
 
     .container {
@@ -2810,6 +2972,7 @@ input:-webkit-autofill:focus {
 
     .footer-contacts .drop-down {
         margin: 0px 0px 20px 0px;
+        margin: auto auto 20px;
         font-size: 14px;
         padding: 4px 20px 4px 20px;
         height: 40px;
@@ -2835,7 +2998,14 @@ input:-webkit-autofill:focus {
     .adaptivesearch input {
         font-size: 15px;
         padding: 9px 9px 9px 19px;
-        height: 20px;
+        height: 45px;
+    }
+    .logo img{
+        width: clamp(120px, 100%, 125px);
+    }
+
+    .like-actions img{
+        height: 25px;
     }
 
     .navigation {
@@ -2856,7 +3026,7 @@ input:-webkit-autofill:focus {
     }
 
     .cart-info {
-        padding: 20px 20px 20px 20px;
+        padding: 0px 20px 20px 20px;
         border-radius: 15px;
         border: none;
         width: 100%;
@@ -2865,6 +3035,14 @@ input:-webkit-autofill:focus {
         margin: 0px 0px 0px 0px;
         height: fit-content;
         flex-direction: column;
+    }
+    .bonus-pay{
+        margin: 0px 0px 0px 0px;
+    }.comment input{
+        font-size: 12px;
+    }
+    .nav-info img{
+        height: 35px;
     }
 
     img.like-img {
@@ -2882,6 +3060,21 @@ input:-webkit-autofill:focus {
 }
 
 @media (max-width: 999px) {
+    .order-button{
+        width: 90%;
+        margin: 0 auto;
+    }
+    .transport-company{
+        width: 90%;
+        margin: 0 auto;
+    }
+    .order-form .form-radio-btn{
+        width: 50%;
+        margin: 0px 0px 2% 0px;
+    }
+    .order-form{
+        flex-direction: column;
+    }
     .header-action {
         margin: 0px 0px 0px 12px;
     }
@@ -3075,9 +3268,53 @@ input:-webkit-autofill:focus {
 }
 
 @media (max-width: 490px) {
-    .nav-burger img {
-        height: 40px !IMPORTANT;
-        min-height: 40px !IMPORTANT;
+    .modalAddress .modal-content {
+        width: 90%;
+        max-width: 700px;
+        margin: 5vh auto!IMPORTANT;
+        background: #FFFFFF;
+        border-radius: 20px;
+        padding: 20px;
+        overflow-y: auto !IMPORTANT;
+        overflow: hidden;
+        height: max-content;
+    }
+
+    .cabinet-nav-main a img {
+        margin: 0px 0px 13px 0px;
+        height: 45px;
+    }
+    .cabinet-nav-main a{
+        width: 100%!IMPORTANT;
+    }
+    .order-form{
+        padding: 0px 0px 0px 0px!IMPORTANT;
+    }
+    .transport-company{
+        display: flex;
+        overflow-x: scroll;
+        padding-bottom: 12px;
+        width: 100%;
+        padding: 0px 0px 12px 5%;
+    }
+    .item-count{
+        align-items: flex-end;
+        flex-direction: column;
+    }
+    .number {
+        user-select: none;
+        position: relative;
+        text-align: left;
+        padding: 0;
+        width: 140px;
+        max-height: fit-content;
+        display: inline-block;
+        border: none;
+        border-radius: 20px;
+        margin: auto;
+        background: #edf0f2;
+        margin-left: 0px !IMPORTANT;
+        margin: 0px 0px 12px 0px!IMPORTANT;
     }
 
     .catalog-link:nth-of-type(2n) .catalog-item {

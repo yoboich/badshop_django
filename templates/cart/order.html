@@ -12,7 +12,7 @@
         <h1 style="margin: 0px 0px 20px 0px">{{ title }}</h1>
 
 
-        <form action="{% url 'save_order_data' %}" method='POST' style="display: flex;box-shadow: 0 8px 24px 0 rgb(8 9 112 / 9%);border-radius: 20px;padding:0px 0px 60px 0px;">
+        <form action="{% url 'save_order_data' %}" class="order-form" method='POST' style="display: flex;box-shadow: 0 8px 24px 0 rgb(8 9 112 / 9%);border-radius: 20px;padding:0px 0px 60px 0px;">
             {% csrf_token %}
             <div class="cart-items" style="min-height: 700px;box-shadow: none;width:100%;">
             <div class="order-list">
@@ -21,7 +21,7 @@
              <!------
              ТРАСПОРТНЫЕ КОМПАНИИ
              ----->
-
+                <h2 class="transport-company-h2">Способ доставки</h2>
                  <div class="transport-company">
                     {% for transport_company in transport_companies %}
                         <div class="form-radio-btn">
@@ -126,7 +126,7 @@
                 ПРОМОКОД
                 ----->
 
-                <h2 style="margin: 0px 0px 20px 0px;font-size: 24px;font-weight: 600;">Промокод</h2><div class="promo">
+                <h2 class="h2-promocode" style="margin: 0px 0px 20px 0px;font-size: 24px;font-weight: 600;">Промокод</h2><div class="promo">
 
                 <input type="text" placeholder="Введите промокод">
                 <button style="    width: 100%;
