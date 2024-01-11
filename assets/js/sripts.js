@@ -54,11 +54,13 @@ closeModalCatalog.addEventListener('click', () => {
 })
 
 
+function openCatalogModal(){
+  navBurger.addEventListener('click', function() {
+    modal.style.display = 'flex'
+    document.body.style.overflow = 'hidden';
+  });
+}
 
-navBurger.addEventListener('click', function() {
-  modal.style.display = 'flex'
-  document.body.style.overflow = 'hidden';
-});
 
 closeNavBurger.addEventListener('click', function() {
   modal.classList.remove('open-modal');
