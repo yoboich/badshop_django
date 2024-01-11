@@ -53,6 +53,16 @@ https://cdn.jsdelivr.net/npm/owl.carousel@2.3.4/dist/assets/owl.carousel.min.css
             <input type="search" name="search" id='search-query-field' placeholder="Название товара, категория, симптомы">
           </form>
        </div>
+       
+       <script>
+          var searchField = document.getElementById('search-query-field');
+
+          searchField.addEventListener("keypress", function(event) {
+          if (event.keyCode === 13) {
+          this.parentNode.submit();
+          }
+          });
+       </script>
 
       <div class="nav-actions">
           <a href="{% url 'favorite' %}">
