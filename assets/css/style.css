@@ -3428,6 +3428,8 @@ input:-webkit-autofill:focus {
     border-style: none;
     margin-left: 0px !IMPORTANT;
     margin-right: 0px !IMPORTANT;
+    overflow-y: auto!IMPORTANT;
+    height: 100vh!IMPORTANT;
 }
 .modal-content{
     width: 90% !important;
