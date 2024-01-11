@@ -3430,6 +3430,9 @@ input:-webkit-autofill:focus {
     margin-right: 0px !IMPORTANT;
     overflow-y: auto!IMPORTANT;
     height: 100vh!IMPORTANT;
+    height: 97vh!IMPORTANT;
+    height: max-content!IMPORTANT;
+    min-height: max-content!IMPORTANT;
 }
 .modal-content{
     width: 90% !important;
