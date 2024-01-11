@@ -143,6 +143,7 @@ img {
     min-height: 25px !IMPORTANT;
     max-width: 25px !IMPORTANT;
     width: 25px !IMPORTANT;
+    cursor: pointer;
 }
 
 .logo:hover {
