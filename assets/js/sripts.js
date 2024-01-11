@@ -44,13 +44,19 @@ window.addEventListener('scroll', function() {
   }
 });
 
-const navBurger = document.querySelector('.nav-burger');
-const closeNavBurger = document.querySelector('.close-nav-burger');
-const modal = document.querySelector('.modal');
+const navBurger = document.querySelector('.nav-burgers');
+const closeNavBurger = document.querySelector('.close-nav-burgers');
+const modal = document.querySelector('.modal-catalog');
+const closeModalCatalog = document.querySelector('.modal-close')
+
+closeModalCatalog.addEventListener('click', () => {
+  modal.style.display = 'none'
+})
+
+
 
 navBurger.addEventListener('click', function() {
-  modal.classList.toggle('open-modal');
-  document.body.classList.toggle('modal-show');
+  modal.style.display = 'flex'
   document.body.style.overflow = 'hidden';
 });
 
