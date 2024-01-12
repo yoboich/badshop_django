@@ -52,7 +52,7 @@ def yoo_kassa_webhook_view(request):
             order.user = user
             order.save()
 
-        user.bonus_wallet.balance += order.total_bonus_points()
+        user.bonus_points += order.total_bonus_points()
 
         message = f'Ура! Ваш платеж прошел успешно. Скоро мы доставим ваши покупки.'
         title = f'Ваша покупка на Vitanow'

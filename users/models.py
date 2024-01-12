@@ -12,7 +12,6 @@ from django.utils import timezone
 from django.db.models.signals import post_save
 
 from badshop_django.logger import logger
-
 from .managers import CustomUserManager
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
@@ -30,6 +29,11 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField(_('super user'), default=False, blank=True, null=True)
     date_joined = models.DateTimeField(u'date joined', blank=True, null=True, default=timezone.now)
     last_login = models.DateTimeField(u'last login', blank=True, null=True)
+
+    bonus_points = models.FloatField(
+        verbose_name='Бонусные баллы',
+        default=0,
+    )
 
     ADMINISTRATOR = 'AD'
     MANAGER = 'OA'
@@ -109,7 +113,7 @@ class Address(models.Model):
 # ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ С ДОПОЛНИТЕЛЬНОЙ ИНФОРМАЦИЕЙ #
 class Profile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    
+
     def __str__(self):
         return f" {self.user.first_name} {self.user.last_name}"
 
