@@ -2300,8 +2300,57 @@ input:-webkit-autofill:focus {
     }
 }
 
+.open-catalog-filter{
+    display: none;
+}
+
+.close-catalog-filter{
+    position: absolute;
+    font-size: 25px;
+    color: #000;
+    right: 5%;
+    top: 2.5%;
+    display: none;
+}
 
 @media (max-width: 1300px) {
+    .close-catalog-filter{
+        display: flex;
+        cursor: pointer;
+        z-index: 999999999;
+    }
+    .open-catalog-filter{
+        display: flex;
+        cursor: pointer;
+        font-weight: 700;
+        font-size: 19px;
+        color: #00B44E;
+        margin: 0px 0px 20px 0px;
+    }
+    .catalog-filters {
+        min-width: 300px;
+        padding: 20px 20px 20px 20px;
+        border-radius: 15px;
+        border: 1px solid #00B44E;
+        max-width: 100%;
+        margin: 0vw 1vw 0vw 0vw;
+        height: fit-content;
+        width: 100%;
+        height: 100vh;
+        margin: 0 auto;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 9999999;
+        background-color: #FFFFFF;
+        border-radius: 0;
+        border: 0;
+        display: none;
+    }
+    .catalog-filters-form-pc{
+        width: 100%;
+    }    
     .not-login-address-user{
         margin: -45px auto 15px !IMPORTANT;
         width: 90% !IMPORTANT;
@@ -2802,13 +2851,13 @@ input:-webkit-autofill:focus {
         max-height: 140px;
     }
 
-    .catalog-filters-form-pc {
+    /* .catalog-filters-form-pc {
         display: none;
     }
 
     .catalog-filters {
         border: none;
-    }
+    } */
 
     .item-content-layout {
         flex-direction: column;
