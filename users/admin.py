@@ -33,6 +33,7 @@ class CustomUserAdmin(UserAdmin):
             'patronymic',
             'photo',
             'phone',
+            'bonus_points',
         )}),
         ('Permissions', {
             'fields': ('is_superuser', 'ban', 'type', 'is_staff', 'is_active',)}),
