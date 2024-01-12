@@ -79,6 +79,10 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     def get_absolute_url(self):
         return reverse('user_info', kwargs={'user_id': self.id})
+    
+    def save(self, *args, **kwargs):
+        self.my_float = round(self.my_float, 2)
+        super(CustomUser, self).save(*args, **kwargs)
 
 class Address(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
