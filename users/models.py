@@ -58,7 +58,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     @classmethod
     def create_account_for_unathourized_user(cls, email):
         try:
-            user = CustomUser.objects.get(email=email)
+            user = cls.objects.get(email=email)
             created = False
             logger.debug(f'!account for user - {CustomUser.objects.get(email=email)}')
             logger.debug(f'!created - {created}')
