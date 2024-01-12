@@ -51,11 +51,13 @@ def yoo_kassa_webhook_view(request):
                 password_reset_for_new_user(request, order.email)
             order.user = user
             order.save()
-        logger.debug(f'order.total_bonus_points = {order.total_bonus_points()}')
-        user.bonus_points += order.total_bonus_points()
+        logger.debug(f'order.total_bonus_points = {order.total_bonus_points}')
+        user.bonus_points += order.total_bonus_points
         user.save()
+
         logger.debug(f'user = {user}')
         logger.debug(f'bonus_points = {user.bonus_points}')
+
         message = f'Ура! Ваш платеж прошел успешно. Скоро мы доставим ваши покупки.'
         title = f'Ваша покупка на Vitanow'
         email = EmailMessage(title, message, "no-reply@vitanow.ru", [order.email])
