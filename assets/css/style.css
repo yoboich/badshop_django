@@ -2288,7 +2288,7 @@ input:-webkit-autofill:focus {
 .modal-close{
     position: absolute;
     right: 5%;
-    top: 3.5%;
+    top: 2.5%;
     font-size: 25px;
     font-weight: 500;
     cursor: pointer;
