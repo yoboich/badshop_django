@@ -183,6 +183,7 @@ class Order(models.Model):
             form['patronymic']
             )))
         order.email = form['email']
+        order.comment = form['comment']
         order.save()
         return order
 
