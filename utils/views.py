@@ -49,6 +49,10 @@ def yoo_kassa_webhook_view(request):
                 )
             if created:
                 password_reset_for_new_user(request, order.email)
+            order.user = user
+            order.save()
+
+        user.bonus_wallet.balance += order.total_bonus_points()
 
         message = f'Ура! Ваш платеж прошел успешно. Скоро мы доставим ваши покупки.'
         title = f'Ваша покупка на Vitanow'

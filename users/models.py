@@ -109,7 +109,7 @@ class Address(models.Model):
 # ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ С ДОПОЛНИТЕЛЬНОЙ ИНФОРМАЦИЕЙ #
 class Profile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-
+    
     def __str__(self):
         return f" {self.user.first_name} {self.user.last_name}"
 

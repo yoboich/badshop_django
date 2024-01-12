@@ -26,7 +26,11 @@ class Item(models.Model):
     category = models.ForeignKey('Category', blank=True, null=True, on_delete=models.CASCADE, verbose_name="Категория")
     brend = models.ForeignKey('Brend', blank=True, null=True, on_delete=models.CASCADE, verbose_name="Бренд")
 
-    bonus_percentage = models.DecimalField(max_digits=5, decimal_places=2, default=15, verbose_name="Процент бонусных баллов", blank=True, null=True)
+    bonus_percentage = models.FloatField(
+        default=15, 
+        verbose_name="Процент бонусных баллов", 
+        blank=True, null=True
+        )
 
     def sale_price(self):
         return self.price * ((100 - self.discount) / 100)

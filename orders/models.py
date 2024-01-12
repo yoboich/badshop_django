@@ -2,7 +2,7 @@ import uuid
 
 from django.contrib.sessions.models import Session
 from django.db import models
-from django.db.models import Sum, F, FloatField
+from django.db.models import Sum, F, FloatField, Value
 
 from balance.models import PromoCode
 from items.models import CartItem, Cart
@@ -163,6 +163,7 @@ class Order(models.Model):
     
     @classmethod
     def save_form_data_to_order(cls, request):
+        '''Сохраняем данные из формы заказа в заказ'''
         order = cls.get_current_user_order(request)
         form = request.POST
         if 'radio-transport' in form:
@@ -190,6 +191,23 @@ class Order(models.Model):
         cls.remove_current_user_unpaid_orders(request)
         cls.create_order_for_current_user(request)
         cls.add_cart_items_to_order(request)
+
+    @property
+    def total_bonus_points(self):
+        total_bonus_points = OrderItem.objects \
+            .filter(order=self) \
+            .aggregate(
+                total=Sum(
+                    F('price') \
+                    * F('quantity') \
+                    * F('bonus_percentage') \
+                    / Value(100), 
+                output_field=FloatField()
+                ))['total']
+        return total_bonus_points
+
+    def total_bonus_in_order(self):
+        pass
 
     class Meta:
         verbose_name = 'Заказ'

@@ -11,10 +11,25 @@ from users.models import CustomUser
 
 # Модель для промокодов
 class PromoCode(models.Model):
-    code = models.CharField(max_length=20, unique=True, verbose_name="Промокод")
-    valid_from = models.DateTimeField(verbose_name="Действителен с", null=True, blank=True)
-    valid_to = models.DateTimeField(verbose_name="Действителен до", null=True, blank=True)
-    seil = models.IntegerField(default=0, max_length=3, verbose_name="Скидка в %")
+    code = models.CharField(
+        max_length=20, 
+        unique=True, 
+        verbose_name="Промокод"
+        )
+    valid_from = models.DateTimeField(
+        verbose_name="Действителен с", 
+        null=True, blank=True
+        )
+    valid_to = models.DateTimeField(
+        verbose_name="Действителен до", 
+        null=True, blank=True
+        )
+    sale = models.IntegerField(
+        default=0, 
+        max_length=3, 
+        verbose_name="Скидка в %"
+        )
+    
     def __str__(self):
         return self.code
 
@@ -28,8 +43,15 @@ class PromoCode(models.Model):
 
 
 class BonusWallet(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='bonus_wallet')
-    balance = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='Balance')
+    user = models.OneToOneField(
+        CustomUser, 
+        on_delete=models.CASCADE, 
+        related_name='bonus_wallet'
+        )
+    balance = models.FloatField(
+        default=0, 
+        verbose_name='Balance'
+        )
 
     def __str__(self):
         return f'Bonus Wallet for {self.user.email}'
