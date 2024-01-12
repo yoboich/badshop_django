@@ -21,6 +21,7 @@ class CustomUserAdmin(UserAdmin):
         'is_staff',
         'is_active',
         'phone',
+        'bonus_points',
     )
     list_filter = ('email', 'is_staff', 'is_active',)
     fieldsets = (
