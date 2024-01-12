@@ -200,7 +200,7 @@ class Order(models.Model):
                 total=Sum(
                     F('price') \
                     * F('quantity') \
-                    * F('bonus_percentage') \
+                    * F('item__bonus_percentage') \
                     / Value(100), 
                 output_field=FloatField()
                 ))['total']
