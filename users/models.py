@@ -67,6 +67,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
                 )
             created = True
             logger.debug(f'user created - {user}')
+        logger.debug(f'account for user - {user}')
+        logger.debug(f'created - {created}')
         return user, created
 
 
