@@ -60,7 +60,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         try:
             user = CustomUser.objects.get(email=email)
             created = False
-            logger.debug(f'!account for user - {user}')
+            logger.debug(f'!account for user - {CustomUser.objects.get(email=email)}')
             logger.debug(f'!created - {created}')
             logger.debug(f'this email already in use - {user}')
         except:
