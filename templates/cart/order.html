@@ -124,40 +124,9 @@
             </div>
              </div>
 
-                <!------
-                ПРОМОКОД
-                ----->
-
-                <h2 class="h2-promocode" style="margin: 0px 0px 20px 0px;font-size: 24px;font-weight: 600;">Промокод</h2><div class="promo">
-
-                <input type="text" placeholder="Введите промокод">
-                <button style="    width: 100%;
-                border-radius: 35px;
-                background-color: #00B44E;
-                color: #FFFFFF;
-                text-align: center;
-                border: none;
-                padding: 20px 20px 20px 20px;
-                font-weight: 700;
-                cursor: pointer;border-radius: 0px 15px 15px 0px;max-width: 200px;">ПРИМЕНИТЬ</button>
-               </div>
 
 
-
-            <!--------
-            БОНУСЫ
-            ------->
-
-              <div class="bonus-pay">
-                <div class="bonus">
-                  <input type="checkbox">
-                  <label for="">Оплатить бонусами</label>
-                </div>
-                <p>Доступно {{balance}} бонусов</p>
-              </div>
-
-
-                <button type="submit" class="order-button">ОФОРМИТЬ ЗАКАЗ</button>
+                <button type="submit" class="order-button mt-5">ОФОРМИТЬ ЗАКАЗ</button>
         </div>
 
             
@@ -168,20 +137,21 @@
 
             <div class="cart-info">
                 <h2>Ваш заказ</h2>
+                
               <div class="cart-price">
                 <div class="count">
                   <span>
-                    Товары( {{ total_quantity }} )
+                    Товары( {{ order.total_quantity }} )
                   </span>
                 </div>
                 <div class="sail">
-                  Скидка <span>{{ total_discount }} ₽</span>
+                  Скидка <span>{{ order.total_discount }} ₽</span>
                 </div>
                   <div class="bonus-total">
                       Бонусы
                   </div>
                 <div class="summa">
-                  Итого <span>{{ total }} ₽</span>
+                  Итого <span>{{ order.total_price }} ₽</span>
                 </div>
               </div>
             </div>

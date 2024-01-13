@@ -83,7 +83,8 @@ def order_page_view(request):
         
 
 
-    Order.create_new_order_for_current_user(request)
+    order = Order.create_new_order_for_current_user(request)
+    print(order)
     if request.user.is_authenticated:
         addresses = Address.objects.filter(user=request.user)
     else: 
@@ -94,6 +95,7 @@ def order_page_view(request):
         'addresses': addresses,
         'transport_companies': TransportCompany.objects.all(),
         'address_form': address_form,
+        'order': order,
     }
     return render(request, 'cart/order.html', context)
 

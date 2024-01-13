@@ -32,11 +32,13 @@
                 <button>ПРИМЕНИТЬ</button>
               </div>
               <div class="bonus-pay">
+                {% if request.user.is_authenticated %}
                 <div class="bonus">
-                  <input type="checkbox">
+                  <input id='bonus-pay-checkbox' type="checkbox">
                   <label for="">Оплатить бонусами</label>
                 </div>
-                <p>Доступно {{balance}} бонусов</p>
+                <p>Доступно {{user.bonus_points}} бонусов</p>
+                {% endif %}
               </div>
   
               <div class="cart-price">
@@ -118,7 +120,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-
+  function bonus_pay_checkbox(){
+    $.ajax({
+      
+    })
+  }
 
 
       

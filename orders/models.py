@@ -113,6 +113,19 @@ class Order(models.Model):
         print('!', total)
         return total or 0
     
+    @property
+    def total_quantity(self):
+        return sum(
+            [item.quantity for item in self.orderitem_set.all()]
+            )
+    
+    @property
+    def total_discount(self):
+        return sum(
+            item.item.price * item.item.discount / 100 * item.quantity 
+            for item in self.orderitem_set.all()
+            )
+    
     @classmethod
     def create_order_for_current_user(cls, request):
         filter_dict = create_user_or_session_filter_dict(
@@ -190,8 +203,9 @@ class Order(models.Model):
     @classmethod
     def create_new_order_for_current_user(cls, request):
         cls.remove_current_user_unpaid_orders(request)
-        cls.create_order_for_current_user(request)
+        order = cls.create_order_for_current_user(request)
         cls.add_cart_items_to_order(request)
+        return order
 
     @property
     def total_bonus_points(self):

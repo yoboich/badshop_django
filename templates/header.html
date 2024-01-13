@@ -35,7 +35,10 @@ https://cdn.jsdelivr.net/npm/owl.carousel@2.3.4/dist/assets/owl.carousel.min.css
         <h2 style="font-size: 19px;font-weight: 700;margin: 20px 0px 20px 20px;">Каталог</h2>
       <ul>
         {%for i in categories %}
-        <li><a href="{% url 'filter_catalog_view' %}?category={{i.id}}"><img src="{{ i.image.url }}" /> {{ i.title }}</a></li>
+        <li><a href="{% url 'filter_catalog_view' %}?category={{i.id}}">
+          {% if category.image %}
+          <img src="{{ i.image.url }}" /> {{ i.title }}</a></li>
+          {% endif %}
         {%endfor%}
       </ul>
       <a class="modal-user-link" href="#" style="width: 95%;margin: 0 auto;display:flex;justify-content: center;margin: auto auto 25px;">
