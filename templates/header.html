@@ -36,7 +36,7 @@ https://cdn.jsdelivr.net/npm/owl.carousel@2.3.4/dist/assets/owl.carousel.min.css
       <ul>
         {%for i in categories %}
         <li><a href="{% url 'filter_catalog_view' %}?category={{i.id}}">
-          {% if category.image %}
+          {% if i.image %}
           <img src="{{ i.image.url }}" /> {{ i.title }}</a></li>
           {% endif %}
         {%endfor%}
