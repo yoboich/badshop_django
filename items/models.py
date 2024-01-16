@@ -9,6 +9,8 @@ from badshop_django.logger import logger
 from balance.models import PromoCode
 from users.models import CustomUser
 from utils.services import get_current_session, create_user_or_session_filter_dict
+from .model_methods.cart_methods import CartMethodsMixin
+from orders.model_methods.discount_methods import DiscountMethodsMixin
 
 
 # Create your models here.
@@ -17,7 +19,7 @@ class Item(models.Model):
     name = models.CharField(max_length=200, verbose_name="Название товара")
     image = models.ImageField(upload_to="items/%Y/%m/%d/", blank=True, null=True, verbose_name="Изображение товара")
     price = models.IntegerField(default=0, blank=True, null=True, verbose_name="Цена товара")
-    discount = models.IntegerField(default=0, blank=True, null=True, verbose_name="Скидка")
+    discount = models.IntegerField(default=0, blank=True, null=True, verbose_name="Скидка %")
     # seil_price = models.IntegerField(default=0, blank=True, null=True, verbose_name="Цена со скидкой")
     rating = models.IntegerField(default=0, blank=True, null=True, verbose_name="Рэйтинг")
     text = RichTextField(blank=True, null=True, verbose_name="Описание товара")
@@ -28,12 +30,15 @@ class Item(models.Model):
 
     bonus_percentage = models.FloatField(
         default=15, 
-        verbose_name="Процент бонусных баллов", 
-        blank=True, null=True
+        verbose_name="Процент бонусных баллов"
         )
 
+    def item_discount(self):
+        return int(self.price * self.discount / 100)
+
+    @property
     def sale_price(self):
-        return self.price * ((100 - self.discount) / 100)
+        return int(self.price - self.item_discount())
 
     def calculate_bonus_points(self, purchase_amount):
         return int((self.bonus_percentage / 100) * purchase_amount)
@@ -132,7 +137,7 @@ class CartItem(models.Model):
     # promocode = models.ForeignKey(PromoCode, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Промокод')
 
     def total_price_with_discount(self):
-        return self.item.sale_price() * self.quantity
+        return self.item.sale_price * self.quantity
     
     class Meta:
         unique_together = ('cart', 'item')
@@ -143,73 +148,13 @@ class CartItem(models.Model):
         return self.item.name
 
 
-class Cart(models.Model):
+class Cart(CartMethodsMixin, DiscountMethodsMixin, models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True,)
     session = models.ForeignKey(Session, on_delete=models.CASCADE, blank=True, null=True,)
     # items = models.ManyToManyField(CartItem, verbose_name='Товары в корзине', through='CartItem')  # Множество элементов корзины
     promocode = models.ForeignKey(PromoCode, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Промокод')
 
-    def distinct_items_count(self):
-        return self.cartitem_set.count()
-
-    def total_quantity(self):
-        return sum([item.quantity for item in self.cartitem_set.all() if item.is_active])
-
-    def items_price_without_discount(self):
-        return sum(item.item.price * item.quantity for item in self.cartitem_set.all() if item.is_active)
     
-    def total_discount(self):
-        return sum(item.item.price * item.item.discount / 100 * item.quantity 
-                   for item in self.cartitem_set.all()
-                   if item.is_active
-                   )
-    
-    def total_price(self):
-        total_original_price = self.items_price_without_discount()
-        total_discount = self.total_discount()
-        if self.promocode:
-            total_discount += total_original_price * (self.promocode.discount_percent / 100)
-        return total_original_price - total_discount
-
-    @classmethod
-    def get_or_create_cart(csl, request, user=None):
-        if user:
-            cart, created = Cart.objects.get_or_create(
-                user=user
-                )
-            return cart
-
-        filter_dict = create_user_or_session_filter_dict(
-            request
-            )
-        
-        if filter_dict != {}:
-            cart, created = Cart.objects.get_or_create(
-                **filter_dict
-                    )
-
-            logger.debug(f'cart = {cart}')
-            return cart
-        
-        return 
-
-    @classmethod
-    def delete_current_user_cart(cls, request):
-        cart = cls.get_or_create_cart(request)
-        cart.delete()
-
-    @classmethod
-    def delete_cart_for_paid_order(cls, order):
-        try:
-            if order.user:
-                cart = cls.objects.get(user=order.user)
-            else:
-                cart = cls.objects.get(session=order.session)
-            cart.delete()
-            logger.debug(f'! cart was just deleted')
-        except:
-            logger.debug(f'! cart already deleted')
-
     def __str__(self):
         return f'{self.user if self.user else self.session}'
 

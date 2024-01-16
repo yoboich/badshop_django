@@ -12,7 +12,7 @@ class CertificateImageInline(admin.TabularInline):  # или `admin.TabularInlin
 
 class ItemAdmin(admin.ModelAdmin):
     inlines = (CertificateImageInline,)
-    list_display = ('name', 'price')
+    list_display = ('name', 'price', 'discount', 'bonus_percentage', 'sale_price')
     list_filter = ('name', 'price')
     search_fields = ('name', 'price')
 
@@ -28,7 +28,7 @@ class FavoriteItemAdmin(admin.ModelAdmin):
 
 @admin.register(Cart)
 class CartAdmin(admin.ModelAdmin):
-    list_display = ('user', 'session', 'total_price')
+    list_display = ('user', 'session',)
 
 @admin.register(CartItem)
 class CartItemAdmin(admin.ModelAdmin):

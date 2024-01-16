@@ -1,5 +1,7 @@
 {% extends 'default.html' %}
 
+{% load static extra_tags %}
+
 {% block content %}
 
 {#sdfdsf#}
@@ -49,17 +51,21 @@
                       <span id="total-price-without-discount">{{ cart.items_price_without_discount }}</span><span> ₽</span>
                     </div>
                 </div>
-                <div class="sail">
-                  <div>Скидка</div> 
-                  <div>
-                      <span id="total-discount">{{ cart.total_discount }}</span>
-                      <span> ₽</span>
-                    </div>
+                  <div class="sale d-flex justify-content-between">
+                    Скидка на товары<span>{{ cart.items_discount|floatformat }} ₽</span>
+                  </div>
+                  <div class="bonus-total d-flex justify-content-between">
+                    Скидка за промокод <span>{{cart.promocode_discount}} ₽</span>
                 </div>
+                {% if request.user.is_authenticated %}
+                  <div class="bonus-total d-flex justify-content-between">
+                      Скидка за бонусы <span>{{cart.max_bonus_points_to_use}} ₽</span>
+                  </div>
+                {% endif %}
                 <div class="summa">
                   <div>Итого</div> 
                   <div>
-                    <span id="total-price">{{ cart.total_price }}</span>
+                    <span id="total-price">{{ cart|get_items_price_with_bonuses:request }}</span>
                     <span> ₽</span>
                   </div>
                 </div>

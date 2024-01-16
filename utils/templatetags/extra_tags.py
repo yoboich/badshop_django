@@ -48,3 +48,9 @@ def get_cart_items(request):
         .filter(cart=cart) \
         .values_list('item', flat=True)
     return cart_items
+
+
+@register.filter
+def get_items_price_with_bonuses(obj, request):
+    print
+    return obj.items_price_with_bonuses(request)

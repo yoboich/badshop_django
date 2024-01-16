@@ -22,6 +22,27 @@ def create_yoo_kassa_payment(order):
     return_url = 'https://vitanow.ru' + reverse_lazy('payment_finished')
     logger.debug(f'order total price = {order.total_price}')
     # items_list = create_items_list_for_yookass_receipt()
+    items = order.orderitem_set.all()
+    receipt_items = []
+    # get_order_item_final_price
+    for item in items:
+        {
+        "description": item.item.name,
+        "quantity": item.quantity,
+        "amount": {
+            "value": item.quantity * item.price,
+            "currency": "RUB"
+        },
+        "vat_code": "3",
+        "payment_mode": "full_prepayment",
+        "payment_subject": "marked",
+        "mark_mode": "0",
+        "mark_code_info":
+            {
+                "gs_1m": "DFGwNDY0MDE1Mzg2NDQ5MjIxNW9vY2tOelDFuUFwJh05MUVFMDYdOTJXK2ZaMy9uTjMvcVdHYzBjSVR3NFNOMWg1U2ZLV0dRMWhHL0UrZi8ydkDvPQ=="
+            },
+        "measure": "piece"
+    }
     yoo_payment = yoo_Payment.create({
             "id": order.outer_id,
             "status": "pending",
@@ -50,7 +71,7 @@ def create_yoo_kassa_payment(order):
                             "value": order.total_price,
                             "currency": "RUB"
                         },
-                        "vat_code": "4",
+                        "vat_code": "3",
                         "payment_mode": "full_prepayment",
                         "payment_subject": "marked",
                         "mark_mode": "0",

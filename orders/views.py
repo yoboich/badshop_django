@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.core.mail import EmailMessage
 
 from items.models import CartItem, Cart, Item
-from items.services import get_cart_data
+from items.services.services import get_cart_data
 from users.forms import AddressForm
 from users.models import Address
 from orders.models import TransportCompany
@@ -84,12 +84,10 @@ def order_page_view(request):
 
 
     order = Order.create_new_order_for_current_user(request)
-    print(order)
     if request.user.is_authenticated:
         addresses = Address.objects.filter(user=request.user)
     else: 
         addresses = []
-
     context = {
         'title': 'Оформление заказа',
         'addresses': addresses,

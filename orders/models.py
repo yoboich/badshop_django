@@ -7,9 +7,12 @@ from django.db.models import Sum, F, FloatField, Value
 from balance.models import PromoCode
 from items.models import CartItem, Cart
 from users.models import CustomUser, Address
-from utils.services import create_user_or_session_filter_dict
 
 from badshop_django.logger import logger
+
+from .model_methods.order_methods import OrderMethodsMixin
+from .model_methods.discount_methods import DiscountMethodsMixin
+
 
 
 # Create your models here.
@@ -17,7 +20,12 @@ class OrderItem(models.Model):
     order = models.ForeignKey('Order', on_delete=models.CASCADE)
     item = models.ForeignKey('items.item', on_delete=models.PROTECT, )
     quantity = models.IntegerField()
-    price = models.FloatField(null=True, blank=True)
+    price = models.FloatField(
+        null=True, blank=True
+        )
+    sale_price = models.IntegerField(
+        null=True, blank=True
+        )
     
     class Meta():
         verbose_name = 'Единица заказа'
@@ -27,7 +35,7 @@ class OrderItem(models.Model):
         return f'{self.order} - {self.item}'
     
 
-class Order(models.Model):
+class Order(OrderMethodsMixin, DiscountMethodsMixin, models.Model):
     user = models.ForeignKey(
         CustomUser, 
         on_delete=models.CASCADE, 
@@ -101,129 +109,15 @@ class Order(models.Model):
         editable=False,
         null=True, blank=True
     )
-    
-    @property
-    def total_price(self):
-        total = OrderItem.objects \
-            .filter(order=self) \
-            .aggregate(
-                total=Sum(F('price') * F('quantity'), 
-                output_field=FloatField()
-                ))['total']
-        print('!', total)
-        return total or 0
-    
-    @property
-    def total_quantity(self):
-        return sum(
-            [item.quantity for item in self.orderitem_set.all()]
-            )
-    
-    @property
-    def total_discount(self):
-        return sum(
-            item.item.price * item.item.discount / 100 * item.quantity 
-            for item in self.orderitem_set.all()
-            )
-    
-    @classmethod
-    def create_order_for_current_user(cls, request):
-        filter_dict = create_user_or_session_filter_dict(
-            request
-            )
-        order = Order.objects.create(
-            **filter_dict,  
-            status='NP'
+
+    promocode = models.ForeignKey(
+        to='balance.PromoCode', 
+        verbose_name='Промокод',
+        on_delete=models.PROTECT, 
+        null=True, blank=True,
         )
 
-        return order
     
-    @classmethod
-    def remove_current_user_unpaid_orders(cls, request):
-        filter_dict = create_user_or_session_filter_dict(
-            request
-            )
-        not_paid_orders = Order.objects.filter(
-            **filter_dict,
-            status='NP'
-        )
-        for order in not_paid_orders:
-            order.status = 'NA'
-            order.save()
-
-    @classmethod
-    def get_current_user_order(cls, request):
-        filter_dict = create_user_or_session_filter_dict(
-            request
-            )
-        order, _ = Order.objects.get_or_create(
-            **filter_dict,  
-            status='NP'
-        )
-        return order
-
-    @classmethod
-    def add_cart_items_to_order(cls, request):
-        cart = Cart.get_or_create_cart(request)
-        order = cls.get_current_user_order(request)
-        for cart_item in cart.cartitem_set.all():
-            OrderItem.objects.create(
-                order=order,
-                item=cart_item.item,
-                price=cart_item.item.sale_price(),
-                quantity=cart_item.quantity
-            )
-    
-    @classmethod
-    def save_form_data_to_order(cls, request):
-        '''Сохраняем данные из формы заказа в заказ'''
-        order = cls.get_current_user_order(request)
-        form = request.POST
-        if 'radio-transport' in form:
-            order.transport_company=TransportCompany.objects.get(
-                id=form['radio-transport']
-                )
-        if 'radio-address' in form:
-            address = Address.objects.get(
-                id=form['radio-address']
-                )
-            order.delivery_address = address.full_address()
-        else:
-            order.delivery_address = form['address']
-        order.full_name = ' '.join(filter(None, (
-            form['first_name'], 
-            form['last_name'], 
-            form['patronymic']
-            )))
-        order.email = form['email']
-        order.comment = form['comment']
-        order.save()
-        return order
-
-    @classmethod
-    def create_new_order_for_current_user(cls, request):
-        cls.remove_current_user_unpaid_orders(request)
-        order = cls.create_order_for_current_user(request)
-        cls.add_cart_items_to_order(request)
-        return order
-
-    @property
-    def total_bonus_points(self):
-        total_bonus_points = OrderItem.objects \
-            .filter(order=self) \
-            .aggregate(
-                total=Sum(
-                    F('price') \
-                    * F('quantity') \
-                    * F('item__bonus_percentage') \
-                    / Value(100), 
-                output_field=FloatField()
-                ))['total']
-        return total_bonus_points
-
-    def total_bonus_in_order(self):
-        pass
-
     class Meta:
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'

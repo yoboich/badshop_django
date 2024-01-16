@@ -5,7 +5,7 @@ from django.contrib.auth.views import (
 )
 
 from blog.views import blog, blogPage
-from index.views import index, catalog_categories, item, brends, pay, sail, salePage, about, partners, \
+from index.views import index, catalog_categories, item, brends, pay, sale, salePage, about, partners, \
     contacts, cabinet, cart, my_data, myadress, \
     delete_address, edit_myaddress, favorite, CustomUserPasswordChangeView, toggle_favorites, toggle_cart, \
     get_cart_count, filter_catalog_view, historyOrders, MyBonus
@@ -34,7 +34,7 @@ urlpatterns = [
 
     path('brends/', brends, name="brends"),
     path('pay/', pay, name="pay"),
-    path('sale/', sail, name="sail"),
+    path('sale/', sale, name="sale"),
     path('sale/<sale_id>/', salePage, name="salePage"),
 
     # АУТЕНТИФИКАЦИЯ
