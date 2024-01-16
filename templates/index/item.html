@@ -96,7 +96,7 @@
         <div class="accordion-item">
           <button id="accordion-button-5" aria-expanded="false"><span class="accordion-title">Сертификат</span><span class="icon" aria-hidden="true"></span></button>
           <div class="accordion-content">
-            <p>
+            <p class="mobile-cirtificate">
             {% for certificate in certificates %}
                 <img src="{{certificate.photo.url}}" alt="">
             {% endfor %}
@@ -131,9 +131,9 @@
       <div id="content-4">
         {{item.delivery|safe}}
       </div>
-      <div id="content-5">
+      <div id="content-5" class="pc-certificate">
        {% for certificate in certificates %}
-       <img src="{{certificate.photo.url}}" alt="">
+       <img class="zoom-img" id="zoom-img" src="{{certificate.photo.url}}" alt="">
        {% endfor %}
       </div>
     </div>
@@ -151,7 +151,18 @@
       </div>
     </div>
   </div>
+
   <style>
+    .zoomIMG{
+      max-height: auto;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      weight: 90%;
+      max-width: 965px;
+      z-index: 9999999;
+    }
     .carousel-wrap{margin: 0% 0% 0% 0%!IMPORTANT;padding:0% 0% 0% 0%!IMPORTANT;}
     .tabs {
       font-size: 0;

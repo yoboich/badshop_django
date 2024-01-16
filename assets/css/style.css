@@ -2341,6 +2341,29 @@ input:-webkit-autofill:focus {
     padding: 20px 20px 20px 20px;
     margin: 0px 0px 20px 0px;
 }
+
+.pc-certificate{
+    overflow: hidden;
+    overflow-x: auto;
+}.pc-certificate img{
+    object-fit: contain;
+    max-height: 165px;
+    margin: 0px 20px 0px 0px;
+}
+
+p.mobile-cirtificate{
+    font-size: 1rem;
+    font-weight: 300;
+    margin: 2em 0;
+    overflow: hidden;
+    overflow-x: auto !IMPORTANT;
+    display: flex;
+}
+.mobile-cirtificate img{
+    object-fit: contain;
+    max-height: 165px;
+    margin: 0px 20px 0px 0px;
+}
 @media (max-width: 1460px) {
     .navigation a {
         font-size: 16px;
