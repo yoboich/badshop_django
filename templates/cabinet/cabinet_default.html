@@ -32,8 +32,8 @@
             {% endif %}
           <a href="{% url 'cabinet' %}" class="{% if request.path == 'cabinet' %}active{% endif %}">Мой кабинет</a>
           <a href="{% url 'favorite' %}" class="{% if request.path == 'favorite' %}{% endif %}">Избранное</a>
-{#          <a href="historyorder.html" class="{% if request.path == url('') %}{% endif %}">История заказов</a>#}
-{#          <a href="mybonus.html" class="{% if request.path == url('') %}{% endif %}">Мои бонусы</a>#}
+{#historyorder.html{% if request.path == url('') %}{% endif %}#}<a href="{% url 'historyOrders' %}" class="">История заказов</a>
+{#{% if request.path == url('') %}{% endif %}mybonus.html#}          <a href="{% url 'MyBonus' %}" class="">Мои бонусы</a>
 {#          <a href="subscribes.html" class="{% if request.path == url('') %}{% endif %}">Подписки</a>#}
         </div>
         <div class="cabinet-content">

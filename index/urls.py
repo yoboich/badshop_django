@@ -8,7 +8,7 @@ from blog.views import blog, blogPage
 from index.views import index, catalog_categories, item, brends, pay, sail, salePage, about, partners, \
     contacts, cabinet, cart, my_data, myadress, \
     delete_address, edit_myaddress, favorite, CustomUserPasswordChangeView, toggle_favorites, toggle_cart, \
-    get_cart_count, filter_catalog_view
+    get_cart_count, filter_catalog_view, historyOrders, MyBonus
 from orders.views import (
     update_cart_ajax, get_item_data_ajax, 
     toggle_item_active_state_ajax, 
@@ -70,6 +70,8 @@ urlpatterns = [
     path('cabinet/my_adress/delete_address/<int:address_id>/', delete_address, name='delete_address'),
     path('cabinet/my_adress/edit_myaddress/<int:address_id>/', edit_myaddress, name='edit_myaddress'),
     path('cabinet/favorite/', favorite, name='favorite'),
+    path('cabinet/history_orders/', historyOrders, name='historyOrders'),
+    path('cabinet/my_bonus/', MyBonus, name='MyBonus'),
 
     # КОРЗИНА
     path('cart/', cart, name="cart"),

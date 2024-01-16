@@ -4,11 +4,11 @@ from django.views import View
 from django.db.models import Q, Min, Max, F, Sum
 
 from balance.models import BonusWallet
-from orders.models import TransportCompany
+from orders.models import TransportCompany, Order
 from users.forms import UserUpdateForm, AddressForm, AddressEditForm, CustomUserSetPasswordForm
 from items.models import *
 from users.models import Address
-from .models import Sale, SliderTop, SliderTwo
+from .models import Sale, SliderTop, SliderTwo, Partner
 from blog.models import Post
 from django.contrib.auth.forms import PasswordChangeForm  # Добавьте импорт формы смены пароля
 from django.contrib.auth import update_session_auth_hash  # Добавьте импорт для обновления сессии после смены пароля
@@ -454,4 +454,18 @@ def filter_catalog_view(request):
     return render(request, 'index/catalog_items.html', context)
 
 
+def historyOrders(request):
+    order = Order.objects.filter(user=request.user)
+    context = {
+        'ordersCount': order.count(),
+        'orders':order,
+        'title': 'История заказов'
+    }
+    return render(request, 'cabinet/history_orders.html', context=context)
 
+
+def MyBonus(request):
+    context = {
+        'mybonus': BonusWallet.objects.filter(user=request.user)
+    }
+    return render(request, 'cabinet/my_bonus.html', context=context)

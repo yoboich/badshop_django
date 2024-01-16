@@ -9,15 +9,19 @@
                 <!-- slide-number-1 -->
                 <div class="swiper-slide">
                   <div class="image-box">
-                    <img src="{{slider.image.url}}" alt="restaurant" />
+                    {%if slider.slug %}
+                    <a href="{{slider.slug}}"></a><img src="{{slider.image.url}}" alt="restaurant" />
+                    {%else%}
+                    <a href="#"></a><img src="{{slider.image.url}}" alt="restaurant" />
+                    {%endif%}
                     <div class="centered-text">
-                      <div class="text-wrapper">
+                      {% comment %} <div class="text-wrapper">
                         {{slider.title}}
                         <p>{{slider.text}}</p>
                       </div>
                       <div class="button-wrapper">
                         <a href=""><button>ПЕРЕЙТИ В КАТАЛОГ</button></a>
-                      </div>
+                      </div> {% endcomment %}
                     </div>
                   </div>
                 </div>
@@ -82,13 +86,13 @@
                 <div class="image-box">
                   <img src="{{slider.image.url}}" alt="restaurant" />
                   <div class="centered-text">
-                    <div class="text-wrapper">
+                    {% comment %} <div class="text-wrapper">
                       {{slider.title}}
                       <p>{{slider.text}}</p>
                     </div>
                     <div class="button-wrapper">
                       <a href=""><button>ПЕРЕЙТИ В КАТАЛОГ</button></a>
-                    </div>
+                    </div> {% endcomment %}
                   </div>
                 </div>
               </div>
