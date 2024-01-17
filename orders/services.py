@@ -20,7 +20,7 @@ def create_yoo_kassa_payment(order):
     logger.debug(f'order.outer_id = {order.outer_id}')
     idempotence_key = str(uuid.uuid4())
     return_url = 'https://vitanow.ru' + reverse_lazy('payment_finished')
-    logger.debug(f'order total price = {order.total_price}')
+    logger.debug(f'order total price = {order.items_price_with_bonuses}')
     # items_list = create_items_list_for_yookass_receipt()
     items = order.orderitem_set.all()
     receipt_items = []
@@ -49,7 +49,7 @@ def create_yoo_kassa_payment(order):
             "paid": False,
             "capture": True,
             "amount": {
-            "value": order.total_price,
+            "value": order.items_price_with_bonuses,
             "currency": "RUB"
             },
             "payment_method_data": {
@@ -68,7 +68,7 @@ def create_yoo_kassa_payment(order):
                         "description": "Топ трикотажный",
                         "quantity": "1.00",
                         "amount": {
-                            "value": order.total_price,
+                            "value": order.items_price_with_bonuses,
                             "currency": "RUB"
                         },
                         "vat_code": "3",

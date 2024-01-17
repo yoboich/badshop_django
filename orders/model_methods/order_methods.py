@@ -92,7 +92,7 @@ class OrderMethodsMixin:
             'orders', 
             'TransportCompany'
             )
-        Address = apps.get_model('orders', 'Address')
+        Address = apps.get_model('users', 'Address')
         order = cls.get_current_user_order(request)
         form = request.POST
         if 'radio-transport' in form:
