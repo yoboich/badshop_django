@@ -52,5 +52,9 @@ def get_cart_items(request):
 
 @register.filter
 def get_items_price_with_bonuses(obj, request):
-    print
     return obj.items_price_with_bonuses(request)
+
+
+@register.filter
+def get_max_bonus_points_to_use(obj, request):
+    return obj.max_bonus_points_to_use(request)

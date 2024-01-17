@@ -52,6 +52,21 @@ class Order(OrderMethodsMixin, DiscountMethodsMixin, models.Model):
         verbose_name='Предметы заказа', 
         related_name='order_item_set'
         )
+    
+    promocode_discount = models.IntegerField(
+        verbose_name='Скидка по промокоду',
+    )
+    items_discount = models.IntegerField(
+        verbose_name='Скидка на товары',
+    )
+    items_price_with_promocode = models.IntegerField(
+        verbose_name='Стоимость товаров с учетом промокода'
+    )
+    
+    items_price_with_bonuses = models.IntegerField(
+        verbose_name='Стоимость товаров с учетом бонусов'
+    )
+
     date_created = models.DateTimeField(
         auto_now_add=True
         )
@@ -110,11 +125,9 @@ class Order(OrderMethodsMixin, DiscountMethodsMixin, models.Model):
         null=True, blank=True
     )
 
-    promocode = models.ForeignKey(
-        to='balance.PromoCode', 
-        verbose_name='Промокод',
-        on_delete=models.PROTECT, 
-        null=True, blank=True,
+    promocode_discount_percentage = models.IntegerField(
+        verbose_name='Скидка по промокоду',
+        default=0
         )
 
     

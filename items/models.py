@@ -134,7 +134,7 @@ class CartItem(models.Model):
         verbose_name='Товар выбран для заказа в корзине',
         default=True)
 
-    # promocode = models.ForeignKey(PromoCode, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Промокод')
+    promocode = models.ForeignKey(PromoCode, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Промокод')
 
     def total_price_with_discount(self):
         return self.item.sale_price * self.quantity

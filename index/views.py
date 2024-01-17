@@ -60,16 +60,9 @@ def cart(request):
 
     cart = Cart.get_or_create_cart(request)
 
-    try:
-        bonus_wallet = BonusWallet.objects.get(user=request.user).balance
-    except:
-        bonus_wallet = ''
-
-
     context = {
         'cart': cart,
         'title': 'Корзина',
-        'balance': bonus_wallet,
     }
     return render(request, 'cart/cart.html', context)
 

@@ -7,142 +7,172 @@
 {#sdfdsf#}
 
 
-      <div class="cart-content">
-      <nav>
-      <div class="breadcrumbs">
-        <a href="/">Главная »</a>
-        <a href="/cart/">Корзина</a>
+<div class="cart-content">
+  <nav>
+    <div class="breadcrumbs">
+      <a href="/">Главная »</a>
+      <a href="/cart/">Корзина</a>
+    </div>
+  </nav>
+  <h1 style="margin: 0px 0px 20px 0px">{{ title }}</h1>
+  <form action="">
+
+    <div class="cart-items">
+
+      <div class="cart-list">
+        <div class="cart-hover">
+          <input type="checkbox" id="select-all"><label for="">Выбрать все</label>
+        </div>
+        {% for cart_item in cart.cartitem_set.all %}
+        {% include 'cart/cart_item.html' %}
+        {% endfor %}
+
       </div>
-    </nav>
-        <h1 style="margin: 0px 0px 20px 0px">{{ title }}</h1>
-        <form action="">
-
-        <div class="cart-items">
-
-            <div class="cart-list">
-              <div class="cart-hover">
-                <input type="checkbox" id="select-all"><label for="">Выбрать все</label>
-              </div>
-                {% for cart_item in cart.cartitem_set.all %}
-                    {% include 'cart/cart_item.html' %}
-                {% endfor %}
-          
+      <div class="cart-info">
+        <div class="promo">
+          <input id='promocode-input' type="text" placeholder="Промокод">
+          <button type="button" onclick="apply_promocode()">ПРИМЕНИТЬ</button>
+        </div>
+        {% comment %}
+        <div class="bonus-pay">
+          {% if request.user.is_authenticated %}
+          <div class="bonus">
+            <input id='bonus-pay-checkbox' type="checkbox">
+            <label for="">Оплатить бонусами</label>
           </div>
-            <div class="cart-info">
-              <div class="promo">
-                <input type="text" placeholder="Промокод">
-                <button>ПРИМЕНИТЬ</button>
-              </div>
-              <div class="bonus-pay">
-                {% if request.user.is_authenticated %}
-                <div class="bonus">
-                  <input id='bonus-pay-checkbox' type="checkbox">
-                  <label for="">Оплатить бонусами</label>
-                </div>
-                <p>Доступно {{user.bonus_points}} бонусов</p>
-                {% endif %}
-              </div>
-  
-              <div class="cart-price">
-                <div class="count">
-                  <span id="total-quantity">{{ cart.total_quantity }}</span>
-                    <span> шт.  на сумму</span>
-                    <div>
-                      <span id="total-price-without-discount">{{ cart.items_price_without_discount }}</span><span> ₽</span>
-                    </div>
-                </div>
-                  <div class="sale d-flex justify-content-between">
-                    Скидка на товары<span>{{ cart.items_discount|floatformat }} ₽</span>
-                  </div>
-                  <div class="bonus-total d-flex justify-content-between">
-                    Скидка за промокод <span>{{cart.promocode_discount}} ₽</span>
-                </div>
-                {% if request.user.is_authenticated %}
-                  <div class="bonus-total d-flex justify-content-between">
-                      Скидка за бонусы <span>{{cart.max_bonus_points_to_use}} ₽</span>
-                  </div>
-                {% endif %}
-                <div class="summa">
-                  <div>Итого</div> 
-                  <div>
-                    <span id="total-price">{{ cart|get_items_price_with_bonuses:request }}</span>
-                    <span> ₽</span>
-                  </div>
-                </div>
-              </div>
-              <button type='button' onclick='go_to_order_page()'>ОФОРМИТЬ ЗАКАЗ</button>
+          <p>Доступно {{user.bonus_points}} бонусов</p>
+          {% endif %}
+        </div>
+        {% endcomment %}
+
+        <div class="cart-price">
+          <div class="count">
+            <span id="total-quantity">{{ cart.total_quantity }}</span>
+            <span> шт. на сумму</span>
+            <div>
+              <span id="total-price-without-discount">{{ cart.items_price_without_discount|floatformat }}</span><span> ₽</span>
             </div>
           </div>
-      </form>
+          <div class="sale d-flex justify-content-between">
+            Скидка на товары<div><span id='items-discount'>{{ cart.items_discount|floatformat }}</span> ₽</div>
+          </div>
+          <div class="bonus-total d-flex justify-content-between">
+            Скидка за промокод <div><span id="promocode-discount">{{cart.promocode_discount|floatformat}}</span> ₽</div>
+          </div>
+          {% if request.user.is_authenticated %}
+          <div class="bonus-total d-flex justify-content-between">
+            Скидка за бонусы <div><span id='bonus-discount'>{{cart|get_max_bonus_points_to_use:request|floatformat}}</span> ₽</div>
+          </div>
+          {% endif %}
+          <div class="summa">
+            <div>Итого</div>
+            <div>
+              <span id="total-price">{{ cart|get_items_price_with_bonuses:request|floatformat }}</span>
+              <span> ₽</span>
+            </div>
+          </div>
+        </div>
+        <button type='button' onclick='go_to_order_page()'>ОФОРМИТЬ ЗАКАЗ</button>
+      </div>
+    </div>
+  </form>
 
 
-      <script>
+  <script>
 
-        function go_to_order_page(){
-          window.location = '{% url "order_page" %}'
+    function apply_promocode(){
+      let promocode_input = document.getElementById('promocode-input')
+      let promocode = promocode_input.value
+      $.ajax({
+        method: 'POST',
+        url: '{% url "apply_promocode" %}',
+        headers: {
+            'X-CSRFToken': csrfToken
+        },
+        data: {
+          promocode: promocode,
+        },
+        success: function(json){
+          if ('success' in json){
+            alert('Промокод применен')
+            promocode_input.disabled = true
+            promocode_input.value = ''
+            let total_price = 
+            document.getElementById('promocode-discount').value = json['promocode_discount']
+            document.getElementById('total-price').value = json['price_with_bonuses']
+            document.getElementById('bonus-discount').value = json['bonus_discount']
+        }else{
+          alert(json['error'])
         }
+      }
+      })
+    }
 
-document.addEventListener("DOMContentLoaded", function () {
-    const cartItems = document.querySelectorAll(".item");
+    function go_to_order_page() {
+      window.location = '{% url "order_page" %}'
+    }
 
-    cartItems.forEach((item) => {
+    document.addEventListener("DOMContentLoaded", function () {
+      const cartItems = document.querySelectorAll(".item");
+
+      cartItems.forEach((item) => {
         const quantityInput = item.querySelector(".number-text");
         const quantityMinus = item.querySelector(".number-minus");
         const quantityPlus = item.querySelector(".number-plus");
         // const itemID = item.getAttribute("data-item-id");
 
         quantityMinus.addEventListener("click", function (event) {
-            event.preventDefault();
-            let quantity = parseInt(quantityInput.getAttribute("data-quantity"));
-            if (quantity > 1) {
-                quantity--;
-                updateCartQuantity(itemID, quantity);
-            }
+          event.preventDefault();
+          let quantity = parseInt(quantityInput.getAttribute("data-quantity"));
+          if (quantity > 1) {
+            quantity--;
+            updateCartQuantity(itemID, quantity);
+          }
         });
 
         quantityPlus.addEventListener("click", function (event) {
-            event.preventDefault();
-            let quantity = parseInt(quantityInput.getAttribute("data-quantity"));
-            quantity++;
-            updateCartQuantity(itemID, quantity);
+          event.preventDefault();
+          let quantity = parseInt(quantityInput.getAttribute("data-quantity"));
+          quantity++;
+          updateCartQuantity(itemID, quantity);
         });
+      });
+
+      function updateCartQuantity(itemID, newQuantity) {
+        fetch(`/update_quantity/${itemID}/${newQuantity}`, { method: 'POST' })
+          .then(response => response.json())
+          .then(data => {
+            // Обновите статистику корзины в реальном времени
+            const totalItemsElement = document.querySelector("#total-items");
+            const totalPriceElement = document.querySelector("#total-price");
+            const totalDiscountElement = document.querySelector("#total-discount");
+            const totalWithoutDiscountElement = document.querySelector("#total-without-discount");
+
+            totalItemsElement.textContent = data.total_items;
+            totalPriceElement.textContent = data.total_price;
+            totalDiscountElement.textContent = data.total_discount;
+            totalWithoutDiscountElement.textContent = data.total_without_discount;
+          });
+      }
     });
 
-    function updateCartQuantity(itemID, newQuantity) {
-        fetch(`/update_quantity/${itemID}/${newQuantity}`, { method: 'POST' })
-            .then(response => response.json())
-            .then(data => {
-                // Обновите статистику корзины в реальном времени
-                const totalItemsElement = document.querySelector("#total-items");
-                const totalPriceElement = document.querySelector("#total-price");
-                const totalDiscountElement = document.querySelector("#total-discount");
-                const totalWithoutDiscountElement = document.querySelector("#total-without-discount");
+    function bonus_pay_checkbox() {
+      $.ajax({
 
-                totalItemsElement.textContent = data.total_items;
-                totalPriceElement.textContent = data.total_price;
-                totalDiscountElement.textContent = data.total_discount;
-                totalWithoutDiscountElement.textContent = data.total_without_discount;
-            });
+      })
     }
-});
-
-  function bonus_pay_checkbox(){
-    $.ajax({
-      
-    })
-  }
-
-
-      
-      </script>
-      </div>
-    </div>
 
 
 
-      <style>
+  </script>
+</div>
+</div>
 
-  </style>
+
+
+<style>
+
+</style>
 
 
 {% endblock %}

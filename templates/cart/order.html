@@ -148,15 +148,15 @@
                   Скидка на товары<span>{{ order.items_discount|floatformat }} ₽</span>
                 </div>
                 <div class="bonus-total d-flex justify-content-between">
-                  Скидка за промокод <span>{{order.promocode_discount}} ₽</span>
+                  Скидка за промокод <span>{{order.promocode_discount|floatformat}} ₽</span>
               </div>
                 {% if request.user.is_authenticated %}
                   <div class="bonus-total d-flex justify-content-between">
-                      Скидка за бонусы <span>{{order.max_bonus_points_to_use}} ₽</span>
+                      Скидка за бонусы <span>{{order.max_bonus_points_to_use|floatformat}} ₽</span>
                   </div>
                 {% endif %}
                 <div class="summa">
-                  Итого <span>{{ order|get_items_price_with_bonuses:request }} ₽</span>
+                  Итого <span>{{ order.items_price_with_bonuses|floatformat }} ₽</span>
                 </div>
               </div>
             </div>

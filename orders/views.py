@@ -15,6 +15,8 @@ from orders.models import TransportCompany
 
 from badshop_django.logger import logger
 from .services import create_yoo_kassa_payment
+from balance.models import PromoCode
+from items.models import Cart
 
 # желательно разделить
 def update_cart_ajax(request):
@@ -114,3 +116,25 @@ def save_order_data_view(request):
 
 def payment_finished_view(request):
     return render(request, 'cart/payment_finished.html')
+
+
+def apply_promocode_ajax(request):
+    code = request.POST.get('promocode')
+    try:
+        promocode = PromoCode.objects.get(code=code)
+    except:
+        return JsonResponse({'error': 'Неверный код'})
+    
+    cart = Cart.get_or_create_cart(request)
+    if cart.promocode:
+        return JsonResponse({'error': 'Вы уже активировали промокод'})
+    cart.promocode = promocode
+    cart.save()
+    result = {
+        'success': 'Промокод активирован',
+        'promocode_discount': cart.promocode_discount,
+        'bonus_discount': cart.max_bonus_points_to_use(request),
+        'price_with_bonuses': cart.items_price_with_bonuses(request),
+    }
+
+    return JsonResponse(result)

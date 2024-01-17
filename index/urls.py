@@ -14,7 +14,7 @@ from orders.views import (
     toggle_item_active_state_ajax, 
     get_cart_data_ajax, 
     payment_finished_view, order_page_view,
-    save_order_data_view
+    save_order_data_view, apply_promocode_ajax
     )
 from users.views import AppLoginView, AppLogoutView, AppRegistration
 from users.forms import CustomUserSetPasswordForm
@@ -78,6 +78,7 @@ urlpatterns = [
     path('update_cart/', update_cart_ajax, name='update_cart'),
     path('toggle_item_active_state/', toggle_item_active_state_ajax, name='toggle_item_active_state'),
     path('get_cart_data/', get_cart_data_ajax, name='get_cart_data'),
+    path('apply_promocode/', apply_promocode_ajax, name='apply_promocode'),
 
     # РАБОТА С КАРЗИНОЙ И ИЗБРАННЫМИ
     path('get_cart_count/', get_cart_count, name="get_cart_count"),

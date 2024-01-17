@@ -32,12 +32,17 @@ class OrderMethodsMixin:
 
     @classmethod
     def create_order_for_current_user(cls, request):
+        cart = Cart.get_or_create_cart(request)
         filter_dict = create_user_or_session_filter_dict(
             request
             )
         order = cls.objects.create(
             **filter_dict,  
-            status='NP'
+            status='NP',
+            promocode_discount=cart.promocode_discount,
+            items_discount=cart.items_discount,
+            items_price_with_promocode=cart.items_price_with_promocode,
+            items_price_with_bonuses=cart.items_price_with_bonuses(request),
         )
 
         return order
