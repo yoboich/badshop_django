@@ -253,6 +253,15 @@ def item(request, item_id):
         'cart_items': cart_items,
         'favorite_items': favorite_items,
     }
+        # Проверяем, была ли установлена кука для данного товара
+    if not request.COOKIES.get(f'item_{item_id}_viewed'):
+        # Если кука не установлена, увеличиваем счетчик просмотров и устанавливаем куку
+        item.views_count += 1
+        item.save()
+        response = render(request, 'index/item.html', context)
+        response.set_cookie(f'item_{item_id}_viewed', 'true', max_age=3600)  # Кука действует 1 час
+
+        return response
     return render(request, 'index/item.html', context)
 
 # СТРАНИЦА - БРЕНДЫ

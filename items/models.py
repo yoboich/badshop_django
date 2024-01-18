@@ -19,6 +19,7 @@ class Item(models.Model):
     price = models.IntegerField(default=0, blank=True, null=True, verbose_name="Цена товара")
     discount = models.IntegerField(default=0, blank=True, null=True, verbose_name="Скидка")
     # seil_price = models.IntegerField(default=0, blank=True, null=True, verbose_name="Цена со скидкой")
+    views_count = models.IntegerField(default=0, verbose_name="Количество просмотров")
     rating = models.IntegerField(default=0, blank=True, null=True, verbose_name="Рэйтинг")
     text = RichTextField(blank=True, null=True, verbose_name="Описание товара")
     compound = RichTextField(blank=True, null=True, verbose_name="Состав товара")
@@ -31,6 +32,50 @@ class Item(models.Model):
         verbose_name="Процент бонусных баллов", 
         blank=True, null=True
         )
+
+def check_order(request):
+    # Получаем корзину пользователя
+    cart = get_object_or_404(Cart, user=request.user)
+
+    # Проверяем наличие промокода
+    promocode = 0
+
+    # Получаем бонусный кошелек пользователя
+    wallet = get_object_or_404(BonusWallet, user=request.user)
+    user_wallet = wallet.balance
+
+    # Бонусы, которые запишутся на баланс пользователя после оплаты заказа
+    total_user_bonus = 0
+
+    # Общая сумма заказа
+    total_order_price = 0
+
+    # Сумма для отображения клиенту на фронте
+    finish_price = 0
+
+    # Максимально возможная сумма для списания бонусами (30% от суммы заказа)
+    max_bonus = 0.3 * total_order_price
+    user_wallet = min(user_wallet, max_bonus)
+
+    for item in cart.items.all():
+        # Подсчитываем общую сумму заказа с учетом скидок на товары
+        item_total_price = item.price * (1 - item.product.discount / 100)
+        total_order_price += item_total_price
+
+        # Подсчитываем общую сумму бонусов от товаров в корзине
+        total_user_bonus += item.product.bonus_percentage or 0
+
+    # Пополняем бонусный кошелек пользователя
+    wallet.balance += total_user_bonus
+    wallet.save()
+
+    # Проверяем наличие промокода и применяем его, если есть
+    if promocode:
+        finish_price = total_order_price - promocode - user_wallet
+    else:
+        finish_price = total_order_price - user_wallet
+
+    return render(request, '', {'finish_price': finish_price})
 
     def sale_price(self):
         return self.price * ((100 - self.discount) / 100)
