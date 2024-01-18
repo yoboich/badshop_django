@@ -12,11 +12,7 @@ class CertificateImageInline(admin.TabularInline):  # или `admin.TabularInlin
 
 class ItemAdmin(admin.ModelAdmin):
     inlines = (CertificateImageInline,)
-<<<<<<< HEAD
-    list_display = ('name', 'price','views_count')
-=======
-    list_display = ('name', 'price', 'discount', 'bonus_percentage', 'sale_price')
->>>>>>> 9434082e7aaf714131b6e661df8f5120892c64be
+    list_display = ('name', 'price', 'discount', 'bonus_percentage', 'sale_price','views_count')
     list_filter = ('name', 'price')
     search_fields = ('name', 'price')
 
