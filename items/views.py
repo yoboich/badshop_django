@@ -10,7 +10,9 @@ from django.http import JsonResponse
 from django.contrib.sessions.models import Session
 from django.contrib.sessions.backends.db import SessionStore
 
-from items.services import get_current_session, create_or_delete_favorite_item
+from items.services.services import (
+    get_current_session, create_or_delete_favorite_item
+)
 
 
 

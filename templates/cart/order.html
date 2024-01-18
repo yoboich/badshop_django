@@ -1,4 +1,6 @@
-{% extends 'default.html' %}{% load static %}
+{% extends 'default.html' %}
+
+{% load static extra_tags %}
 
 {% block content %}
 
@@ -82,7 +84,7 @@
                             
                             <div class="user-input not-login-address-user">
                               <p>Адрес</p>
-                                <input type="text" name="address" maxlength="100" id="id_address">
+                                <input type="text" name="address" maxlength="100" id="id_address" required>
                             </div>
                         {% endif %}
 
@@ -104,23 +106,23 @@
              <div class="order-user">
              <div class="user-input">
               <p>Фамилия</p>
-                <input type="text" name="first_name" maxlength="100" id="id_first_name">
+                <input type="text" name="first_name" maxlength="100" id="id_first_name" required>
             </div>
                     <div class="user-input">
               <p>Имя</p>
-                <input type="text" name="last_name" maxlength="100" id="id_last_name">
+                <input type="text" name="last_name" maxlength="100" id="id_last_name" required>
             </div>
                     <div class="user-input">
               <p>Отчество</p>
-          <input type="text" name="patronymic" maxlength="100" id="id_patronymic">
+          <input type="text" name="patronymic" maxlength="100" id="id_patronymic" required>
             </div>
             <div class="user-input">
               <p>E-mail</p>
-              <input type="email" name="email" value="root@root.root" maxlength="254" id="id_email">
+              <input type="email" name="email" value="" maxlength="254" id="id_email" required>
             </div>
             <div class="user-input">
               <p>Телефон</p>
-            <input type="text" name="phone" maxlength="24" id="id_phone">
+            <input type="text" name="phone" maxlength="24" id="id_phone" required>
             </div>
              </div>
 
@@ -140,18 +142,21 @@
                 
               <div class="cart-price">
                 <div class="count">
-                  <span>
-                    Товары( {{ order.total_quantity }} )
-                  </span>
+                    Товары( {{ order.total_quantity }} ) <span>{{order.items_price_without_discount|floatformat}} ₽</span>
                 </div>
-                <div class="sail">
-                  Скидка <span>{{ order.total_discount }} ₽</span>
+                <div class="sale d-flex justify-content-between">
+                  Скидка на товары<span>{{ order.items_discount|floatformat }} ₽</span>
                 </div>
-                  <div class="bonus-total">
-                      Бонусы
+                <div class="bonus-total d-flex justify-content-between">
+                  Скидка за промокод <span>{{order.promocode_discount|floatformat}} ₽</span>
+              </div>
+                {% if request.user.is_authenticated %}
+                  <div class="bonus-total d-flex justify-content-between">
+                      Скидка за бонусы <span>{{order.max_bonus_points_to_use|floatformat}} ₽</span>
                   </div>
+                {% endif %}
                 <div class="summa">
-                  Итого <span>{{ order.total_price }} ₽</span>
+                  Итого <span>{{ order.items_price_with_bonuses|floatformat }} ₽</span>
                 </div>
               </div>
             </div>

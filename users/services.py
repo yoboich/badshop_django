@@ -1,6 +1,6 @@
 
 from badshop_django.logger import logger
-from items.services import get_current_session
+from items.services.services import get_current_session
 from items.models import Cart
 from django.contrib.auth import authenticate
 from items.models import FavoriteItem

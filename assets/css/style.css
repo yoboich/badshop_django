@@ -695,11 +695,11 @@ img {
     border-radius: 25px;
 }
 
-.sail-value {
+.sale-value {
     margin: 0px 0px 40px 0px;
 }
 
-.sail-value h2 {
+.sale-value h2 {
     margin: 0px 0px 20px 0px;
 }
 
@@ -759,21 +759,21 @@ img {
     margin: 0px 0px 9px 0px;
 }
 
-.sail {
+.sale {
     width: 90%;
     max-width: 1262px;
 }
 
-.sail p {
+.sale p {
     margin: 0px 0px 40px 0px;
 }
 
-.sails-layer {
+.sales-layer {
     width: 100%;
     display: block;
 }
 
-.sails-layer img {
+.sales-layer img {
     display: inline-block;
     float: left;
     width: 30%;
@@ -785,7 +785,7 @@ img {
     border-radius: 50px;
 }
 
-.sails-layer img:hover {
+.sales-layer img:hover {
     opacity: 0.5;
     transition: all 0.2s;
     -webkit-transition: all 0.2s;
@@ -840,7 +840,7 @@ img {
     margin: 0% 0% 2% 0%;
 }
 
-.sail-link:nth-of-type(3n) img {
+.sale-link:nth-of-type(3n) img {
     margin: 0% 0% 3.2% 0%;
 }
 
@@ -1011,7 +1011,7 @@ img {
     font-size: 40px;
 }
 
-.sail h1 {
+.sale h1 {
     font-weight: 500;
     font-size: 40px;
 }
@@ -1682,7 +1682,7 @@ form.subscribes-form button:hover {
     font-weight: 700;
 }
 
-.sail {
+.sale {
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -1863,7 +1863,7 @@ form.subscribes-form button:hover {
     color: #00B44E;
 }
 
-span.sail-price {
+span.sale-price {
     color: #FFFFFF;
     background-color: #00B44E;
     border-radius: 15px;
@@ -3318,7 +3318,7 @@ p.mobile-cirtificate{
     }
 
 
-    .sails-layer img {
+    .sales-layer img {
         width: 100%;
     }
 

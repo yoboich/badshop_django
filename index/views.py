@@ -47,7 +47,7 @@ def favorite(request):
 
 def get_cart_count(request):
     cart = Cart.get_or_create_cart(request)
-    cart_count = cart.distinct_items_count()
+    cart_count = cart.distinct_items_count
     return JsonResponse({'count': cart_count})
 
 
@@ -60,16 +60,9 @@ def cart(request):
 
     cart = Cart.get_or_create_cart(request)
 
-    try:
-        bonus_wallet = BonusWallet.objects.get(user=request.user).balance
-    except:
-        bonus_wallet = ''
-
-
     context = {
         'cart': cart,
         'title': 'Корзина',
-        'balance': bonus_wallet,
     }
     return render(request, 'cart/cart.html', context)
 
@@ -172,7 +165,7 @@ def index(request):
 
     context = {
         'title': 'Главная страница',
-        'items_sails': ITEMS.filter(discount__gt=0),
+        'items_sales': ITEMS.filter(discount__gt=0),
         'categories': Category.objects.all(),
         'slider1': SliderTop.objects.all(),
         'slider2': SliderTwo.objects.all(),
@@ -279,12 +272,12 @@ def pay(request):
 
 
 # СТРАНЦИА АКЦИИ
-def sail(request):
+def sale(request):
     context = {
         'sales': Sale.objects.all(),
         'title': 'Акции',
     }
-    return render(request, 'index/sail.html', context)
+    return render(request, 'index/sale.html', context)
 
 
 # СТРАНИЦА ОПРЕДЕЛЕННОЙ АКЦИИ
@@ -294,7 +287,7 @@ def salePage(request, sale_id):
         'sale': sale,
         'title': f'{sale.title}',
     }
-    return render(request, 'index/sailpage.html', context)
+    return render(request, 'index/salepage.html', context)
 
 
 # СТРАНИЦА О КОМПАНИИ

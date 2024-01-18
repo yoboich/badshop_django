@@ -5,7 +5,7 @@ from django.contrib.auth.views import (
 )
 
 from blog.views import blog, blogPage
-from index.views import index, catalog_categories, item, brends, pay, sail, salePage, about, partners, \
+from index.views import index, catalog_categories, item, brends, pay, sale, salePage, about, partners, \
     contacts, cabinet, cart, my_data, myadress, \
     delete_address, edit_myaddress, favorite, CustomUserPasswordChangeView, toggle_favorites, toggle_cart, \
     get_cart_count, filter_catalog_view, historyOrders, MyBonus
@@ -14,7 +14,7 @@ from orders.views import (
     toggle_item_active_state_ajax, 
     get_cart_data_ajax, 
     payment_finished_view, order_page_view,
-    save_order_data_view
+    save_order_data_view, apply_promocode_ajax
     )
 from users.views import AppLoginView, AppLogoutView, AppRegistration
 from users.forms import CustomUserSetPasswordForm
@@ -34,7 +34,7 @@ urlpatterns = [
 
     path('brends/', brends, name="brends"),
     path('pay/', pay, name="pay"),
-    path('sale/', sail, name="sail"),
+    path('sale/', sale, name="sale"),
     path('sale/<sale_id>/', salePage, name="salePage"),
 
     # АУТЕНТИФИКАЦИЯ
@@ -78,6 +78,7 @@ urlpatterns = [
     path('update_cart/', update_cart_ajax, name='update_cart'),
     path('toggle_item_active_state/', toggle_item_active_state_ajax, name='toggle_item_active_state'),
     path('get_cart_data/', get_cart_data_ajax, name='get_cart_data'),
+    path('apply_promocode/', apply_promocode_ajax, name='apply_promocode'),
 
     # РАБОТА С КАРЗИНОЙ И ИЗБРАННЫМИ
     path('get_cart_count/', get_cart_count, name="get_cart_count"),

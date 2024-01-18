@@ -24,9 +24,8 @@ class PromoCode(models.Model):
         verbose_name="Действителен до", 
         null=True, blank=True
         )
-    sale = models.IntegerField(
+    discount = models.IntegerField(
         default=0, 
-        max_length=3, 
         verbose_name="Скидка в %"
         )
     

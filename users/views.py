@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect
 from django.views.generic import CreateView
 from django.contrib.auth import authenticate, login as auth_login
 
-from items.services import get_current_session
+from items.services.services import get_current_session
 from items.models import Cart
 from users.forms import LoginForm, CustomUserCreationForm
 from users.services import (
@@ -14,7 +14,7 @@ from users.services import (
     transfer_items_from_session_to_user_favorites
 )
 from badshop_django.logger import logger
-logger.debug(f'server is - {sys.argv}')
+
 # Create your views here.
 
 
