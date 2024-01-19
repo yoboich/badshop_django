@@ -2339,9 +2339,13 @@ input:-webkit-autofill:focus {
     top: -5px;
     left: 2.5px;
 }
-.heartGreen{display: none;}
+.heartGreen{display: none;
+width: 27px;
+height: 27px;}
 .item-favorited .heartGreen{
     display: flex;
+    width: 27px;
+    height: 27px;
 }
 
 .item-favorited .heartItem{
