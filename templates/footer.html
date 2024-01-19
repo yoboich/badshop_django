@@ -6,18 +6,18 @@
       <div class="nav-content">
         <ul>
           <li><span>Магазин</span></li>
-          <li><a href="">Популярные товары</a></li>
-          <li><a href="">Выгодные предложения</a></li>
-          <li><a href="">Просмотренные товары</a></li>
-          <li><a href="">Акции и объявления</a></li>
+          <li><a href="{% url 'brends' %}">Доступные бренды</a></li>
+          <li><a href="{% url 'catalog_categories' %}">Каталог товаров</a></li>
+          <li><a href="{% url 'pay' %}">Варианты оплаты</a></li>
+          <li><a href="{% url 'sale' %}">Акции и объявления</a></li>
         </ul>
 
         <ul>
           <li><span>Компания</span></li>
-          <li><a href="">О компании</a></li>
-          <li><a href="">Контакты</a></li>
-          <li><a href="">Новости</a></li>
-          <li><a href="">Партнерам</a></li>
+          <li><a href="{% url 'about' %}">О компании</a></li>
+          <li><a href="{% url 'contacts' %}">Контакты</a></li>
+          <li><a href="{% url 'blog' %}">Новости</a></li>
+          <li><a href="{% url 'partners' %}">Партнерам</a></li>
         </ul>
       </div>
 
