@@ -11,7 +11,25 @@ a {
     text-decoration: none !important;
     color: inherit !important;
 }
+.category-overflow{
+    display: flex;
+    flex-direction: column;
+    max-height: 350px;
+    overflow: hidden;
+    overflow-y: auto;
+}
 
+.category-overflow a{
+    font-size: 15px;
+    font-weight: 500;
+    margin: 0px 0px 12px 0px;
+}
+.category-overflow a:hover{
+    color: #00B44E!IMPORTANT;
+}
+.category-overflow a.active-link{
+    color: #00B44E!IMPORTANT;
+}
 /* .modal {
     width: 100%;
     height: calc(100vh - 62px);

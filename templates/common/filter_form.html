@@ -1,5 +1,29 @@
 
 <form  class="catalog-filters-form-pc">
+	<details open>
+		<summary>Категории</summary>
+		<div class="category-overflow">
+			{% for category in categories %}
+			<a href="{% url 'filter_catalog_view' %}?category={{ category.id }}" class="category-link" data-category-id="{{ category.id }}">
+			  {{ category.title }}
+			</a>
+		  {% endfor %}
+		  <script>
+			document.addEventListener("DOMContentLoaded", function() {
+			  var currentCategoryId = "{{ request.GET.category }}";
+			  var categoryLinks = document.querySelectorAll(".category-link");
+			
+			  categoryLinks.forEach(function(link) {
+				var categoryId = link.getAttribute("data-category-id");
+			
+				if (categoryId === currentCategoryId) {
+				  link.classList.add("active-link");
+				}
+			  });
+			});
+			</script>
+		</div>  
+	</details>
       <details open>
           <summary open>Цена</summary>
 		  <div class="range" >
@@ -30,9 +54,9 @@
               </div>
           {% endfor %}
       </details>
-      <details>
+    {% comment %} <details>
         <summary>Скидка</summary>
-    </details>
+    </details> {% endcomment %}
 
     <a href="{% url 'filter_catalog_view' %}"><div class="" id="" style="color:#00B44E;font-size:16px;cursor: pointer;">Сбросить все фильтры</div></a>
 

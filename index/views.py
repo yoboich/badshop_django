@@ -445,12 +445,15 @@ def filter_catalog_view(request):
     items = get_filter_items(max_item_price, query, brend, category, price_max, price_min)
 
     cart = Cart.get_or_create_cart(request)
-    
+    # Преобразование current_category_id в целое число (если необходимо)
+    current_category_id = int(category) if category else None
     context = {
         'items': items,
         'cart': cart,
         'price_max': max_item_price,
         'brends': Brend.objects.all(),
+        'categories': Category.objects.all(),
+        'urrent_category_id': current_category_id
     }
 
     return render(request, 'index/catalog_items.html', context)
