@@ -86,6 +86,7 @@ def order_page_view(request):
 
 
     order = Order.create_new_order_for_current_user(request)
+    logger.debug(f'order.status when created = {order.status}')
     if request.user.is_authenticated:
         addresses = Address.objects.filter(user=request.user)
     else: 
