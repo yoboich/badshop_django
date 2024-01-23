@@ -10,7 +10,7 @@ from badshop_django.logger import logger
 from orders.models import Order, Payment
 from items.models import Cart
 from users.models import CustomUser
-from users.amo import create_amo_lead_with_contact
+# from users.amo import create_amo_lead_with_contact
 from utils.services import password_reset_for_new_user
 
 
