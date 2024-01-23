@@ -28,7 +28,8 @@ def yoo_kassa_webhook_view(request):
         except:
             logger.error("Order doesn't exist")
             return
-
+        logger.debug(f'payment_response_id = {payment_response_id}')
+        logger.debug(f'order.status = {order.status}')
         if order.status == 'OP':
             logger.debug(f'order already paid. duplicate request!')
             return HttpResponse('')
