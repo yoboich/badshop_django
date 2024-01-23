@@ -2,20 +2,20 @@
 from amocrm.v2 import tokens, Lead, Contact, Company
 from badshop_django.logger import logger
 
-# def create_amo_contact(email):
-#     contact = Contact.objects.create({"custom_fields_values": [
-#     {
-#         "field_id": 437643,
-#         "values": [
-#             {
-#                 "value": email,
-#                 "enum_id": 238079
-#             },
+def create_amo_contact(email):
+    contact = Contact.objects.create({"custom_fields_values": [
+    {
+        "field_id": 437643,
+        "values": [
+            {
+                "value": email,
+                "enum_id": 238079
+            },
 
-#         ]
-#     }
-# ],})
-#     return contact
+        ]
+    }
+],})
+    return contact
     
 
 # def get_amo_contact(email):
