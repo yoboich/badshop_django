@@ -40,7 +40,7 @@ def yoo_kassa_webhook_view(request):
         Cart.delete_cart_for_paid_order(order)
         Payment.objects.create(
             order=order,
-            payment_amount=order.total_price
+            payment_amount=order.items_price_with_bonuses
         )
         
         if not order.user:
