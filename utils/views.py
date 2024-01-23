@@ -10,8 +10,8 @@ from badshop_django.logger import logger
 from orders.models import Order, Payment
 from items.models import Cart
 from users.models import CustomUser
-from users.amocrm import empty
-from utils.services import password_reset_for_new_user
+
+from utils.services import password_reset_for_new_user, create_new_lead_and_contact
 
 
 @method_decorator(csrf_exempt, name='dispatch')
