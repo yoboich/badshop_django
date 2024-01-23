@@ -44,6 +44,7 @@ class DiscountMethodsMixin:
         else:
             return 0
 
+    # final price
     def items_price_with_bonuses(self, request):
         return self.items_price_with_promocode \
             - self.max_bonus_points_to_use(request)

@@ -1,4 +1,5 @@
 
+
 from badshop_django.logger import logger
 from items.services.services import get_current_session
 from items.models import Cart
@@ -39,3 +40,5 @@ def get_user_from_auth_form(request):
     user = authenticate(email=email, password=password)
     
     return user
+
+

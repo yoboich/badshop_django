@@ -10,6 +10,7 @@ from badshop_django.logger import logger
 from orders.models import Order, Payment
 from items.models import Cart
 from users.models import CustomUser
+from users.amo import create_amo_lead_with_contact
 from utils.services import password_reset_for_new_user
 
 
@@ -35,6 +36,13 @@ def yoo_kassa_webhook_view(request):
         order.status = 'OP'
         order.save()
         
+        final_price = order.items_price_with_bonuses
+        try:
+            create_amo_lead_with_contact(final_price, email)
+        except:
+            logger.debug(
+                "Что-то пошло не так при создании сделаки или пользователя в амо"
+                )
 
         Cart.delete_cart_for_paid_order(order)
         Payment.objects.create(
@@ -43,7 +51,9 @@ def yoo_kassa_webhook_view(request):
         )
         
         if not order.user:
-            logger.debug(f"order user doesn't exist, creating new one. current user is {request.user}")
+            logger.debug(
+                f"order user doesn't exist, creating new one. current user is {request.user}"
+                )
             user, created = CustomUser.create_account_for_unathourized_user(
                 order.email
                 )

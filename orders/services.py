@@ -59,31 +59,6 @@ def create_yoo_kassa_payment(order):
             "type": "redirect",
             "return_url": return_url
             },
-            "receipt": {
-                "customer": {
-                    "email": "freelance-100@mail.ru"
-                },
-                "items": [
-                    {
-                        "description": "Топ трикотажный",
-                        "quantity": "1.00",
-                        "amount": {
-                            "value": order.items_price_with_bonuses,
-                            "currency": "RUB"
-                        },
-                        "vat_code": "3",
-                        "payment_mode": "full_prepayment",
-                        "payment_subject": "marked",
-                        "mark_mode": "0",
-                        "mark_code_info":
-                            {
-                                "gs_1m": "DFGwNDY0MDE1Mzg2NDQ5MjIxNW9vY2tOelDFuUFwJh05MUVFMDYdOTJXK2ZaMy9uTjMvcVdHYzBjSVR3NFNOMWg1U2ZLV0dRMWhHL0UrZi8ydkDvPQ=="
-                            },
-                        "measure": "piece"
-                    }
-                   
-                ]
-            },
             "description": ""
         }, idempotence_key)
     logger.debug(f'!!!')
