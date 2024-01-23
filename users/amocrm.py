@@ -1,6 +1,6 @@
 
 from amocrm.v2 import tokens, Lead, Contact, Company
-from badshop_django.logger import logger
+# from badshop_django.logger import logger
 
 def empty():
     pass
