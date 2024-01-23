@@ -57,7 +57,6 @@ def get_cart_count(request):
 
 
 def cart(request):
-
     cart = Cart.get_or_create_cart(request)
 
     context = {
