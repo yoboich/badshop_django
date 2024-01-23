@@ -62,7 +62,7 @@ def yoo_kassa_webhook_view(request):
         # добавляем бонусы за последний заказ 
         # и вычитаем использованные на его оплату
         user.bonus_points += order.total_bonus_points
-        user.bonus_points -= order.max_bonus_points_to_use()
+        user.bonus_points -= order.max_bonus_points_to_use(request)
         user.save()
 
         # создаем контакт и сделаку в амо
