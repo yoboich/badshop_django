@@ -4,17 +4,17 @@ from badshop_django.logger import logger as logger
 
 def create_amo_contact(email):
     contact = Contact.objects.create({"custom_fields_values": [
-    {
-        "field_id": 437643,
-        "values": [
             {
-                "value": email,
-                "enum_id": 238079
-            },
+                "field_id": 437643,
+                "values": [
+                    {
+                        "value": email,
+                        "enum_id": 238079
+                    },
 
-        ]
-    }
-],})
+                ]
+            }
+        ],})
     return contact
     
 
