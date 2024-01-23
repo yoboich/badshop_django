@@ -106,6 +106,7 @@ def save_order_data_view(request):
         order = Order.save_form_data_to_order(request)
         payment_created, yoo_payment = create_yoo_kassa_payment(order)
         if payment_created:
+            logger.debug(f'order status when order is saved = {order.status}')
             return redirect(
                 yoo_payment \
                 ._PaymentResponse__confirmation \
