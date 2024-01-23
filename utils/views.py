@@ -11,7 +11,7 @@ from orders.models import Order, Payment
 from items.models import Cart
 from users.models import CustomUser
 
-from utils.services import password_reset_for_new_user, create_new_lead_and_contact
+from utils.services import password_reset_for_new_user
 
 
 @method_decorator(csrf_exempt, name='dispatch')
