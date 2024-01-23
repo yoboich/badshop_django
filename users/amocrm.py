@@ -1,6 +1,10 @@
 
-# from amocrm.v2 import tokens, Lead, Contact, Company
 from badshop_django.logger import logger
+try:
+    from amocrm.v2 import tokens, Lead, Contact, Company
+except Exception as e:
+    logger.debug(f'{e}')
+    
 
 def empty():
     pass
