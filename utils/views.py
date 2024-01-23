@@ -36,14 +36,6 @@ def yoo_kassa_webhook_view(request):
         order.status = 'OP'
         order.save()
         
-        final_price = order.items_price_with_bonuses
-        try:
-            create_amo_lead_with_contact(final_price, email)
-        except:
-            logger.debug(
-                "Что-то пошло не так при создании сделаки или пользователя в амо"
-                )
-
         Cart.delete_cart_for_paid_order(order)
         Payment.objects.create(
             order=order,
@@ -64,10 +56,20 @@ def yoo_kassa_webhook_view(request):
             order.save()
             logger.debug(f'order.user = {order.user}')
         
+        # добавляем бонусы за последний заказ 
+        # и вычитаем использованные на его оплату
         user.bonus_points += order.total_bonus_points
+        user.bonus_points -= order.max_bonus_points_to_use
         user.save()
 
-
+        final_price = order.items_price_with_bonuses
+        try:
+            create_amo_lead_with_contact(final_price, order.email)
+        except:
+            logger.debug(
+                "Что-то пошло не так при создании сделаки или пользователя в амо"
+                )
+        
         message = f'Ура! Ваш платеж прошел успешно. Скоро мы доставим ваши покупки.'
         title = f'Ваша покупка на Vitanow'
         email = EmailMessage(title, message, "no-reply@vitanow.ru", [order.email])
