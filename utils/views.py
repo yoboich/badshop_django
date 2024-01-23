@@ -56,6 +56,8 @@ def yoo_kassa_webhook_view(request):
             order.user = user
             order.save()
             logger.debug(f'order.user = {order.user}')
+        else:
+            user = order.user
         
         # добавляем бонусы за последний заказ 
         # и вычитаем использованные на его оплату
