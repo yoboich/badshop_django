@@ -6,9 +6,6 @@ except Exception as e:
     logger.debug(f'{e}')
     
 
-def empty():
-    pass
-
 def create_amo_contact(email):
     contact = Contact.objects.create({"custom_fields_values": [
             {
@@ -39,6 +36,7 @@ def create_amo_lead_with_contact(price, contact):
 
 
 def create_new_lead_and_contact(price, email):
+    logger.debug(f'creating_new_lead')
     contact = get_amo_contact(email)
     if contact is None:
         create_amo_contact(email)

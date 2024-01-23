@@ -65,6 +65,7 @@ def yoo_kassa_webhook_view(request):
         # создаем контакт и сделаку в амо
         final_price = order.items_price_with_bonuses
         try:
+            logger.debug(f'before creating new lead')
             create_amo_lead_with_contact(final_price, order.email)
         except:
             logger.debug(
