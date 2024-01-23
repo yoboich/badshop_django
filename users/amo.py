@@ -1,6 +1,9 @@
 
 from amocrm.v2 import tokens, Lead, Contact, Company
-from badshop_django.logger import logger as logger
+from badshop_django.logger import logger
+
+def empty():
+    pass
 
 def create_amo_contact(email):
     contact = Contact.objects.create({"custom_fields_values": [
