@@ -10,7 +10,7 @@ from badshop_django.logger import logger
 from orders.models import Order, Payment
 from items.models import Cart
 from users.models import CustomUser
-from users.amo import create_amo_lead_with_contact
+# from users.amo import create_amo_lead_with_contact
 from utils.services import password_reset_for_new_user
 
 
@@ -62,13 +62,14 @@ def yoo_kassa_webhook_view(request):
         user.bonus_points -= order.max_bonus_points_to_use
         user.save()
 
-        final_price = order.items_price_with_bonuses
-        try:
-            create_amo_lead_with_contact(final_price, order.email)
-        except:
-            logger.debug(
-                "Что-то пошло не так при создании сделаки или пользователя в амо"
-                )
+        # создаем контакт и сделаку в амо
+        # final_price = order.items_price_with_bonuses
+        # try:
+        #     create_amo_lead_with_contact(final_price, order.email)
+        # except:
+        #     logger.debug(
+        #         "Что-то пошло не так при создании сделаки или пользователя в амо"
+        #         )
         
         message = f'Ура! Ваш платеж прошел успешно. Скоро мы доставим ваши покупки.'
         title = f'Ваша покупка на Vitanow'
