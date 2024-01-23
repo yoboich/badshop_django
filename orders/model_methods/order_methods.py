@@ -123,6 +123,7 @@ class OrderMethodsMixin:
         cls.add_cart_items_to_order(request)
         return order
 
+    # количество бонусов, которые нужно начислить пользователю за заказ
     @property
     def total_bonus_points(self):
         OrderItem = apps.get_model('orders', 'OrderItem')
