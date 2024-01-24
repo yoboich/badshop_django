@@ -35,10 +35,12 @@ def create_amo_lead_with_contact(price, contact):
     logger.debug(f'starting to create new lead')
     try:
         lead = Lead.objects.create(price=price)
+        logger.debug(f'lead created = {lead}')
     except Exception as e:
         logger.debug(f'lead creating exception = {e}')
-    logger.debug(f'lead created = {lead}')
+    
     try:
+        logger.debug(f'trying to append contact to lead')
         lead.contacts.append(contact)
     except Exception as e:
         logger.debug(f'lead_contact_appending_exception = {e}')
