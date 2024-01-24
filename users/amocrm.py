@@ -32,15 +32,20 @@ def get_amo_contact(email):
 
 def create_amo_lead_with_contact(price, contact):
     lead = Lead.objects.create(price=100)
+    logger.debug(f'lead created = {lead}')
     lead.contacts.append(contact)
+    logger.debug(f'lead.contacts = {lead.contacts}')
 
 
 def create_new_lead_and_contact(price, email):
     logger.debug(f'creating_new_lead')
     contact = get_amo_contact(email)
+    logger.debug(f'get_contact = {contact}')
     if contact is None:
         create_amo_contact(email)
+        logger.debug(f'created contact = {contact}')
     
     lead = create_amo_lead_with_contact(
         price, contact
         )
+    
