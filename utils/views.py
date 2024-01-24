@@ -10,7 +10,7 @@ from badshop_django.logger import logger
 from orders.models import Order, Payment
 from items.models import Cart
 from users.models import CustomUser
-from users.amocrm import create_amo_lead_with_contact
+from users.amocrm import create_new_lead_and_contact
 from utils.services import password_reset_for_new_user
 
 
@@ -69,7 +69,7 @@ def yoo_kassa_webhook_view(request):
         final_price = order.items_price_with_bonuses
         try:
             logger.debug(f'before creating new lead')
-            create_amo_lead_with_contact(final_price, order.email)
+            create_new_lead_and_contact(final_price, order.email)
         except:
             logger.debug(
                 "Что-то пошло не так при создании сделаки или пользователя в амо"

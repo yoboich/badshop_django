@@ -31,6 +31,22 @@ def get_amo_contact(email):
 
 
 def create_amo_lead_with_contact(price, contact):
+    
+    logger.debug(f'starting to create new lead')
+    try:
+        lead = Lead.objects.create(price=price)
+    except Exception as e:
+        logger.debug(f'lead creating exception = {e}')
+    logger.debug(f'lead created = {lead}')
+    try:
+        lead.contacts.append(contact)
+    except Exception as e:
+        logger.debug(f'lead_contact_appending_exception = {e}')
+
+    logger.debug(f'lead.contacts = {lead.contacts}')
+
+
+def create_new_lead_and_contact(price, email):
     tokens.default_token_manager(
         client_id="791071cc-9300-470d-803c-a5efe12ff67a",
         client_secret="zDwKY1A5DQJhtqv9Bl2YWrwR6EwPGcGcKThhMd1W9Axtlr9totWAEq1fkuIByRUH",
@@ -38,17 +54,6 @@ def create_amo_lead_with_contact(price, contact):
         redirect_url="https://vitanow.ru",
         storage=tokens.FileTokensStorage(),  # by default FileTokensStorage
     )
-    logger.debug(f'starting to create new lead')
-    try:
-        lead = Lead.objects.create(price=100)
-    except Exception as e:
-        logger.debug(f'lead creating exception = {e}')
-    logger.debug(f'lead created = {lead}')
-    lead.contacts.append(contact)
-    logger.debug(f'lead.contacts = {lead.contacts}')
-
-
-def create_new_lead_and_contact(price, email):
     logger.debug(f'creating_new_lead')
     contact = get_amo_contact(email)
     logger.debug(f'get_contact = {contact}')
