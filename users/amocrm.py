@@ -31,6 +31,13 @@ def get_amo_contact(email):
 
 
 def create_amo_lead_with_contact(price, contact):
+    tokens.default_token_manager(
+        client_id="791071cc-9300-470d-803c-a5efe12ff67a",
+        client_secret="zDwKY1A5DQJhtqv9Bl2YWrwR6EwPGcGcKThhMd1W9Axtlr9totWAEq1fkuIByRUH",
+        subdomain="infovitanowru",
+        redirect_url="https://vitanow.ru",
+        storage=tokens.FileTokensStorage(),  # by default FileTokensStorage
+    )
     logger.debug(f'starting to create new lead')
     try:
         lead = Lead.objects.create(price=100)
