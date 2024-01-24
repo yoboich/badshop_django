@@ -58,7 +58,7 @@ def create_new_lead_and_contact(price, email):
     contact = get_amo_contact(email)
     logger.debug(f'get_contact = {contact}')
     if contact is None:
-        create_amo_contact(email)
+        contact = create_amo_contact(email)
         logger.debug(f'created contact = {contact}')
     
     lead = create_amo_lead_with_contact(
