@@ -14,7 +14,7 @@ from users.amocrm import create_amo_lead_with_contact
 from utils.services import password_reset_for_new_user
 
 
-@method_decorator(csrf_exempt, name='dispatch')
+# @method_decorator(csrf_exempt, name='dispatch')
 def yoo_kassa_webhook_view(request):
     logger.debug(f'yoo_kassa request data = {request.body}')
     body_dict = json.loads(request.body)
