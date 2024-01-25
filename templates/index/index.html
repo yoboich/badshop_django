@@ -64,7 +64,7 @@
       <div class="item-content">
         <div class="item-img categoties-item">
           <a href="item.html"></a>
-          <a href=""><img src="{%if category.image.url != '' %}{{category.image.url}}{%endif%}" class="image-item" alt=""></a>
+          <a href="{% url 'filter_catalog_view' %}?category={{category.id}}"><img src="{%if category.image.url != '' %}{{category.image.url}}{%endif%}" class="image-item" alt=""></a>
           <p>{{category.title}}</p>
         </div>
       </div>
@@ -136,7 +136,7 @@
         <div class="item-content">
           <div class="item-img categoties-item">
             <a href="item.html"></a>
-            <a href=""><img src="{%if brend.image.url != '' %}{{brend.image.url}}{%endif%}" class="image-item" alt=""></a>
+            <a href="{% url 'filter_catalog_view' %}?brend={{brend.id}}"><img src="{%if brend.image.url != '' %}{{brend.image.url}}{%endif%}" class="image-item" alt=""></a>
             <p>{{brend.name}}</p>
           </div>
         </div>

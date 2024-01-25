@@ -3750,3 +3750,25 @@ p.mobile-cirtificate{
     width: 57px;
     text-align: center;
 }
+
+
+.accordion button[aria-expanded=true] + .accordion-content {
+    opacity: 1;
+    max-height: max-content!IMPORTANT;
+    padding: 12px 12px 12px 12px!IMPORTANT;
+    transition: all 200ms linear;
+    will-change: opacity, max-height;
+}
+table{
+    padding: 12px 12px 12px 12px!IMPORTANT;
+    box-sizing: border-box!IMPORTANT;
+}
+
+table td {
+    padding: 12px 12px 12px 12px!IMPORTANT;
+    box-sizing: border-box!IMPORTANT;
+}
+table tr {
+    padding: 12px 12px 12px 12px!IMPORTANT;
+    box-sizing: border-box!IMPORTANT;
+}

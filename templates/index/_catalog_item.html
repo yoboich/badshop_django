@@ -3,7 +3,7 @@
 <div class="item" id="item-{{item.id}}">
     <div class="item-content">
       <div class="item-img">
-        <div class="sale-button">-{{item.discount}}%</div>
+        {%if item.discount%}<div class="sale-button">-{{item.discount}}%</div>{%endif%}
         <div class="like-button {% if item|get_favorite_status:request %}item-favorited{% endif %}" onclick="toggle_favorite({{ item.id }})" id="button-add-to-favorites-{{ item.id }}" data-like-item-id="{{item.id}}">
          
           <svg class="heartGreen" width="28" height="24" viewBox="0 0 28 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -18,14 +18,25 @@
             {% if item.image %}
                <img src="{{item.image.url}}" class="image-item" alt="">
             {% endif %}
-
         </a>
       </div>
       <a href="{% url 'item' item.id %}">
         <h2>{{item.name}} </h2>
       </a>
       <div class="item-info">
-        <div class="item-price"><span>{{item.sale_price}} ₽</span>{{item.price}} ₽</div>
+        <div class="item-price">
+          {%if item.discount > 0 %}
+          <span>{{item.price}} ₽</span>{{item.sale_price}} ₽
+          {%else%}
+          <span style="
+          font-size: 16px !IMPORTANT;
+          text-decoration: none !IMPORTANT;
+          color: #24439c!IMPORTANT;
+          font-weight: 700!IMPORTANT;
+          ">{{item.price}} ₽</span>
+          {%endif%}
+          
+        </div>
         <div class="item-rating">
           <svg width="26" height="24" viewBox="0 0 26 24" fill="none"
             xmlns="http://www.w3.org/2000/svg">
