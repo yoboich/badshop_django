@@ -11,7 +11,6 @@
           <li><a href="{% url 'pay' %}">Варианты оплаты</a></li>
           <li><a href="{% url 'sale' %}">Акции и объявления</a></li>
         </ul>
-
         <ul>
           <li><span>Компания</span></li>
           <li><a href="{% url 'about' %}">О компании</a></li>
@@ -20,17 +19,14 @@
           <li><a href="{% url 'partners' %}">Партнерам</a></li>
         </ul>
       </div>
-
       <div class="nav-info">
         <a href=""><img src="{% static 'img/logo.svg' %}" alt=""></a>
         <div class="footer-contacts">
-
-          <div class="drop-down">
+          {% comment %} <div class="drop-down">
             Обратная связь
-          </div>
+          </div> {% endcomment %}
           <div class="nav-phone">
             <img src="{% static 'img/whatsapp.svg' %}" alt="">
-
             8 (800) 555 35 35
           </div>
         </div>
