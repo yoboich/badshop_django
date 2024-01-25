@@ -3761,7 +3761,9 @@ p.mobile-cirtificate{
 }
 table{
     padding: 12px 12px 12px 12px!IMPORTANT;
+    margin: 12px 0px 12px 0px !IMPORTANT;
     box-sizing: border-box!IMPORTANT;
+    width: 100%!IMPORTANT;
 }
 
 table td {
