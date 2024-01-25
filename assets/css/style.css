@@ -2083,6 +2083,14 @@ input:-webkit-autofill:focus {
 .brends-cards.catalog-item img {
     margin: 0px 0px 20px 0px;
     max-height: 160px;
+    margin: 0px 0px 20px 0px;
+    max-height: 160px;
+    object-fit: contain !IMPORTANT;
+    width: auto !IMPORTANT;
+    max-height: 120px !IMPORTANT;
+    height: 120px !IMPORTANT;
+    padding: 20px 20px 20px 20px !IMPORTANT;
+    margin: 0px 0px 0px 0px !IMPORTANT;
 }
 
 .accordion {
