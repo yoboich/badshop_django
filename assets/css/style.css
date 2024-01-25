@@ -2439,6 +2439,8 @@ p.mobile-cirtificate{
         border-radius: 0;
         border: 0;
         display: none;
+        overflow-x: auto;
+        overflow-y: auto;
     }
     .catalog-filters-form-pc{
         width: 100%;
