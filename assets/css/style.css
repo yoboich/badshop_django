@@ -1825,8 +1825,10 @@ form.subscribes-form button:hover {
 }
 
 .item-img-page-content img {
-    width: 20vw;
+    /* width: 20vw; */
     object-fit: cover;
+    height: 25vw;
+    max-height: 490px;
 }
 
 .item-content-layout {
