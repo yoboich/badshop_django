@@ -3775,7 +3775,7 @@ table tr {
     box-sizing: border-box!IMPORTANT;
 }
 
-table.accordion .accordion-content p{
+.accordion .accordion-content p table{
     margin: auto !IMPORTANT;
     font-size: 2.5vw!IMPORTANT;
 }
