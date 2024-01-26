@@ -69,7 +69,7 @@ def yoo_kassa_webhook_view(request):
         final_price = order.items_price_with_bonuses
         try:
             logger.debug(f'before creating new lead')
-            create_new_lead_and_contact(final_price, order.email)
+            create_new_lead_and_contact(final_price, order)
         except:
             logger.debug(
                 "Что-то пошло не так при создании сделаки или пользователя в амо"

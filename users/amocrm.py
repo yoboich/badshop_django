@@ -6,18 +6,30 @@ except Exception as e:
     logger.debug(f'{e}')
     
 
-def create_amo_contact(email):
-    contact = Contact.objects.create({"custom_fields_values": [
+def create_amo_contact(order):
+    contact = Contact.objects.create({
+        'name':order.full_name,
+        "custom_fields_values": [
             {
                 "field_id": 437643,
                 "values": [
                     {
-                        "value": email,
+                        "value": order.email if order.email else '',
                         "enum_id": 238079
                     },
 
                 ]
-            }
+            }, 
+            {
+                "field_id": 437641,
+                "values": [
+                    {
+                        "value": order.phone if order.phone else '',
+                        "enum_id": 238067
+                    },
+
+                ]
+            },
         ],})
     return contact
     
@@ -48,7 +60,7 @@ def create_amo_lead_with_contact(price, contact):
     logger.debug(f'lead.contacts = {lead.contacts}')
 
 
-def create_new_lead_and_contact(price, email):
+def create_new_lead_and_contact(order, price):
     tokens.default_token_manager(
         client_id="791071cc-9300-470d-803c-a5efe12ff67a",
         client_secret="zDwKY1A5DQJhtqv9Bl2YWrwR6EwPGcGcKThhMd1W9Axtlr9totWAEq1fkuIByRUH",
@@ -57,10 +69,10 @@ def create_new_lead_and_contact(price, email):
         storage=tokens.FileTokensStorage(),  # by default FileTokensStorage
     )
     logger.debug(f'creating_new_lead')
-    contact = get_amo_contact(email)
+    contact = get_amo_contact(order.email)
     logger.debug(f'get_contact = {contact}')
     if contact is None:
-        contact = create_amo_contact(email)
+        contact = create_amo_contact(order)
         logger.debug(f'created contact = {contact}')
     
     lead = create_amo_lead_with_contact(
