@@ -70,6 +70,7 @@ def create_new_lead_and_contact(order, price):
         storage=tokens.FileTokensStorage(),  # by default FileTokensStorage
     )
     logger.debug(f'creating_new_lead')
+    
     contact = get_amo_contact(order.email)
     logger.debug(f'get_contact = {contact}')
     if contact is None:

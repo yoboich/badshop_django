@@ -112,6 +112,7 @@ class OrderMethodsMixin:
             form['patronymic']
             )))
         order.email = form['email']
+        order.phone = form['phone']
         order.comment = form['comment']
         order.save()
         return order
