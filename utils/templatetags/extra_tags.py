@@ -42,7 +42,6 @@ def check_if_item_in_cart(item, request):
 
 @register.filter
 def get_cart_items(request):
-    print('!!here')
     cart = Cart.get_or_create_cart(request)
     cart_items = CartItem.objects \
         .filter(cart=cart) \
