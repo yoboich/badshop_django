@@ -37,7 +37,8 @@ def create_amo_contact(order):
 def get_amo_contact(email):
     try:
         contact = Contact.objects.get(query=email)
-    except:
+    except Exception as e:
+        logger.debug(f'get_contact exception = {e}')
         contact = None
     return contact
 
