@@ -140,3 +140,22 @@ def apply_promocode_ajax(request):
     }
 
     return JsonResponse(result)
+
+
+def delete_cart_item_ajax(request):
+    if request.method == 'POST':
+        cart_item_id = request.POST.get('cart_item_id')
+        cart_item = get_object_or_404(
+            CartItem, 
+            id=cart_item_id
+            )
+        try:
+            cart_item.delete()
+            cart_data = get_cart_data(request)
+            cart_data.update({'result': 'success'})
+            return JsonResponse(cart_data)
+        except Exception as e:
+            logger.debug(
+                f'Ошибка при удалении товара из корзины - {e}'
+                )
+            return JsonResponse({'result': 'error'})

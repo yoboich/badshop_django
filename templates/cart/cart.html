@@ -80,6 +80,8 @@
 
   <script>
 
+    let delete_item_from_cart_url = '{% url "delete_cart_item" %}'
+
     function apply_promocode(){
       let promocode_input = document.getElementById('promocode-input')
       let promocode = promocode_input.value

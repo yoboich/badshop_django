@@ -1622,6 +1622,7 @@ form.subscribes-form button:hover {
 }
 
 .cart-item {
+    position:relative;
     display: flex;
     border: none;
     border-radius: 0px;

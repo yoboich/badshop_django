@@ -129,7 +129,7 @@ function fill_cart_data(json){
   if (total_price_without_discount !== null){
     total_price_without_discount.innerText = json['total_price_without_discount']
   }
-  total_discount = document.getElementById('total-discount')
+  total_discount = document.getElementById('items-discount')
   if(total_discount !== null){
     total_discount.innerText = json['discount']
   }
@@ -141,5 +141,28 @@ function fill_cart_data(json){
   if (total_cart_item_price_with_discount !== null){
     total_cart_item_price_with_discount.innerText = json['total_cart_item_price_with_discount']
   }
+
 }
 
+function delete_item_from_cart(cart_item_id){
+  let cart_item = document.getElementById('cart-item-' + cart_item_id)
+  $.ajax({
+    method: 'POST',
+    url: delete_item_from_cart_url,
+    headers: {
+      'X-CSRFToken': csrfToken
+    },
+    data: {
+      cart_item_id: cart_item_id,
+    },
+    success: function(json){
+      if(json['result'] === 'success'){
+        cart_item.hidden = true
+        console.log('!', json)
+        fill_cart_data(json)
+      }else{
+        alert('Что-то пошло не так')
+      }
+    }
+  })
+}

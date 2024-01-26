@@ -9,19 +9,13 @@ from badshop_django.logger import logger
 
 def get_cart_data(request):
     cart = Cart.get_or_create_cart(request)
-    total_items_count = cart.total_quantity()
-    discount = cart.total_discount()
-    total_price = cart.total_price()
-    
-    total_price_without_discount = cart.items_price_without_discount()
-    distinct_items_count = cart.cartitem_set.count()
 
     cart_data = {
-        'total_items_count': total_items_count,
-        'total_price_without_discount': total_price_without_discount,
-        'discount': discount,
-        'total_price': total_price,
-        'distinct_items_count': distinct_items_count,
+        'total_items_count': cart.total_quantity,
+        'total_price_without_discount': cart.items_price_without_discount,
+        'discount': cart.items_discount,
+        'total_price': cart.items_price_with_bonuses(request),
+        'distinct_items_count': cart.cartitem_set.count(),
     }
     return cart_data
 
