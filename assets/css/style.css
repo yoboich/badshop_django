@@ -94,6 +94,7 @@ img {
     display: flex;
     flex-direction: column;
     padding: 160px 0px 90px 0px;
+    padding: 160px 0px 0px 0px;
 }
 
 .content {
