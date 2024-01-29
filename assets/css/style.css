@@ -3818,13 +3818,15 @@ table tr {
 .hover-image-scale {
     /* display: inline-block;  */
     overflow: hidden; /* Скрываем всё за контуром */
-  }.item-img-page-content:hover img{
-    transform: scale(1.5); /* Увеличиваем масштаб */
+  }/*
+  .item-img-page-content:hover img{
+    transform: scale(1.5);  Увеличиваем масштаб 
   }
+  */
   .hover-image-scale img {
     transition: 1s; /* Время эффекта */
     /* display: block;  */
-    /* cursor: zoom-in; */
+    cursor: zoom-in;
   }
   .hover-image-scale img:hover {
     transform: scale(1.5); /* Увеличиваем масштаб */
