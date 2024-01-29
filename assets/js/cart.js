@@ -158,7 +158,6 @@ function delete_item_from_cart(cart_item_id){
     success: function(json){
       if(json['result'] === 'success'){
         cart_item.hidden = true
-        console.log('!', json)
         fill_cart_data(json)
       }else{
         alert('Что-то пошло не так')
