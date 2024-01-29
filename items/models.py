@@ -4,20 +4,16 @@ from django.contrib.auth.models import User  # Для авторизованны
 from django.contrib.sessions.models import Session  # Для неавторизованных пользователей
 from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
-
 from badshop_django.logger import logger
 from balance.models import PromoCode
 from users.models import CustomUser
 from utils.services import get_current_session, create_user_or_session_filter_dict
 from .model_methods.cart_methods import CartMethodsMixin
 from orders.model_methods.discount_methods import DiscountMethodsMixin
-
-
 # Create your models here.
 class Item(models.Model):
-
     name = models.CharField(max_length=200, verbose_name="Название товара")
-    image = models.ImageField(upload_to="items/%Y/%m/%d/", blank=True, null=True, verbose_name="Изображение товара")
+    image = models.ImageField(upload_to="items/%Y/%m/%d/", blank=True, null=True, verbose_name="Превью Изображение товара")
     price = models.IntegerField(default=0, blank=True, null=True, verbose_name="Цена товара")
     discount = models.IntegerField(default=0, blank=True, null=True, verbose_name="Скидка %")
     # seil_price = models.IntegerField(default=0, blank=True, null=True, verbose_name="Цена со скидкой")
@@ -70,14 +66,27 @@ class Category(models.Model):
         return self.title
 
 class CertificateImages(models.Model):
-    photo = models.ImageField(upload_to='certificates/%Y/%m/%d/', blank=True, null=True)
+    #########photo = models.ImageField(upload_to='certificates/%Y/%m/%d/', blank=True, null=True)
+    certificate = models.FileField(upload_to='certificates/%Y/%m/%d/', blank=True, null=True, verbose_name='PDF Сертификат (не изображение!)')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     item = models.ForeignKey(Item, on_delete=models.CASCADE, blank=True, null=True)
 
     class Meta:
-        verbose_name = "Сертификат"
-        verbose_name_plural = "Сертификаты"
+        verbose_name = "PDF Сертификат"
+        verbose_name_plural = "PDF Сертификаты"
+
+
+class ItemImages(models.Model):
+    image = models.ImageField(upload_to='images/%Y/%m/%d/', blank=True, null=True, verbose_name='Только PNG фото товаров!')
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, blank=True, null=True)
+
+    def __str__(self) -> str:
+        return self.item.name
+    
+    class Meta:
+        verbose_name = 'PNG Фото товара'
+        verbose_name_plural = 'PNG Фото товаров'
 
 
 class Brend(models.Model):

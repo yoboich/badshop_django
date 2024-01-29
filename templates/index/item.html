@@ -10,8 +10,8 @@
     <nav>
       <div class="breadcrumbs">
         <a href="{% url 'index' %}">Главная »</a>
-        <a href="{% url 'index' %}">Магазин »</a>
-        <a href="{% url 'index' %}">Для здоровья</a>
+        <a href="{% url 'catalog_categories' %}">Магазин »</a>
+        <a href="{% url 'filter_catalog_view' %}?={{item.category.id}}">{{item.category.title}}</a>
         <a href="{% url 'item' item.id %}">» {{item.name}}</a>
       </div>
     </nav>
@@ -19,9 +19,32 @@
 
     <div class="item-content-layout">
       <div class="item-img-page-content hover-image-scale">
-          {% if item.image %}
-            <img src="{{item.image.url}}" alt=""  class="hover-image-scale">
-          {% endif %}
+        <div class="slider">
+          <div class="slider-list" draggable="false">
+            <div class="slider-track" draggable="false">
+              {% comment %} {% if item.image %}
+              <div class="slide" draggable="false">
+              <img src="{{item.image.url}}" alt=""  class="hover-image-scale">
+              </div>     
+            {% endif %} {% endcomment %}
+            {%if images%}
+            {% for image in images %}
+            <div class="slide" draggable="false">
+              <img src="{{image.image.url}}" alt="" draggable="false">
+            </div>      
+            {% endfor %}
+            {%endif%}
+
+            </div>
+          </div>
+          <div class="slider-arrows">
+            <button type="button" class="prev"><img style="height: 19px;" src="{% static '/img/VectorLeft.svg' %}" /></button>
+            <button type="button" class="next"><img style="height:19px;" src="{% static '/img/VectorRight.svg' %}" /></button>
+          </div>
+        </div>
+
+
+          
 
       </div>
       
@@ -29,7 +52,11 @@
           <span class="large-price"></span> Много
           <div class="clearboth"></div>
           <div class="action-price">
-         <span class="sale-price">{{item.discount}}%</span> <span class="new-price">{{item.sale_price}}₽</span> <span class="old-price">{{item.price}}₽</span>
+            {%if item.discount > 0%}
+            <span class="sale-price">{{item.discount}}%</span> <span class="new-price">{{item.sale_price}}₽</span> <span class="old-price" style="    text-decoration: line-through;">{{item.price}}₽</span>
+            {%else%}
+            <span class="old-price" style="font-weight: 700;">{{item.price}}₽</span>
+            {%endif%}
           </div>
           <div class="clearboth"></div>
           <p>Будет начислино <span>25</span> бонусов</p>
@@ -97,9 +124,12 @@
           <button id="accordion-button-5" aria-expanded="false"><span class="accordion-title">Сертификат</span><span class="icon" aria-hidden="true"></span></button>
           <div class="accordion-content">
             <p class="mobile-cirtificate">
-            {% for certificate in certificates %}
-                <img src="{{certificate.photo.url}}" alt="">
-            {% endfor %}
+              {%if certificates%}
+              {% for certificate in certificates %}
+              <a href="{{certificate.certificate.url}}#" target=_blank><img style="max-height: 35px;" src="{% static '/img/pdf-svgrepo-com.svg' %}"></a>    
+              {% comment %} <img src="{{certificate.photo.url}}" alt=""> {% endcomment %}
+              {% endfor %}
+              {%endif%}
             </p>
           </div>
         </div>
@@ -132,9 +162,12 @@
         {{item.delivery|safe}}
       </div>
       <div id="content-5" class="pc-certificate">
-       {% for certificate in certificates %}
-       <img class="zoom-img" id="zoom-img" src="{{certificate.photo.url}}" alt="">
-       {% endfor %}
+        {%if certificates%}
+        {% for certificate in certificates %}
+        {% comment %} <img class="zoom-img" id="zoom-img" src="{{certificate.photo.url}}" alt=""> {% endcomment %}
+        <a href="{{certificate.certificate.url}}#" target=_blank><img style="max-height: 70px;" src="{% static 'img/pdf-svgrepo-com.svg' %}"></a> 
+        {% endfor %}
+        {%endif%}
       </div>
     </div>
 
@@ -316,5 +349,291 @@ function toggleAccordion() {
   }
 }
 items.forEach(item => item.addEventListener('click', toggleAccordion));
+  </script>
+  <style>
+    .slider {
+      position: relative;
+      width: 100%;
+      height: 25vw;
+      margin: 0px auto 0;
+      user-select: none;
+      touch-action: none;
+    }
+    
+    .slider img {
+      poiner-events: none;
+      width: auto;
+    }
+    
+    .slider-list {
+      width: 100%;
+      height: 25vw;
+      overflow: hidden;
+    }
+    
+    {% comment %} .slider-list.grab {
+      cursor: grab;
+    } {% endcomment %}
+    
+    {% comment %} .slider-list.grabbing{
+      cursor: grabbing;
+    } {% endcomment %}
+    
+    .slider-track {
+      display: flex;
+    }
+    
+    .slide {
+      width: 100%;
+      height: 25vw;
+      flex-shrink: 0;
+      font-size: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+    }
+    
+    .slider-arrows {
+      margin-top: 15px;
+      text-align: center;
+      position: absolute;
+      top:50%;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      z-index: 9;
+      width: 90%;
+      display: flex;
+      justify-content: space-between;
+    } .slider-arrows img{
+      transform:none!IMPORTANT;
+      cursor: pointer!IMPORTANT;
+    }
+    
+    .next,
+    .prev {
+      background: none;
+      border: none;
+      margin: 0 10px;
+      font-size: 30px;
+      cursor: pointer!IMPORTANT;
+
+      border-radius: 100%;
+      background-color: #FFFFFF;
+      box-shadow: 0px 0px 3px 2px #00000017;
+      box-sizing: border-box;
+      padding: 12px 12px 12px 12px;
+      height: 38px;
+      width: 38px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .next.disabled,
+    .prev.disabled {
+      opacity: .25;
+      pointer-events: none;
+    }
+  @media (max-width: 1300px){
+    .slide, .slider{
+      height: 49vw;
+    }.slider img{
+      height: 49vw;
+    }.slider-list{
+      height: 49vw;
+    }
+  }
+  [type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
+    cursor: pointer!IMPORTANT;
+}
+  </style>
+  <script>
+    let slider = document.querySelector('.slider'),
+    sliderList = slider.querySelector('.slider-list'),
+    sliderTrack = slider.querySelector('.slider-track'),
+    slides = slider.querySelectorAll('.slide'),
+    arrows = slider.querySelector('.slider-arrows'),
+    prev = arrows.children[0],
+    next = arrows.children[1],
+    slideWidth = slides[0].offsetWidth,
+    slideIndex = 0,
+    posInit = 0,
+    posX1 = 0,
+    posX2 = 0,
+    posY1 = 0,
+    posY2 = 0,
+    posFinal = 0,
+    isSwipe = false,
+    isScroll = false,
+    allowSwipe = false,
+    transition = false,
+    nextTrf = 0,
+    prevTrf = 0,
+    lastTrf = --slides.length * slideWidth,
+    posThreshold = slides[0].offsetWidth * 0.35,
+    trfRegExp = /([-0-9.]+(?=px))/,
+    swipeStartTime,
+    swipeEndTime,
+    getEvent = function() {
+      return (event.type.search('touch') !== -1) ? event.touches[0] : event;
+    },
+    slide = function() {
+      if (transition) {
+        sliderTrack.style.transition = 'transform .5s';
+      }
+      sliderTrack.style.transform = `translate3d(-${slideIndex * slideWidth}px, 0px, 0px)`;
+  
+      prev.classList.toggle('disabled', slideIndex === 0);
+      next.classList.toggle('disabled', slideIndex === --slides.length);
+    },
+    swipeStart = function() {
+      let evt = getEvent();
+  
+      if (allowSwipe) {
+  
+        swipeStartTime = Date.now();
+        
+        transition = true;
+  
+        nextTrf = (slideIndex + 1) * -slideWidth;
+        prevTrf = (slideIndex - 1) * -slideWidth;
+  
+        posInit = posX1 = evt.clientX;
+        posY1 = evt.clientY;
+  
+        sliderTrack.style.transition = '';
+  
+        document.addEventListener('touchmove', swipeAction);
+        document.addEventListener('mousemove', swipeAction);
+        document.addEventListener('touchend', swipeEnd);
+        document.addEventListener('mouseup', swipeEnd);
+  
+        sliderList.classList.remove('grab');
+        sliderList.classList.add('grabbing');
+      }
+    },
+    swipeAction = function() {
+  
+      let evt = getEvent(),
+        style = sliderTrack.style.transform,
+        transform = +style.match(trfRegExp)[0];
+  
+      posX2 = posX1 - evt.clientX;
+      posX1 = evt.clientX;
+  
+      posY2 = posY1 - evt.clientY;
+      posY1 = evt.clientY;
+  
+      if (!isSwipe && !isScroll) {
+        let posY = Math.abs(posY2);
+        if (posY > 7 || posX2 === 0) {
+          isScroll = true;
+          allowSwipe = false;
+        } else if (posY < 7) {
+          isSwipe = true;
+        }
+      }
+  
+      if (isSwipe) {
+        if (slideIndex === 0) {
+          if (posInit < posX1) {
+            setTransform(transform, 0);
+            return;
+          } else {
+            allowSwipe = true;
+          }
+        }
+  
+        // запрет ухода вправо на последнем слайде
+        if (slideIndex === --slides.length) {
+          if (posInit > posX1) {
+            setTransform(transform, lastTrf);
+            return;
+          } else {
+            allowSwipe = true;
+          }
+        }
+  
+        if (posInit > posX1 && transform < nextTrf || posInit < posX1 && transform > prevTrf) {
+          reachEdge();
+          return;
+        }
+  
+        sliderTrack.style.transform = `translate3d(${transform - posX2}px, 0px, 0px)`;
+      }
+  
+    },
+    swipeEnd = function() {
+      posFinal = posInit - posX1;
+  
+      isScroll = false;
+      isSwipe = false;
+  
+      document.removeEventListener('touchmove', swipeAction);
+      document.removeEventListener('mousemove', swipeAction);
+      document.removeEventListener('touchend', swipeEnd);
+      document.removeEventListener('mouseup', swipeEnd);
+  
+      sliderList.classList.add('grab');
+      sliderList.classList.remove('grabbing');
+  
+      if (allowSwipe) {
+        swipeEndTime = Date.now();
+        if (Math.abs(posFinal) > posThreshold || swipeEndTime - swipeStartTime < 300) {
+          if (posInit < posX1) {
+            slideIndex--;
+          } else if (posInit > posX1) {
+            slideIndex++;
+          }
+        }
+  
+        if (posInit !== posX1) {
+          allowSwipe = false;
+          slide();
+        } else {
+          allowSwipe = true;
+        }
+  
+      } else {
+        allowSwipe = true;
+      }
+  
+    },
+    setTransform = function(transform, comapreTransform) {
+      if (transform >= comapreTransform) {
+        if (transform > comapreTransform) {
+          sliderTrack.style.transform = `translate3d(${comapreTransform}px, 0px, 0px)`;
+        }
+      }
+      allowSwipe = false;
+    },
+    reachEdge = function() {
+      transition = false;
+      swipeEnd();
+      allowSwipe = true;
+    };
+  
+  sliderTrack.style.transform = 'translate3d(0px, 0px, 0px)';
+  sliderList.classList.add('grab');
+  
+  sliderTrack.addEventListener('transitionend', () => allowSwipe = true);
+  slider.addEventListener('touchstart', swipeStart);
+  slider.addEventListener('mousedown', swipeStart);
+  
+  arrows.addEventListener('click', function() {
+    let target = event.target;
+  
+    if (target.classList.contains('next')) {
+      slideIndex++;
+    } else if (target.classList.contains('prev')) {
+      slideIndex--;
+    } else {
+      return;
+    }
+  
+    slide();
+  });
   </script>
   {% endblock %}

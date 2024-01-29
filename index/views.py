@@ -240,6 +240,7 @@ def item(request, item_id):
         'item': items.get(id=item_id),
         'items': items,
         'certificates': CertificateImages.objects.filter(item=item),
+        'images': ItemImages.objects.filter(item=item),
         'title': f'{item.name}',
         'cart': cart,
         'cart_items': cart_items,
@@ -468,6 +469,7 @@ def historyOrders(request):
 
 def MyBonus(request):
     context = {
+        'title': 'Мои бонусы',
         'mybonus': BonusWallet.objects.filter(user=request.user)
     }
     return render(request, 'cabinet/my_bonus.html', context=context)
