@@ -129,7 +129,7 @@
               {%if certificate.certificate%}
               <a href="{{certificate.certificate.url}}#" target=_blank><img style="max-height: 35px;" src="{% static '/img/pdf-svgrepo-com.svg' %}"></a>    
               {% comment %} <img src="{{certificate.photo.url}}" alt=""> {% endcomment %}
-              {%else%}
+              {%endif%}
               {% endfor %}
               {%endif%}
             </p>
@@ -169,7 +169,7 @@
         {%if certificate.certificate%}
         {% comment %} <img class="zoom-img" id="zoom-img" src="{{certificate.photo.url}}" alt=""> {% endcomment %}
         <a href="{{certificate.certificate.url}}#" target=_blank><img style="max-height: 70px;" src="{% static 'img/pdf-svgrepo-com.svg' %}"></a> 
-        {%else%}
+        {%endif%}
         {% endfor %}
         {%endif%}
       </div>
