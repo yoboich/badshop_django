@@ -24,6 +24,7 @@ class Item(models.Model):
     delivery = RichTextField(blank=True, null=True, verbose_name="Информация о доставке")
     category = models.ForeignKey('Category', blank=True, null=True, on_delete=models.CASCADE, verbose_name="Категория")
     brend = models.ForeignKey('Brend', blank=True, null=True, on_delete=models.CASCADE, verbose_name="Бренд")
+    active_bad = models.ForeignKey('Bads', blank=True, null=True, on_delete=models.CASCADE, verbose_name='Активное вещество')
 
     bonus_percentage = models.FloatField(
         default=15, 
@@ -65,6 +66,20 @@ class Category(models.Model):
     def __str__(self):
         return self.title
 
+
+
+
+
+class Bads(models.Model):
+    title = models.CharField(max_length=255, verbose_name='Активное вещество')
+    
+    class Meta:
+        verbose_name = 'Активное вещество'
+        verbose_name_plural = 'Активные вещества'
+
+    def __str__(self) -> str:
+        return self.title
+
 class CertificateImages(models.Model):
     #########photo = models.ImageField(upload_to='certificates/%Y/%m/%d/', blank=True, null=True)
     certificate = models.FileField(upload_to='certificates/%Y/%m/%d/', blank=True, null=True, verbose_name='PDF Сертификат (не изображение!)')
@@ -78,7 +93,7 @@ class CertificateImages(models.Model):
 
 
 class ItemImages(models.Model):
-    image = models.ImageField(upload_to='images/%Y/%m/%d/', blank=True, null=True, verbose_name='Только PNG фото товаров!')
+    image = models.ImageField(upload_to='images/%Y/%m/%d/', blank=True, null=True, verbose_name='Только PNG фото!')
     item = models.ForeignKey(Item, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self) -> str:

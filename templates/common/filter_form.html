@@ -8,6 +8,7 @@
 			  {{ category.title }}
 			</a>
 		  {% endfor %}
+
 		  <script>
 			document.addEventListener("DOMContentLoaded", function() {
 			  var currentCategoryId = "{{ request.GET.category }}";
@@ -24,6 +25,34 @@
 			</script>
 		</div>  
 	</details>
+	<details>
+		<summary>Активное вещество</summary>
+		<div class="category-overflow">
+			{% for bad in bads %}
+			<a href="{% url 'filter_catalog_view' %}?bad={{ bad.id }}" class="category-link" data-bad-id="{{ bad.id }}">
+			  {{ bad.title }}
+			</a>
+			{% endfor %}
+
+		  <script>
+			document.addEventListener("DOMContentLoaded", function() {
+			  var currentCategoryId = "{{ request.GET.bad }}";
+			  var categoryLinks = document.querySelectorAll(".category-link");
+			
+			  categoryLinks.forEach(function(link) {
+				var categoryId = link.getAttribute("data-bad-id");
+			
+				if (categoryId === currentCategoryId) {
+				  link.classList.add("active-link");
+				}
+			  });
+			});
+			</script>
+		</div>  
+	</details>
+
+
+
       <details open>
           <summary open>Цена</summary>
 		  <div class="range" >
@@ -54,6 +83,7 @@
               </div>
           {% endfor %}
       </details>
+	  
     {% comment %} <details>
         <summary>Скидка</summary>
     </details> {% endcomment %}
