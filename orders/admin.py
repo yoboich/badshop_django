@@ -1,6 +1,10 @@
 from django.contrib import admin
 
-from orders.models import Order, OrderStatus, Payment, AppliedPromoCode, TransportCompany
+from orders.models import (
+    Order, OrderStatus, 
+    Payment, AppliedPromoCode, 
+    TransportCompany, OrderItem,
+    )
 
 # Register your models here.
 
@@ -12,6 +16,11 @@ class OrderAdmin(admin.ModelAdmin):
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
     list_display = ('order', 'payment_amount', 'payment_date',)
+
+@admin.register(OrderItem)
+class OrderItemAdmin(admin.ModelAdmin):
+    list_display = ('order', 'item', 'quantity', 'price', 'sale_price')
+    
 
 admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderStatus)
