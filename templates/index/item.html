@@ -22,11 +22,11 @@
         <div class="slider">
           <div class="slider-list" draggable="false">
             <div class="slider-track" draggable="false">
-              {% comment %} {% if item.image %}
+            {% if item.image %}
               <div class="slide" draggable="false">
-              <img src="{{item.image.url}}" alt=""  class="hover-image-scale">
+              <img src="{{item.image.url}}" alt=""  draggable="false">
               </div>     
-            {% endif %} {% endcomment %}
+            {% endif %}
             {%if images%}
             {% for image in images %}
             <div class="slide" draggable="false">
@@ -42,9 +42,6 @@
             <button type="button" class="next"><img style="height:19px;" src="{% static '/img/VectorRight.svg' %}" /></button>
           </div>
         </div>
-
-
-          
 
       </div>
       
