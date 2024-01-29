@@ -11,6 +11,7 @@ function filter_items(){
     const price_min = document.getElementById('range-min').value
     const price_max = document.getElementById('range-max').value
     const category = getParameterByName('category')
+    const bad = getParameterByName('bad')
     const urlParams = new URLSearchParams('')
     
     urlParams.set('brend', brend)
@@ -19,6 +20,9 @@ function filter_items(){
     urlParams.set('price-max', price_max)
     if (category !== null){
     urlParams.set('category', category)
+    }
+    if (bad !== null){
+    urlParams.set('bad', bad)
     }
     window.location.search = urlParams
 
