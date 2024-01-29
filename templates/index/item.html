@@ -16,7 +16,6 @@
       </div>
     </nav>
     <h1>{{item.name}}</h1>
-
     <div class="item-content-layout">
       <div class="item-img-page-content hover-image-scale">
         <div class="slider">
@@ -38,8 +37,8 @@
             </div>
           </div>
           <div class="slider-arrows">
-            <button type="button" class="prev"><img style="height: 19px;" src="{% static '/img/VectorLeft.svg' %}" /></button>
-            <button type="button" class="next"><img style="height:19px;" src="{% static '/img/VectorRight.svg' %}" /></button>
+            <button type="button" class="prev">&#8592;</button>
+            <button type="button" class="next">&#8594;</button>
           </div>
         </div>
 
@@ -419,17 +418,17 @@ items.forEach(item => item.addEventListener('click', toggleAccordion));
       margin: 0 10px;
       font-size: 30px;
       cursor: pointer!IMPORTANT;
-
       border-radius: 100%;
       background-color: #FFFFFF;
       box-shadow: 0px 0px 3px 2px #00000017;
       box-sizing: border-box;
-      padding: 12px 12px 12px 12px;
+      padding: 9px 12px 12px 12px;
       height: 38px;
       width: 38px;
       display: flex;
       justify-content: center;
       align-items: center;
+      font-size: 19px;
     }
     
     .next.disabled,
@@ -636,5 +635,11 @@ items.forEach(item => item.addEventListener('click', toggleAccordion));
   
     slide();
   });
+
+
+
+  $(window).on('DOMContentLoaded', ()=>{
+    update_favorite_total_count()
+  })
   </script>
   {% endblock %}
