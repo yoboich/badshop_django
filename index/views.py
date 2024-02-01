@@ -429,8 +429,10 @@ class CustomUserPasswordChangeView(PasswordChangeView):
 def filter_catalog_view(request):
     query = request.GET.get('search')
     brend = request.GET.get('brend')
-    bad = int(request.GET.get('bad')) if bad else None
-    category = int(request.GET.get('category')) if category else None
+    bad = int(request.GET.get('bad')) \
+        if request.GET.get('bad') else None
+    category = int(request.GET.get('category')) \
+        if request.GET.get('category') else None
     try:
         brend = map(int, brend.split(','))
     except:
