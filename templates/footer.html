@@ -59,7 +59,12 @@
     fetch('/get_cart_count', { method: 'GET' })
       .then(response => response.json())
       .then(data => {
+        if (data.count > 0){
         cartCountElement.textContent = data.count;
+        cartCountElement.hidden = false
+        }else{
+          cartCountElement.hidden = true
+        }
       });
   }
 

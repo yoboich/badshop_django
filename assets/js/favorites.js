@@ -43,11 +43,18 @@ function toggle_favorite(item_id){
 
 // Получаем количество избранных товаров для навбара
 function update_favorite_total_count() {
+    likeCountElement = document.getElementById('like-count')
     $.ajax({
         type: 'GET',
         url: favorite_total_count_url,
         success: function(json){
-            document.getElementById('like-count').innerHTML= json['favorite_total_count']
+            let count = json['favorite_total_count']
+            if (count > 0){
+                likeCountElement.innerHTML = count
+                likeCountElement.hidden = false
+            }else{
+                likeCountElement.hidden = true
+            }
         }
         
     })
