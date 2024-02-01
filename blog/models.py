@@ -20,13 +20,16 @@ class Post(models.Model):
 class Paragraph(models.Model):
     name = models.CharField(
         max_length=255,
+        verbose_name='Название',
         null=True, blank=True
     )
     text = models.TextField(
+        verbose_name='Текст параграфа',
         null=True, blank=True
     )
     parent = models.ForeignKey(
         'self',
+        verbose_name='Родительский параграф',
         on_delete=models.CASCADE,
         null=True, blank=True,
     )
