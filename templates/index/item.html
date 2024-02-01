@@ -47,7 +47,10 @@
       </div>
       
         <div class="item-actions">
-          <span class="large-price"></span> Много
+          <div class="d-flex justify-content-between">
+            <div><span class="large-price"></span> Много</div>
+            <div>{% if item.vendor_code%}Артикул: {{item.vendor_code}}{%endif%}</div>
+          </div>
           <div class="clearboth"></div>
           <div class="action-price">
             {%if item.discount > 0%}
@@ -57,7 +60,7 @@
             {%endif%}
           </div>
           <div class="clearboth"></div>
-          <p>Будет начислино <span>25</span> бонусов</p>
+          <p>Будет начислено <span>25</span> бонусов</p>
 {#          <a href="#"> ДОБАВИТЬ В КОРЗИНУ</a>#}
             <button 
               onclick="toggleCart({{ item.id }})" 

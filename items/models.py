@@ -37,6 +37,11 @@ class Item(models.Model):
         blank=True, null=True,
         help_text='Оставьте пустым, оно само генерируется при заполнении названия'
     )
+    vendor_code = models.CharField(
+        max_length=255,
+        verbose_name='Артикул',
+        blank=True, null=True,
+    )
 
     bonus_percentage = models.FloatField(
         default=15, 
