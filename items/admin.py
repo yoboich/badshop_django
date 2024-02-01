@@ -18,6 +18,7 @@ class ItemAdmin(admin.ModelAdmin):
     list_display = ('name', 'price', 'discount', 'bonus_percentage', 'sale_price','views_count', 'category')
     list_filter = ('name', 'price')
     search_fields = ('name', 'price')
+    prepopulated_fields = {"slug": ("name",)}
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('title',)
