@@ -1,7 +1,12 @@
 from django.contrib import admin
 from django.db import models
 
-from items.models import Item, Category, Brend, CertificateImages, CartItem, Cart, FavoriteItem, ItemImages, Bads
+from items.models import (
+    Item, Category, Brend, 
+    CertificateImages, CartItem, 
+    Cart, FavoriteItem, ItemImages, 
+    Bads, UserItem
+)
 
 
 class CertificateImageInline(admin.TabularInline):  # или `admin.TabularInline` для табличного представления
@@ -42,6 +47,10 @@ class CartItemAdmin(admin.ModelAdmin):
 @admin.register(Bads)
 class BadsAdmin(admin.ModelAdmin):
     list_display = ('title',)
+
+@admin.register(UserItem)
+class UserItemAdmin(admin.ModelAdmin):
+    list_display = ('user', 'item')
 
 admin.site.register(Category)
 admin.site.register(CertificateImages)

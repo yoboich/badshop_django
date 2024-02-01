@@ -16,11 +16,14 @@ from orders.views import (
     get_cart_data_ajax, 
     payment_finished_view, order_page_view,
     save_order_data_view, apply_promocode_ajax,
-    delete_cart_item_ajax,
+    delete_cart_item_ajax
     )
 from users.views import AppLoginView, AppLogoutView, AppRegistration
 from users.forms import CustomUserSetPasswordForm
-from items.views import toggle_item_favorite_state_ajax, get_favorite_total_count_ajax
+from items.views import (
+    toggle_item_favorite_state_ajax, get_favorite_total_count_ajax,
+    inform_on_product_arrival_ajax, remove_from_waiting_list_ajax
+    )
 from utils.views import yoo_kassa_webhook_view
 
 
@@ -96,6 +99,11 @@ urlpatterns = [
     path('order_page/', order_page_view, name='order_page'),
     path('payment_finished/', payment_finished_view, name='payment_finished'),
     path('save_order_data/', save_order_data_view, name='save_order_data'),
+
+    path('inform_on_product_arrival/', inform_on_product_arrival_ajax, name='inform_on_product_arrival'),
+    path('remove_from_waiting_list/', remove_from_waiting_list_ajax, name='remove_from_waiting_list'),
+
+
 
     path('webhooks/yookassa/', yoo_kassa_webhook_view, name='yoo_kassa_webhook'),
 

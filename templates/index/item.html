@@ -62,6 +62,8 @@
           <div class="clearboth"></div>
           <p>Будет начислено <span>25</span> бонусов</p>
 {#          <a href="#"> ДОБАВИТЬ В КОРЗИНУ</a>#}
+            
+          {% if item.amount > 0 %}
             <button 
               onclick="toggleCart({{ item.id }})" 
               class="button-add-to-cart {% if item.id in cart_items%}item-added-to-cart{% endif %}" 
@@ -69,14 +71,34 @@
               data-like-item-id="{{item.id}}"
               >
 
-
                 {% if item.id in cart_items %}
                     В корзине
                 	{% else %}
                     Добавить в корзину
                 {% endif %}
 
-
+          {% else %}
+          
+            <button 
+              class="button-add-to-cart"
+              id="inform-on-product-arrival-btn"
+              style="background-color: rgb(59, 118, 245)"
+              onclick="inform_on_product_arrival(event, {{item.id}})"
+              {% if request.user.is_authenticated and request.user in item.users_waiting.all %}hidden{%endif%}
+              >
+              Сообщить о поступлении
+            </button>
+            
+            <button 
+            id="remove-from-waiting-list-btn"
+            class="button-add-to-cart"
+            style="background-color: rgb(59, 118, 245)"
+            onclick="remove_from_waiting_list(event, {{item.id}})"
+            {% if request.user.is_authenticated and request.user not in item.users_waiting.all %}hidden{%endif%}
+            >
+            Убрать товар из списка ожидания
+          </button>
+          {% endif %}
 
 
             </button>

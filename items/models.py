@@ -42,12 +42,23 @@ class Item(models.Model):
         verbose_name='Артикул',
         blank=True, null=True,
     )
-
+    
     bonus_percentage = models.FloatField(
         default=15, 
         verbose_name="Процент бонусных баллов"
         )
 
+    amount = models.IntegerField(
+        verbose_name='Остаток на складе',
+        default=0,
+    )
+    
+    users_waiting = models.ManyToManyField(
+        to='users.CustomUser',
+        through='UserItem',
+        verbose_name='Пользователи, ожидающие товар',
+        blank=True,
+    )
     def item_discount(self):
         return int(self.price * self.discount / 100)
 
@@ -227,3 +238,15 @@ class Cart(CartMethodsMixin, DiscountMethodsMixin, models.Model):
         verbose_name_plural = 'Корзины'
 
 
+class UserItem(models.Model):
+    user = models.ForeignKey(
+        to='users.CustomUser',
+        on_delete=models.CASCADE,
+        verbose_name='Пользователь'
+    )
+    item = models.ForeignKey(
+        to='Item',
+        on_delete=models.CASCADE,
+        verbose_name='Товар'
+    )
+    

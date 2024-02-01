@@ -159,3 +159,7 @@ def delete_cart_item_ajax(request):
                 f'Ошибка при удалении товара из корзины - {e}'
                 )
             return JsonResponse({'result': 'error'})
+        
+        
+
+        

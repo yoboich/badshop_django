@@ -124,6 +124,53 @@
     })
   }
 
+  function inform_on_product_arrival(e, item_id){
+    $.ajax({
+      type: 'POST',
+      url: '{% url "inform_on_product_arrival" %}',
+      headers: {
+          'X-CSRFToken': csrfToken
+      },
+      data: {
+          item_id: item_id
+      },
+      success: function(json){
+        if (json['result'] === 'success'){
+          e.target.hidden = true
+          document.getElementById('remove-from-waiting-list-btn').hidden = false
+          alert('Товар добавлен в список ожидания, мы сообщим вам, как только он появится')
+        }else if ('error' in json){
+          alert(json['error'])
+        }else{
+          alert('Что-то пошло не так')
+        }
+      }    
+    })
+  }
+  function remove_from_waiting_list(e, item_id){
+    $.ajax({
+      type: 'POST',
+      url: '{% url "remove_from_waiting_list" %}',
+      headers: {
+          'X-CSRFToken': csrfToken
+      },
+      data: {
+          item_id: item_id
+      },
+      success: function(json){
+        if (json['result'] === 'success'){
+          e.target.hidden = true
+          document.getElementById('inform-on-product-arrival-btn').hidden = false
+          alert('Товар удален из списка ожидания')
+        }else if ('error' in json){
+          alert(json['error'])
+        }else{
+          alert('Что-то пошло не так')
+        }
+      }    
+    })
+  }
+
 
 
   // Модифицируйте функцию toggleCart для обновления количества товаров в корзине в реальном времени
