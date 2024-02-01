@@ -1,4 +1,5 @@
 from django.urls import path, reverse_lazy
+
 from django.contrib.auth.views import (
     PasswordResetView, PasswordResetDoneView,
     PasswordResetCompleteView, PasswordResetConfirmView
@@ -21,6 +22,8 @@ from users.views import AppLoginView, AppLogoutView, AppRegistration
 from users.forms import CustomUserSetPasswordForm
 from items.views import toggle_item_favorite_state_ajax, get_favorite_total_count_ajax
 from utils.views import yoo_kassa_webhook_view
+
+
 
 urlpatterns = [
 

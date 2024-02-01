@@ -479,3 +479,4 @@ def MyBonus(request):
         'mybonus': BonusWallet.objects.filter(user=request.user)
     }
     return render(request, 'cabinet/my_bonus.html', context=context)
+
