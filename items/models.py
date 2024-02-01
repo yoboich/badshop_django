@@ -22,7 +22,6 @@ class Item(models.Model):
     image = models.ImageField(upload_to="items/%Y/%m/%d/", blank=True, null=True, verbose_name="Превью Изображение товара")
     price = models.IntegerField(default=0, blank=True, null=True, verbose_name="Цена товара")
     discount = models.IntegerField(default=0, blank=True, null=True, verbose_name="Скидка %")
-    # seil_price = models.IntegerField(default=0, blank=True, null=True, verbose_name="Цена со скидкой")
     views_count = models.IntegerField(default=0, verbose_name="Количество просмотров")
     rating = models.IntegerField(default=0, blank=True, null=True, verbose_name="Рэйтинг")
     text = RichTextField(blank=True, null=True, verbose_name="Описание товара")

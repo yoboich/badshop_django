@@ -173,7 +173,9 @@ def index(request):
         'cart_items': cart_items,
         'favorite_items': favorite_items,
     }
-
+    items = Item.objects.all()
+    for item in items:
+        item.save()
     return render(request, 'index/index.html', context)
 
 

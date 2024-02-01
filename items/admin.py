@@ -13,6 +13,7 @@ class ItemImagesInline(admin.TabularInline):
     model = ItemImages
     extra = 1
 
+@admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
     inlines = (CertificateImageInline, ItemImagesInline)
     list_display = ('name', 'price', 'discount', 'bonus_percentage', 'sale_price','views_count', 'category')
@@ -43,6 +44,5 @@ class BadsAdmin(admin.ModelAdmin):
     list_display = ('title',)
 
 admin.site.register(Category)
-admin.site.register(Item, ItemAdmin)
 admin.site.register(CertificateImages)
 admin.site.register(Brend)
