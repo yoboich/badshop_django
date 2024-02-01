@@ -435,7 +435,7 @@ def filter_catalog_view(request):
         brend = brend.split(',')
     except:
         brend = ''
- 
+    logger.debug(f'category = {category}')
     price_min = request.GET.get('price-min') or 0
     max_item_price = Item.objects.aggregate(
         price_max=Max('price')
@@ -448,7 +448,7 @@ def filter_catalog_view(request):
         brend, category, bad,
         price_max, price_min,
         )
-
+    
     cart = Cart.get_or_create_cart(request)
     
     context = {
