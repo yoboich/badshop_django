@@ -33,6 +33,7 @@ class Item(models.Model):
     slug = models.SlugField('Слаг',
         default='',
         max_length=500,
+        unique=True,
         blank=True, null=True,
         help_text='Оставьте пустым, оно само генерируется при заполнении названия'
     )
