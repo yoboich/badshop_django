@@ -68,41 +68,6 @@ def cart(request):
 
 
 
-# def update_cart_quantity(request, item_id, new_quantity):
-
-
-#     item = get_object_or_404(Item, pk=item_id)
-
-#     # Получите или создайте объект CartItem для текущего пользователя
-#     cart_item, created = CartItem.objects.get_or_create(user=request.user, item=item)
-
-#     if new_quantity <= 0:
-#         # Если новое количество товара равно или меньше нуля, удалите товар из корзины
-#         cart_item.delete()
-#     else:
-#         # Обновите количество товара в корзине
-#         cart_item.quantity = new_quantity
-#         cart_item.save()
-
-#     # Пересчитайте обновленные данные корзины
-#     cart_items = CartItem.objects.filter(user=request.user)
-#     total_price = calculate_cart_total(cart_items)  # Пересчитать общую стоимость корзины
-#     total_quantity = cart_items.aggregate(total_quantity=Sum('quantity'))['total_quantity'] or 0  # Пересчитать общее количество товаров
-#     total_discount = calculate_cart_discount(cart_items)  # Пересчитать общую сумму скидки
-#     total_without_discount = calculate_cart_total_without_discount(cart_items)  # Пересчитать общую сумму товаров без скидки
-
-#     # Верните обновленные данные в формате JSON
-#     data = {
-#         'message': 'Количество товара обновлено успешно',
-#         'new_quantity': new_quantity,
-#         'total_items': total_quantity,
-#         'total_price': total_price,
-#         'total_discount': total_discount,
-#         'total_without_discount': total_without_discount,
-#     }
-#     return JsonResponse(data)
-
-
 
 ## ДОБАВЛЕНИЕ ТОВАРОВ В КОРЗИНУ
 def toggle_cart(request, item_id):
@@ -186,37 +151,6 @@ def catalog_categories(request):
         'categories': Category.objects.all(),
     }
     return render(request, 'index/catalog_categories.html', context)
-
-
-# СТРАНИЦА КАТЕГОРИИ КАТАЛОГА
-def category_page(request, category_id):
-    pass
-    # categories = Category.objects.all()
-    # minMaxPrice = Item.objects.aggregate(Min('seil_price'), Max('seil_price'))
-    # minPrice = Item.objects.aggregate(Min('seil_price'))['seil_price__min']
-    # category = categories.get(id=category_id)
-    # if request.user.is_authenticated:
-    #     # Если пользователь авторизован, получаем товары из базы данных
-    #     cart_item_ids = CartItem.objects.filter(cart__user=request.user).values_list('item_id', flat=True)
-    #     cart_items = list(cart_item_ids)
-    #     favorite_items_ids = FavoriteItem.objects.filter(user=request.user).values_list('item_id', flat=True)
-    #     favorite_items = list(favorite_items_ids)
-    # else:
-    #     # Если пользователь не авторизован, получаем товары из сессии
-    #     cart_items = request.session.get('cart', [])
-    #     favorite_items = request.session.get('favorites', [])
-    # context = {
-    #     'category': category,
-    #     'items': Item.objects.filter(category_id=category_id),
-    #     'categories': categories,
-    #     'brends': Brend.objects.all(),
-    #     'minMaxPrice': minMaxPrice,
-    #     'minPrice': minPrice,
-    #     'title': f'{category.title}',
-    #     'cart_items': cart_items,
-    #     'favorite_items': favorite_items,
-    # }
-    # return render(request, 'index/catalog_items.html', context)
 
 
 
@@ -460,7 +394,7 @@ def filter_catalog_view(request):
         'cart': cart,
         'price_max': max_item_price,
         'brends': Brend.objects.all(),
-        'bads': Bads.objects.all(),
+        'bads': ActiveBad.objects.all(),
         'categories': Category.objects.all()
     }
 

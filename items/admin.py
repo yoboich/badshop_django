@@ -5,7 +5,7 @@ from items.models import (
     Item, Category, Brend, 
     CertificateImages, CartItem, 
     Cart, FavoriteItem, ItemImages, 
-    Bads, UserItem
+    UserItem, ActiveBad
 )
 
 
@@ -44,9 +44,6 @@ class CartAdmin(admin.ModelAdmin):
 class CartItemAdmin(admin.ModelAdmin):
     list_display = ('item', 'quantity', 'cart', 'date_added')
 
-@admin.register(Bads)
-class BadsAdmin(admin.ModelAdmin):
-    list_display = ('title',)
 
 @admin.register(UserItem)
 class UserItemAdmin(admin.ModelAdmin):
@@ -55,3 +52,4 @@ class UserItemAdmin(admin.ModelAdmin):
 admin.site.register(Category)
 admin.site.register(CertificateImages)
 admin.site.register(Brend)
+admin.site.register(ActiveBad)

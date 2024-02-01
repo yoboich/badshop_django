@@ -29,7 +29,11 @@ class Item(models.Model):
     delivery = RichTextField(blank=True, null=True, verbose_name="Информация о доставке")
     category = models.ForeignKey('Category', blank=True, null=True, on_delete=models.CASCADE, verbose_name="Категория")
     brend = models.ForeignKey('Brend', blank=True, null=True, on_delete=models.CASCADE, verbose_name="Бренд")
-    active_bad = models.ForeignKey('Bads', blank=True, null=True, on_delete=models.CASCADE, verbose_name='Активное вещество')
+    active_bads = models.ManyToManyField(
+        to='ActiveBad', 
+        verbose_name='Активное вещество',
+        blank=True
+        )
     slug = models.SlugField('Слаг',
         default='',
         max_length=500,
@@ -99,6 +103,20 @@ class Item(models.Model):
         super().save(*args, **kwargs)
 
 
+class ActiveBad(models.Model):
+    name = models.CharField(
+        max_length=255,
+        verbose_name='Название',
+    )
+    
+    def __str__(self):
+        return self.name
+    
+    class Meta:
+        verbose_name = 'Действующее вещество'
+        verbose_name_plural = 'Действующие вещества'
+        
+
 class Category(models.Model):
     title = models.CharField(max_length=200, blank=True, null=True, verbose_name="Название категории")
     parent = models.ForeignKey(
@@ -117,18 +135,6 @@ class Category(models.Model):
         return self.title
 
 
-
-
-
-class Bads(models.Model):
-    title = models.CharField(max_length=255, verbose_name='Активное вещество')
-    
-    class Meta:
-        verbose_name = 'Активное вещество'
-        verbose_name_plural = 'Активные вещества'
-
-    def __str__(self) -> str:
-        return self.title
 
 class CertificateImages(models.Model):
     #########photo = models.ImageField(upload_to='certificates/%Y/%m/%d/', blank=True, null=True)

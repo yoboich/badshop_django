@@ -30,7 +30,7 @@
 		<div class="category-overflow">
 			{% for bad in bads %}
 			<a href="{% url 'filter_catalog_view' %}?bad={{ bad.id }}" class="category-link" data-bad-id="{{ bad.id }}">
-			  {{ bad.title }}
+			  {{ bad.name }}
 			</a>
 			{% endfor %}
 

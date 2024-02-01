@@ -2,7 +2,6 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 
-from items.forms import AddItemForm
 from items.models import Item, FavoriteItem, CartItem
 
 from django.contrib.auth.decorators import login_required
