@@ -15,7 +15,7 @@ class ItemImagesInline(admin.TabularInline):
 
 class ItemAdmin(admin.ModelAdmin):
     inlines = (CertificateImageInline, ItemImagesInline)
-    list_display = ('name', 'price', 'discount', 'bonus_percentage', 'sale_price','views_count')
+    list_display = ('name', 'price', 'discount', 'bonus_percentage', 'sale_price','views_count', 'category')
     list_filter = ('name', 'price')
     search_fields = ('name', 'price')
 
