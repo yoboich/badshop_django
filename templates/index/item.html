@@ -11,7 +11,7 @@
       <div class="breadcrumbs">
         <a href="{% url 'index' %}">Главная »</a>
         <a href="{% url 'catalog_categories' %}">Магазин »</a>
-        <a href="{% url 'filter_catalog_view' %}?={{item.category.id}}">{{item.category.title}}</a>
+        <a href="{% url 'filter_catalog_view' %}?category={{item.category.id}}">{{item.category.title}}</a>
         <a href="{% url 'item' item.id %}">» {{item.name}}</a>
       </div>
     </nav>
