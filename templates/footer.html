@@ -124,10 +124,10 @@
     })
   }
 
-  function inform_on_product_arrival(e, item_id){
+  function add_to_waiting_list(e, item_id){
     $.ajax({
       type: 'POST',
-      url: '{% url "inform_on_product_arrival" %}',
+      url: '{% url "add_to_waiting_list" %}',
       headers: {
           'X-CSRFToken': csrfToken
       },
@@ -160,7 +160,7 @@
       success: function(json){
         if (json['result'] === 'success'){
           e.target.hidden = true
-          document.getElementById('inform-on-product-arrival-btn').hidden = false
+          document.getElementById('add-to-waiting-list-btn').hidden = false
           alert('Товар удален из списка ожидания')
         }else if ('error' in json){
           alert(json['error'])

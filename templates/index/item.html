@@ -81,9 +81,9 @@
           
             <button 
               class="button-add-to-cart"
-              id="inform-on-product-arrival-btn"
+              id="add-to-waiting-list-btn"
               style="background-color: rgb(59, 118, 245)"
-              onclick="inform_on_product_arrival(event, {{item.id}})"
+              onclick="add_to_waiting_list(event, {{item.id}})"
               {% if request.user.is_authenticated and request.user in item.users_waiting.all %}hidden{%endif%}
               >
               Сообщить о поступлении

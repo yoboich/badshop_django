@@ -56,7 +56,7 @@ def get_favorite_total_count_ajax(request):
     return JsonResponse({'favorite_total_count': favorite_total_count})
 
 
-def inform_on_product_arrival_ajax(request):
+def add_to_waiting_list_ajax(request):
     if request.method == 'POST':
         print('!here')
         item_id = request.POST.get('item_id')
