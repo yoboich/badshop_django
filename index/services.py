@@ -6,7 +6,7 @@ from items.models import Item, Cart
 from badshop_django.logger import logger
 
 def get_filter_items(max_item_price, query, brend, category, bad, price_max, price_min):
-    logger.debug(f'category in get_filter_items = {type(category)}')
+
     filter_dict = {}
     q_objects = Q()
     if category:

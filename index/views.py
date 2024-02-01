@@ -429,12 +429,12 @@ class CustomUserPasswordChangeView(PasswordChangeView):
 def filter_catalog_view(request):
     query = request.GET.get('search')
     brend = request.GET.get('brend')
-    bad = request.GET.get('bad')
-    category = request.GET.get('category')
+    bad = int(request.GET.get('bad'))
+    category = int(request.GET.get('category'))
     try:
-        brend = brend.split(',')
+        brend = map(int, brend.split(','))
     except:
-        brend = ''
+        brend = None
     logger.debug(f'category = {category}')
     price_min = request.GET.get('price-min') or 0
     max_item_price = Item.objects.aggregate(
