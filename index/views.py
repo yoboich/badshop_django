@@ -221,7 +221,7 @@ def category_page(request, category_id):
 
 
 # СТРАНИЦА ТОВАРА
-def item(request, item_id):
+def item(request, item_slug):
     if request.user.is_authenticated:
         # Если пользователь авторизован, получаем товары из базы данных
         cart_item_ids = CartItem.objects.filter(cart__user=request.user).values_list('item_id', flat=True)
@@ -234,10 +234,10 @@ def item(request, item_id):
         favorite_items = request.session.get('favorites', [])
 
     items = Item.objects.all()
-    item = items.get(id=item_id)
+    item = items.get(slug=item_slug)
     cart = Cart.get_or_create_cart(request)
     context = {
-        'item': items.get(id=item_id),
+        'item': items.get(slug=item_slug),
         'items': items,
         'certificates': CertificateImages.objects.filter(item=item),
         'images': ItemImages.objects.filter(item=item),
@@ -247,12 +247,12 @@ def item(request, item_id):
         'favorite_items': favorite_items,
     }
         # Проверяем, была ли установлена кука для данного товара
-    if not request.COOKIES.get(f'item_{item_id}_viewed'):
+    if not request.COOKIES.get(f'item_{item.id}_viewed'):
         # Если кука не установлена, увеличиваем счетчик просмотров и устанавливаем куку
         item.views_count += 1
         item.save()
         response = render(request, 'index/item.html', context)
-        response.set_cookie(f'item_{item_id}_viewed', 'true', max_age=3600)  # Кука действует 1 час
+        response.set_cookie(f'item_{item.id}_viewed', 'true', max_age=3600)  # Кука действует 1 час
 
         return response
     return render(request, 'index/item.html', context)

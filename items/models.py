@@ -1,3 +1,7 @@
+import uuid
+
+from slugify import slugify
+
 from ckeditor.fields import RichTextField
 from django.db import models
 from django.contrib.auth.models import User  # Для авторизованных пользователей
@@ -10,6 +14,8 @@ from users.models import CustomUser
 from utils.services import get_current_session, create_user_or_session_filter_dict
 from .model_methods.cart_methods import CartMethodsMixin
 from orders.model_methods.discount_methods import DiscountMethodsMixin
+
+
 # Create your models here.
 class Item(models.Model):
     name = models.CharField(max_length=200, verbose_name="Название товара")
@@ -25,6 +31,12 @@ class Item(models.Model):
     category = models.ForeignKey('Category', blank=True, null=True, on_delete=models.CASCADE, verbose_name="Категория")
     brend = models.ForeignKey('Brend', blank=True, null=True, on_delete=models.CASCADE, verbose_name="Бренд")
     active_bad = models.ForeignKey('Bads', blank=True, null=True, on_delete=models.CASCADE, verbose_name='Активное вещество')
+    slug = models.SlugField('Слаг',
+        default='',
+        max_length=50,
+        blank=True,
+        help_text='Оставьте пустым, оно само генерируется при заполнении названия'
+    )
 
     bonus_percentage = models.FloatField(
         default=15, 
@@ -47,6 +59,28 @@ class Item(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def unique_slug_generator(self, new_slug=None):
+        if new_slug is not None:
+            slug = new_slug
+        else:
+            slug = slugify(self.name)
+
+        slug_exists = self.__class__.objects.filter(slug=slug).exists()
+        if slug_exists:
+            new_slug = "{slug}-{randstr}".format(
+                slug=slug,
+                randstr=str(uuid.uuid4())[:4]
+            )
+            return self.unique_slug_generator(new_slug=new_slug)
+
+        self.slug = slug
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.unique_slug_generator()
+
+        super().save(*args, **kwargs)
 
 
 class Category(models.Model):
