@@ -20,6 +20,7 @@ from django.contrib.sessions.backends.db import SessionStore
 from django.http import JsonResponse
 
 from items.models import FavoriteItem
+from blog.models import Paragraph
 from .services import get_filter_items
 
 # Create your views here.
@@ -267,7 +268,9 @@ def brends(request):
 
 
 def pay(request):
-    context = {'title': 'Оплата и доставка',}
+    context = {
+        'title': 'Оплата и доставка',
+        'paragraphs': Paragraph.objects.all()}
     return render(request, 'index/pay.html', context)
 
 
