@@ -32,7 +32,7 @@ class Item(models.Model):
     active_bad = models.ForeignKey('Bads', blank=True, null=True, on_delete=models.CASCADE, verbose_name='Активное вещество')
     slug = models.SlugField('Слаг',
         default='',
-        max_length=50,
+        max_length=500,
         blank=True, null=True,
         help_text='Оставьте пустым, оно само генерируется при заполнении названия'
     )
