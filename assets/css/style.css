@@ -3832,7 +3832,7 @@ table tr {
     transform: scale(1.5); /* Увеличиваем масштаб */
   }
 
-@media (max-width: 450px){
+@media (max-width: 375px){
     .content{
         width: 90% !IMPORTANT;
         margin: 19px auto!IMPORTANT;
