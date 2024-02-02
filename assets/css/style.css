@@ -3831,3 +3831,10 @@ table tr {
   .hover-image-scale img:hover {
     transform: scale(1.5); /* Увеличиваем масштаб */
   }
+
+@media (max-width: 450px){
+    .content{
+        width: 90% !IMPORTANT;
+        margin: 19px 0px 0px 0px !IMPORTANT;
+    }
+}
