@@ -3835,6 +3835,6 @@ table tr {
 @media (max-width: 450px){
     .content{
         width: 90% !IMPORTANT;
-        margin: 19px 0px 0px 0px !IMPORTANT;
+        margin: 19px auto!IMPORTANT;
     }
 }
