@@ -81,19 +81,19 @@
           
             <button 
               class="button-add-to-cart"
-              id="add-to-waiting-list-btn"
+              id="add-to-waiting-list-btn-{{item.id}}"
               style="background-color: rgb(59, 118, 245)"
-              onclick="add_to_waiting_list(event, {{item.id}})"
+              onclick="add_to_waiting_list({{item.id}})"
               {% if request.user.is_authenticated and request.user in item.users_waiting.all %}hidden{%endif%}
               >
               Уведомить
             </button>
             
             <button 
-            id="remove-from-waiting-list-btn"
+            id="remove-from-waiting-list-btn-{{item.id}}"
             class="button-add-to-cart"
             style="background-color: rgb(59, 118, 245)"
-            onclick="remove_from_waiting_list(event, {{item.id}})"
+            onclick="remove_from_waiting_list({{item.id}})"
             {% if request.user.is_authenticated and request.user not in item.users_waiting.all %}hidden{%endif%}
             >
             Не уведомлять

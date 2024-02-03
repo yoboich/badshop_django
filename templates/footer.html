@@ -124,7 +124,7 @@
     })
   }
 
-  function add_to_waiting_list(e, item_id){
+  function add_to_waiting_list(item_id){
     $.ajax({
       type: 'POST',
       url: '{% url "add_to_waiting_list" %}',
@@ -136,8 +136,8 @@
       },
       success: function(json){
         if (json['result'] === 'success'){
-          e.target.hidden = true
-          document.getElementById('remove-from-waiting-list-btn').hidden = false
+          document.getElementById('add-to-waiting-list-btn-' + item_id).hidden = true
+          document.getElementById('remove-from-waiting-list-btn-' + item_id).hidden = false
           alert('Товар добавлен в список ожидания, мы сообщим вам, как только он появится')
         }else if ('error' in json){
           alert(json['error'])
@@ -147,7 +147,7 @@
       }    
     })
   }
-  function remove_from_waiting_list(e, item_id){
+  function remove_from_waiting_list(item_id){
     $.ajax({
       type: 'POST',
       url: '{% url "remove_from_waiting_list" %}',
@@ -159,8 +159,8 @@
       },
       success: function(json){
         if (json['result'] === 'success'){
-          e.target.hidden = true
-          document.getElementById('add-to-waiting-list-btn').hidden = false
+          document.getElementById('remove-from-waiting-list-btn-' + item_id).hidden = true
+          document.getElementById('add-to-waiting-list-btn-' + item_id).hidden = false
           alert('Товар удален из списка ожидания')
         }else if ('error' in json){
           alert(json['error'])
