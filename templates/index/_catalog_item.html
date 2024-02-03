@@ -47,14 +47,42 @@
           {{item.rating}}
         </div>
       </div>
-    {% with request|get_cart_items as cart_items %}
-    <button onclick="toggleCart({{ item.id }})" class="item-buy {% if item.id in cart_items %}item-added-to-cart{% endif %}" id="button-add-to-cart-{{ item.id }}">
-          {% if item.id in cart_items %}
-            В корзине
-            {% else %}
-        КУПИТЬ
-    {% endif %}
-    </button>
-    {% endwith %}
+  
+    {% if item.amount > 0 %}
+            <button 
+              onclick="toggleCart({{ item.id }})" 
+              class="item-buy {% if item.id in cart_items%}item-added-to-cart{% endif %}" 
+              id="button-add-to-cart-{{ item.id }}"
+              data-like-item-id="{{item.id}}"
+              >
+
+                {% if item.id in cart_items %}
+                    В корзине
+                	{% else %}
+                    Добавить в корзину
+                {% endif %}
+
+          {% else %}
+          
+            <button 
+              class="item-buy"
+              id="add-to-waiting-list-btn"
+              style="background-color: rgb(59, 118, 245)"
+              onclick="add_to_waiting_list(event, {{item.id}})"
+              {% if request.user.is_authenticated and request.user in item.users_waiting.all %}hidden{%endif%}
+              >
+              Уведомить
+            </button>
+            
+            <button 
+            id="remove-from-waiting-list-btn"
+            class="item-buy"
+            style="background-color: rgb(59, 118, 245)"
+            onclick="remove_from_waiting_list(event, {{item.id}})"
+            {% if request.user.is_authenticated and request.user not in item.users_waiting.all %}hidden{%endif%}
+            >
+            Не уведомлять
+          </button>
+          {% endif %}
     </div>
   </div>

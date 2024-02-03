@@ -86,7 +86,7 @@
               onclick="add_to_waiting_list(event, {{item.id}})"
               {% if request.user.is_authenticated and request.user in item.users_waiting.all %}hidden{%endif%}
               >
-              Сообщить о поступлении
+              Уведомить
             </button>
             
             <button 
@@ -96,21 +96,18 @@
             onclick="remove_from_waiting_list(event, {{item.id}})"
             {% if request.user.is_authenticated and request.user not in item.users_waiting.all %}hidden{%endif%}
             >
-            Убрать товар из списка ожидания
+            Не уведомлять
           </button>
           {% endif %}
 
 
-            </button>
+
             <button onclick="toggle_favorite({{ item.id }})" class="add-favorite-item" id="add-favorite-item">
                 {% if item|get_favorite_status:request %}
                     В избранном
                 	{% else %}
                      Добавить в избранное
                 {% endif %}
-
-
-
             </button>
       </div>
     </div>
