@@ -383,7 +383,7 @@ def filter_catalog_view(request):
 
     items = get_filter_items(
         max_item_price, query, 
-        brend, category, bad,
+        brend, category, active_bads,
         price_max, price_min,
         )
     
