@@ -18,13 +18,13 @@ def get_filter_items(max_item_price, query, brend, category, bad, price_max, pri
     # active_substance  
     if bad and bad != ['']:
         lst = [bad]
-        filter_dict['active_bad__id__in'] = lst
+        filter_dict['active_bads__id__in'] = bad
     
     if query:
         q_objects |= Q(name__icontains=query)
         q_objects |= Q(brend__name__icontains=query)
         q_objects |= Q(category__title__icontains=query)
-        q_objects |= Q(active_bad__title__icontains=query)
+        q_objects |= Q(active_bads__title__icontains=query)
         q_objects |= Q(vendor_code__icontains=query)
     
     items = Item.objects.filter(
