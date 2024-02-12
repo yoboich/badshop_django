@@ -18,7 +18,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.sessions.models import Session
 from django.contrib.sessions.backends.db import SessionStore
 from django.http import JsonResponse
-
+from django.urls import reverse
 from items.models import FavoriteItem
 from blog.models import Paragraph
 from .services import get_filter_items
@@ -154,7 +154,7 @@ def catalog_categories(request):
 
 
 
-
+from .forms import ReviewForm
 # СТРАНИЦА ТОВАРА
 def item(request, item_slug):
     if request.user.is_authenticated:
@@ -168,6 +168,19 @@ def item(request, item_slug):
         cart_items = request.session.get('cart', [])
         favorite_items = request.session.get('favorites', [])
 
+
+
+    if request.method == 'POST':
+        form = ReviewForm(request.POST, request=request)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Review added successfully')
+            return redirect(request.META.get('HTTP_REFERER', '/'))  # возвращаем пользователя на предыдущую страницу
+        else:
+            messages.error(request, f'There was an error adding your review: {form.errors}')
+    else:
+        form = ReviewForm(request=request)
+
     items = Item.objects.all()
     item = items.get(slug=item_slug)
     cart = Cart.get_or_create_cart(request)
@@ -180,6 +193,8 @@ def item(request, item_slug):
         'cart': cart,
         'cart_items': cart_items,
         'favorite_items': favorite_items,
+        'ratings': Review.objects.filter(item=item),
+        'form': form
     }
         # Проверяем, была ли установлена кука для данного товара
     if not request.COOKIES.get(f'item_{item.id}_viewed'):

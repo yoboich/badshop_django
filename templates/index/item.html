@@ -4,8 +4,62 @@
 
 
 {% block content %}
+<div class="review-layout">
+  <div class="review-content">
+    <div class="close-rating">X</div>
+    <form action="" method="post">
+      {% csrf_token %}
+      <h2>Оставить отзыв</h2>
+      <p>Ваша оценка</p>
+      <div class="simple-rating">
+        <div class="simple-rating__items">
+          <!-- <input type="radio" id="simple-rating__5" class="simple-rating__item" name="simple-rating" value="5">
+          <label for="simple-rating__5" class="simple-rating__label"></label>
+          <input type="radio" id="simple-rating__4" class="simple-rating__item" name="simple-rating" value="4">
+          <label for="simple-rating__4" class="simple-rating__label"></label>
+          <input type="radio" id="simple-rating__3" class="simple-rating__item" name="simple-rating" value="3">
+          <label for="simple-rating__3" class="simple-rating__label"></label>
+          <input type="radio" id="simple-rating__2" class="simple-rating__item" name="simple-rating" value="2">
+          <label for="simple-rating__2" class="simple-rating__label"></label>
+          <input type="radio" id="simple-rating__1" class="simple-rating__item" name="simple-rating" value="1">
+          <label for="simple-rating__1" class="simple-rating__label"></label> -->
+          {% for value, label in form.rating.field.choices %}
+          <input type="radio" id="simple-rating__{{ value }}" class="simple-rating__item" name="rating" value="{{ value }}">
+          <label for="simple-rating__{{ value }}" class="simple-rating__label"></label>
+      {% endfor %}
+        </div>
+      </div>
 
-
+      <p>Ваш комментарий</p>
+      <input type="hidden" name="{{ form.item.html_name }}" value="{{ item.id }}">
+      <textarea name="{{ form.text.html_name }}" id="" cols="30" rows="10"></textarea>
+      <button type="submit">Оставить отзыв</button>
+    </form>
+  </div>
+</div>
+<script>
+  document.querySelector('form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const formData = new FormData(this);
+      fetch('', { // URL указывать не нужно, если запрос идет на текущую страницу
+          method: 'POST',
+          body: formData,
+          headers: {
+              'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+          },
+      }).then(response => {
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+          return response.json();
+      }).then(data => {
+          console.log(data);
+          // здесь вы можете обработать ответ от сервера
+      }).catch(error => {
+          console.error('There has been a problem with your fetch operation:', error);
+      });
+  });
+  </script>
 <div class="content item">
     <nav>
       <div class="breadcrumbs">
@@ -112,7 +166,7 @@
       </div>
     </div>
 
-
+    
 
     <!-- <div class="container"></div> -->
       <div class="accordion">
@@ -207,9 +261,61 @@
 
       </div>
     </div>
+    <div class="rating_layout">
+      <div class="rating_top">
+        <div class="comments_rating">
+          <h2>{{ratings.all.count}} отзывов</h2>
+          <div class="rating_layout_star" data-total-value="{{item.rating}}">
+            <div class="rating_star" data-item-value="5">★</div>
+            <div class="rating_star" data-item-value="4">★</div>
+            <div class="rating_star" data-item-value="3">★</div>
+            <div class="rating_star" data-item-value="2">★</div>
+            <div class="rating_star" data-item-value="1">★</div>
+          </div>
+          {{item.rating}}
+        </div>
+        <a href="#" id="AddReview" class="AddReview">Оставить отзыв</a>
+      </div>
+      {% for rating in ratings%}
+      <div class="rating_item">
+        <div class="comment_user">
+          <h2>{{rating.user.first_name}} {{rating.user.last_name}}</h2>
+          <div class="date_and_rating">
+            <div class="date_rating">{{rating.date_added}}</div>
+            <div class="rating_layout_star" data-total-value="{{rating.rating}}">
+              <div class="rating_star" data-item-value="5">★</div>
+              <div class="rating_star" data-item-value="4">★</div>
+              <div class="rating_star" data-item-value="3">★</div>
+              <div class="rating_star" data-item-value="2">★</div>
+              <div class="rating_star" data-item-value="1">★</div>
+            </div>
+          </div>
+        </div>
+        <div class="comment">
+        <span>Комментарий</span>
+        {{rating.text}}
+      </div>
+      </div>
+      {% endfor %}
+    </div>
   </div>
 
+  <script>
+    const link = document.querySelector('#AddReview')
+    const ratingReview = document.querySelector('.review-layout')
+    const CloseRating = document.querySelector('.close-rating')
+
+    link.addEventListener('click', () => {
+      ratingReview.classList.toggle('activeadd')
+    })
+
+    CloseRating.addEventListener('click', () => {
+      ratingReview.classList.toggle('activeadd')
+    })
+
+  </script>
   <style>
+    
     .zoomIMG{
       max-height: auto;
       position: absolute;

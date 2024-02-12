@@ -255,4 +255,18 @@ class UserItem(models.Model):
         on_delete=models.CASCADE,
         verbose_name='Товар'
     )
-    
+
+
+class Review(models.Model):
+    text = models.TextField(verbose_name='Текст отзыва')
+    rating = models.PositiveSmallIntegerField(verbose_name='Оценка')
+    date_added = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = 'Отзыв'
+        verbose_name_plural = 'Отзывы'

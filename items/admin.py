@@ -5,7 +5,7 @@ from items.models import (
     Item, Category, Brend, 
     CertificateImages, CartItem, 
     Cart, FavoriteItem, ItemImages, 
-    UserItem, ActiveBad
+    UserItem, ActiveBad, Review
 )
 
 
@@ -48,6 +48,11 @@ class CartItemAdmin(admin.ModelAdmin):
 @admin.register(UserItem)
 class UserItemAdmin(admin.ModelAdmin):
     list_display = ('user', 'item')
+
+
+@admin.register(Review)
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ('text',)
 
 admin.site.register(Category)
 admin.site.register(CertificateImages)
