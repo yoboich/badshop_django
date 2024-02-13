@@ -24,7 +24,7 @@ from orders.model_methods.discount_methods import DiscountMethodsMixin
 class Item(models.Model):
     name = models.CharField(max_length=200, verbose_name="Название товара")
     image = models.ImageField(upload_to="items/%Y/%m/%d/", blank=True, null=True, verbose_name="Превью Изображение товара")
-    price = models.IntegerField(default=0, blank=True, null=True, verbose_name="Цена товара")
+    price = models.IntegerField(default=0, verbose_name="Цена товара")
     discount = models.IntegerField(default=0, verbose_name="Скидка %")
     views_count = models.IntegerField(default=0, verbose_name="Количество просмотров")
     rating = models.IntegerField(default=0, blank=True, null=True, verbose_name="Рэйтинг")

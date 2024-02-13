@@ -21,7 +21,7 @@ class ItemImagesInline(admin.TabularInline):
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
     inlines = (CertificateImageInline, ItemImagesInline)
-    list_display = ('name', 'price', 'discount', 'bonus_percentage','views_count', 'category')
+    list_display = ('name', 'price', 'discount', 'bonus_percentage', 'sale_price', 'views_count', 'category')
     list_filter = ('name', 'price')
     search_fields = ('name', 'price')
     prepopulated_fields = {"slug": ("name",)}
