@@ -23,7 +23,11 @@ from orders.model_methods.discount_methods import DiscountMethodsMixin
 # Create your models here.
 class Item(models.Model):
     name = models.CharField(max_length=200, verbose_name="Название товара")
-    image = models.ImageField(upload_to="items/%Y/%m/%d/", blank=True, null=True, verbose_name="Превью Изображение товара")
+    image = models.ImageField(
+        upload_to="items/%Y/%m/%d/", 
+        blank=True, null=True, 
+        verbose_name="Превью Изображение товара"
+        )
     price = models.IntegerField(default=0, verbose_name="Цена товара")
     discount = models.IntegerField(default=0, verbose_name="Скидка %")
     views_count = models.IntegerField(default=0, verbose_name="Количество просмотров")
@@ -31,12 +35,21 @@ class Item(models.Model):
     text = RichTextField(blank=True, null=True, verbose_name="Описание товара")
     compound = RichTextField(blank=True, null=True, verbose_name="Состав товара")
     delivery = RichTextField(blank=True, null=True, verbose_name="Информация о доставке")
-    category = models.ForeignKey('Category', blank=True, null=True, on_delete=models.CASCADE, verbose_name="Категория")
-    brend = models.ForeignKey('Brend', blank=True, null=True, on_delete=models.CASCADE, verbose_name="Бренд")
+    categories = models.ManyToManyField(
+        verbose_name="Категория",
+        to='Category', 
+        blank=True, 
+        )
+    brend = models.ForeignKey(
+        to='Brend', 
+        verbose_name="Бренд",
+        blank=True, null=True, 
+        on_delete=models.CASCADE, 
+        )
     active_bads = models.ManyToManyField(
         to='ActiveBad', 
         verbose_name='Активное вещество',
-        blank=True
+        blank=True,
         )
     slug = models.SlugField('Слаг',
         default='',

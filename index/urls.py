@@ -35,8 +35,8 @@ urlpatterns = [
 
     # КАТАЛОГ
     path('catalog/', catalog_categories, name="catalog_categories"),
-    path('catalog/<category_slug>/<item_slug>/', item, name="item"),
     path('catalog/filter/', filter_catalog_view, name='filter_catalog_view'),
+    path('catalog/<item_slug>/', item, name="item"),
 
 
     path('brends/', brends, name="brends"),

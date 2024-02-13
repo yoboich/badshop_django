@@ -156,7 +156,7 @@ def catalog_categories(request):
 
 from .forms import ReviewForm
 # СТРАНИЦА ТОВАРА
-def item(request, category_slug, item_slug):
+def item(request, item_slug):
     if request.user.is_authenticated:
         # Если пользователь авторизован, получаем товары из базы данных
         cart_item_ids = CartItem.objects.filter(cart__user=request.user).values_list('item_id', flat=True)
