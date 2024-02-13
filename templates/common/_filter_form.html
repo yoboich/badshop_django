@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 <form  class="catalog-filters-form-pc">
 	<details open>
@@ -114,4 +115,122 @@
 	});
 
 
+=======
+
+<form  class="catalog-filters-form-pc">
+	<details open>
+		<summary>Категории</summary>
+		<div class="category-overflow">
+			{% for category in categories %}
+			<a href="{% url 'filter_catalog_view' %}?category={{ category.id }}" class="category-link" data-category-id="{{ category.id }}">
+			  {{ category.name }}
+			</a>
+		  {% endfor %}
+
+		  <script>
+			document.addEventListener("DOMContentLoaded", function() {
+			  var currentCategoryId = "{{ request.GET.category }}";
+			  var categoryLinks = document.querySelectorAll(".category-link");
+			
+			  categoryLinks.forEach(function(link) {
+				var categoryId = link.getAttribute("data-category-id");
+			
+				if (categoryId === currentCategoryId) {
+				  link.classList.add("active-link");
+				}
+			  });
+			});
+			</script>
+		</div>  
+	</details>
+	<details>
+		<summary>Активное вещество</summary>
+		<div class="category-overflow">
+			{% for bad in bads %}
+			<a href="{% url 'filter_catalog_view' %}?bad={{ bad.id }}" class="category-link" data-bad-id="{{ bad.id }}">
+			  {{ bad.name }}
+			</a>
+			{% endfor %}
+
+		  <script>
+			document.addEventListener("DOMContentLoaded", function() {
+			  var currentCategoryId = "{{ request.GET.bad }}";
+			  var categoryLinks = document.querySelectorAll(".category-link");
+			
+			  categoryLinks.forEach(function(link) {
+				var categoryId = link.getAttribute("data-bad-id");
+			
+				if (categoryId === currentCategoryId) {
+				  link.classList.add("active-link");
+				}
+			  });
+			});
+			</script>
+		</div>  
+	</details>
+
+
+
+      <details open>
+          <summary open>Цена</summary>
+		  <div class="range" >
+			  <div class="range-price">      
+				  <input class="range-price-input" id='price-min' disabled value="0">      
+				  <input class='range-price-input text-right' id='price-max' disabled value="{{price_max}}">      
+				</div>
+			<svg width="100%" height="24" style="margin: 5px 0 -8px 0">
+            <line x1="4" y1="0" x2="300" y2="0" stroke="white" stroke-width="12" stroke-dasharray="1 28"></line>
+            </svg>
+			<div class="range-slider">
+				<span class="range-selected"></span>
+			</div>
+			<div class="range-input">
+				<input type="range" class="min range-input-js" id='range-min' min="0" name="price-min" max="{{price_max}}" value="0" step="10">
+				<input type="range" class="max range-input-js" id='range-max' min="0" name="price-max" max="{{price_max}}" value="{{price_max}}" step="10">
+			</div>
+			
+		  </div> 
+		
+      </details>
+      <details >
+          <summary>Бренд</summary>
+          {% for brend in brends %}
+              <div class="">
+                  <input type="checkbox" id='brend-{{brend.id}}' class="cheked" name="brend" value="{{ brend.id }}">
+                  <span>{{ brend.name }}</span>
+              </div>
+          {% endfor %}
+      </details>
+	  
+    {% comment %} <details>
+        <summary>Скидка</summary>
+    </details> {% endcomment %}
+
+    <a href="{% url 'filter_catalog_view' %}"><div class="" id="" style="color:#00B44E;font-size:16px;cursor: pointer;">Сбросить все фильтры</div></a>
+
+    <button type="button" onclick="filter_items()">Найти</button>
+  </form>
+
+
+    <script>
+	// double range slider
+	let rangeMin = 100;
+	const range = document.querySelector(".range-selected");
+	const rangeInput = document.querySelectorAll(".range-input input");
+	const rangePrice = document.querySelectorAll(".range-price input");
+	rangeInput.forEach((input) => {
+	input.addEventListener("input", (e) => {
+	let minRange = parseInt(rangeInput[0].value);
+	let maxRange = parseInt(rangeInput[1].value);
+
+	rangePrice[0].value = minRange;
+	rangePrice[1].value = maxRange;
+	range.style.left = (minRange / rangeInput[0].max) * 100 + "%";
+	range.style.right = 100 - (maxRange / rangeInput[1].max) * 100 + "%";
+	
+	});
+	});
+
+
+>>>>>>> 1203ec5 (item, category slug, fixed duplicated buttons)
 </script>
