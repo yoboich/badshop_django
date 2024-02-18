@@ -30,7 +30,7 @@ def get_filter_items(max_item_price, query, brend, category, bad, price_max, pri
         q_objects,
         price__range=(price_min, price_max),
         **filter_dict
-    )
+    ).distinct()
 
     return items
 
