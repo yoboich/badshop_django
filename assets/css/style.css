@@ -1789,6 +1789,8 @@ form.subscribes-form button:hover {
 
 .catalog-items {
     width: 100%;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .catalog-content .item {
