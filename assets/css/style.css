@@ -4121,8 +4121,8 @@ table tr {
         font-size: 3.5vw;
     }
     .correct{
-        align-items: flex-start;
-        justify-content: flex-start;
+        align-items: flex-start!IMPORTANT;
+        justify-content: flex-start!IMPORTANT;
     }
 }
 
