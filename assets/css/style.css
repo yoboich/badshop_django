@@ -3851,6 +3851,9 @@ p.mobile-cirtificate{
 
 /* MOBILE */
 @media (max-width: 377px) {
+    .nav-layout{
+        height: 125px;
+    }
     .logo img {
         max-width: 100%;
         height: fit-content;
