@@ -4114,7 +4114,7 @@ table tr {
 @media (max-width: 375px){
     .content{
         width: 90% !IMPORTANT;
-        margin: 5px auto!IMPORTANT;
+        margin: 0px auto!IMPORTANT;
     }
     .comments_rating h2{
         font-size: 19px;
