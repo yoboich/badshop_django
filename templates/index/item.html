@@ -70,7 +70,7 @@
       
         <div class="item-actions">
           <div class="d-flex justify-content-between correct">
-            <div style="background: none!IMPORTANT;background-color: none!IMPORTANT;"><span class="large-price"></span> Много</div>
+            <div style="background: none!IMPORTANT;background-color: none!IMPORTANT;"><span class="large-price"></span>{% if item.amount >= 5 %} Много {% elif item.amount < 5  %} Мало {% else %} Нет в наличии  {% endif %} </div>
             <div style="background: none!IMPORTANT;background-color: none!IMPORTANT;" class="correct-margin">{% if item.vendor_code%}Артикул: {{item.vendor_code}}{%endif%}</div>
           </div>
           <div class="clearboth"></div>
