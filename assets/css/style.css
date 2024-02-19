@@ -4112,5 +4112,13 @@ table tr {
         width: 90% !IMPORTANT;
         margin: 5px auto!IMPORTANT;
     }
+    .comments_rating h2{
+        font-size: 19px;
+    }
+    .rating_top a{
+        display: flex;
+        align-items: center;
+        font-size: 3.5vw;
+    }
 }
 
