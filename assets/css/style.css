@@ -1791,6 +1791,15 @@ form.subscribes-form button:hover {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
+    gap: 2.5vw;
+}
+
+.catalog-items a{
+    width: 22%;
+}
+
+.catalog-item{
+    width: 100%;
 }
 
 .catalog-content .item {
@@ -3032,15 +3041,23 @@ p.mobile-cirtificate{
         margin: 0px 0px 20px 0px;
     }
 
+    /* КАТАЛОГ */
+    .catalog-items{
+        gap: 2.5vw;
+    }
     .catalog-item {
-        width: 47%;
+        width: 100%;
         padding: 8vw;
         min-width: auto;
         min-height: auto;
+        height: 100%;
+    }
+    .catalog-items a{
+        width: 48%;
     }
 
     .catalog-item span {
-        font-size: 3.2vw;
+        font-size: 2vw;
     }
 
     .catalog-content {
@@ -3373,10 +3390,10 @@ p.mobile-cirtificate{
     }
 
 
-    .brend-link:nth-of-type(2n) .catalog-item {
+    /* .brend-link:nth-of-type(2n) .catalog-item {
         margin: 0% 0% 2% 0% !IMPORTANT;
         width: 48%;
-    }
+    } */
 
 
     .sales-layer img {
@@ -3829,6 +3846,8 @@ p.mobile-cirtificate{
     }
 }
 
+
+/* MOBILE */
 @media (max-width: 377px) {
     .logo img {
         max-width: 100%;
@@ -3874,6 +3893,22 @@ p.mobile-cirtificate{
         font-weight: 600;
         display: flex;
     }
+    .catalog-item{
+        padding: 5vw;
+    }
+    .catalog-item img,svg{
+        max-height: 35px;
+        height: 35px;
+    }
+
+
+
+    /* MOBILE BRANDS */
+
+    .catalog-item span {
+        font-size: 3vw;
+    }
+
 }
 
 .notification {
