@@ -3853,6 +3853,7 @@ p.mobile-cirtificate{
 @media (max-width: 377px) {
     .nav-layout{
         height: 125px;
+        max-height: 125px;
     }
     .logo img {
         max-width: 100%;
