@@ -4124,5 +4124,8 @@ table tr {
         align-items: flex-start!IMPORTANT;
         justify-content: flex-start!IMPORTANT;
     }
+    .correct-margin{
+        margin: 0px 0px 15px 0px;
+    }
 }
 
