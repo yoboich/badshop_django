@@ -83,6 +83,10 @@ class Item(models.Model):
     def item_discount(self):
         ##return int(self.price * (1 - self.discount / 100))
         return int(self.price * (self.discount / 100))
+    
+    def calculate_bunus(self):
+        ##return int(self.price * (1 - self.discount / 100))
+        return int((self.price / 100) * self.bonus_percentage)
 
     @property
     def sale_price(self):
