@@ -81,7 +81,8 @@ class Item(models.Model):
         blank=True,
     )
     def item_discount(self):
-        return int(self.price * (1 - self.discount / 100))
+        ##return int(self.price * (1 - self.discount / 100))
+        return int(self.price * (self.discount / 100))
 
     @property
     def sale_price(self):
