@@ -2335,6 +2335,8 @@ input:-webkit-autofill:focus {
 .modal-catalog img{
     height: 35px;
     margin: 0px 12px 0px 0px;
+    object-fit: contain;
+    width: 35px;
 }
 .modal-catalog ul > li{
     padding: 5px 15px 5px 0px;
@@ -3450,6 +3452,7 @@ p.mobile-cirtificate{
     .container {
         margin: auto auto 20px !IMPORTANT;
     }
+    .index.swiper-navBtn{display: none!IMPORTANT;}
 
     .catalog-content .item {
         width: 48%;

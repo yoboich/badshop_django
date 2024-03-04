@@ -217,19 +217,6 @@
         {%endif%}
       </div>
     </div>
-
-    <div class="carousel-wrap" style="width:100%;margin: 0px 0px 90px 0px!IMPORTANT;">
-      <span class="item-title">Альтернативные предложения</span>
-      <div class="owl-carousel"style="width: 100%;">
-        
-        {% for item in items %}
-
-          {% include 'index/_catalog_item.html' %}
-
-        {% endfor %}
-
-      </div>
-    </div>
     <div class="rating_layout">
       <div class="rating_top">
         <div class="comments_rating">
@@ -266,6 +253,19 @@
       </div>
       </div>
       {% endfor %}
+    </div>
+
+    <div class="carousel-wrap" style="width:100%;margin: 0px 0px 90px 0px!IMPORTANT;">
+      <span class="item-title">Альтернативные предложения</span>
+      <div class="owl-carousel"style="width: 100%;">
+        
+        {% for item in items %}
+
+          {% include 'index/_catalog_item.html' %}
+
+        {% endfor %}
+
+      </div>
     </div>
   </div>
 
