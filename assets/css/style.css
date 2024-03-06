@@ -3864,13 +3864,13 @@ p.mobile-cirtificate{
 
 
 /* MOBILE */
-@media (max-width: 377px) {
+@media (max-width: 399px) {
     .nav-layout{
-        height: 125px;
-        max-height: 125px;
+        height: 119px;
+        max-height: 119px;
     }.nav-height{
         width: 100%;
-        height: 125px;
+        height: 119px;
     }
     .logo img {
         max-width: 100%;
