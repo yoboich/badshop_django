@@ -118,12 +118,23 @@ input[type="search"]::-webkit-search-results-decoration {
 
 .nav-layout {
     width: 100%;
-    position: fixed;
     position: sticky;    
     top: 0;
+    position: fixed;
     background-color: #FFFFFF;
     z-index: 99;
-    max-height: 145px
+    max-height: 145px;
+    /* height: 145px; */
+}
+
+
+
+.nav-height{
+    width: 100%;
+    height: 145px;
+    clear: both;
+    content: "";
+    display: flex;
 }
 
 .nav-main {
@@ -3857,6 +3868,9 @@ p.mobile-cirtificate{
     .nav-layout{
         height: 125px;
         max-height: 125px;
+    }.nav-height{
+        width: 100%;
+        height: 125px;
     }
     .logo img {
         max-width: 100%;
