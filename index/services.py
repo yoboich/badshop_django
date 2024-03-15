@@ -16,6 +16,7 @@ def get_filter_items(max_item_price, query, brend, category, bad, price_max, pri
         filter_dict['brend__id__in'] = brend
     
     # active_substance  
+    
     if bad and bad != ['']:
         filter_dict['active_bads__id'] = bad
     

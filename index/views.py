@@ -386,7 +386,7 @@ def filter_catalog_view(request):
     category = int(request.GET.get('category')) \
         if request.GET.get('category') else None
     try:
-        brend = map(int, brend.split(','))
+        brend = list(map(int, brend.split(',')))
     except:
         brend = None
     price_min = request.GET.get('price-min') or 0
