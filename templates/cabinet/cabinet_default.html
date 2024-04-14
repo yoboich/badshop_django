@@ -35,6 +35,10 @@
 {#historyorder.html{% if request.path == url('') %}{% endif %}#}<a href="{% url 'historyOrders' %}" class="">История заказов</a>
 {#{% if request.path == url('') %}{% endif %}mybonus.html#}          <a href="{% url 'MyBonus' %}" class="">Мои бонусы</a>
 {#          <a href="subscribes.html" class="{% if request.path == url('') %}{% endif %}">Подписки</a>#}
+<button id="copyButton">Скопировать реферальный код</button>
+<input type="text" value="{{ request.user.referral_code }}" id="referralCode" style="display: none;">
+<div id="copyMessage" style="display: none;">Реферральный код скопирован!</div>
+
         </div>
         <div class="cabinet-content">
                     {% block content %}
@@ -45,6 +49,58 @@
 
     </div>
 
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+    var copyButton = document.getElementById('copyButton');
+    var referralCode = document.getElementById('referralCode');
+    var copyMessage = document.getElementById('copyMessage');
+    copyButton.addEventListener('click', function() {
+        referralCode.select();
+        try {
+            document.execCommand('copy');
+            copyMessage.style.display = 'block';
+            setTimeout(function() {
+                copyMessage.style.display = 'none';
+            }, 2000);
+        } catch (err) {
+            console.error('Ошибка копирования в буфер обмена: ', err);
+        }
+    });
+});
+    </script>
 
 
+<style>
+  #copyButton{
+    background-color: #00B44E;
+    border-radius: 50px;
+    padding: 9px 20px 9px 20px;
+    color: #FFFFFF;
+    font-size: 14px;
+    text-align: center;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-block;
+    align-items: center;
+    height: 56px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 95%;
+    padding: 0px 25px 0px 25px;
+    margin: auto auto 16px;
+    border: none;
+  }
+  #copyMessage{
+    position: fixed;
+    right: 2.5%;
+    top: 2.5%;
+    background-color: #00B44E;
+    color: #FFFFFF;
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 25px;
+    padding: 15px 15px 15px 15px;
+    z-index: 999999;
+  }
+</style>
 {% include 'footer.html' %}

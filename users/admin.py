@@ -22,6 +22,7 @@ class CustomUserAdmin(UserAdmin):
         'is_active',
         'phone',
         'bonus_points',
+        'referral_code'
     )
     list_filter = ('email', 'is_staff', 'is_active',)
     fieldsets = (
@@ -34,6 +35,7 @@ class CustomUserAdmin(UserAdmin):
             'photo',
             'phone',
             'bonus_points',
+            'referral_code'
         )}),
         ('Permissions', {
             'fields': ('is_superuser', 'ban', 'type', 'is_staff', 'is_active',)}),

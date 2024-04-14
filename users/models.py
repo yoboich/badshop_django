@@ -14,6 +14,12 @@ from django.db.models.signals import post_save
 from badshop_django.logger import logger
 from .managers import CustomUserManager
 
+import random
+import string
+def generate_referral_code():
+    return ''.join(random.choices(string.ascii_uppercase + string.ascii_lowercase + string.digits, k=6))
+
+
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=254, unique=True, verbose_name='Email adress', blank=True, null=True)
     first_name = models.CharField(u"First Name", max_length=100, blank=True, null=True)
@@ -29,7 +35,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField(_('super user'), default=False, blank=True, null=True)
     date_joined = models.DateTimeField(u'date joined', blank=True, null=True, default=timezone.now)
     last_login = models.DateTimeField(u'last login', blank=True, null=True)
-
+    invited_by = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True, related_name='invited_users')
+    referral_code = models.CharField(max_length=6, unique=True, default=generate_referral_code, blank=True, null=True)
     bonus_points = models.FloatField(
         verbose_name='Бонусные баллы',
         default=0,
@@ -118,6 +125,10 @@ class Address(models.Model):
         verbose_name = 'Адрес'
         verbose_name_plural = 'Адреса'
 
+
+
+
+
 # ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ С ДОПОЛНИТЕЛЬНОЙ ИНФОРМАЦИЕЙ #
 class Profile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
@@ -148,3 +159,13 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=CustomUser)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
+
+
+# Сигнал для выдачи бонусных баллов приглашивающему пользователю
+@receiver(post_save, sender=CustomUser)
+def give_referral_bonus(sender, instance, created, **kwargs):
+    if created and instance.invited_by:  # Проверяем, что пользователь новый и был приглашен
+        instance.invited_by.bonus_points += 0  # Предполагается, что пригласивший пользователь не получает бонусов
+        instance.invited_by.save()
+        instance.bonus_points += 300  # Выдаем бонусные баллы приглашенному пользователю
+        instance.save()

@@ -25,7 +25,7 @@ from items.views import (
     add_to_waiting_list_ajax, remove_from_waiting_list_ajax
     )
 from utils.views import yoo_kassa_webhook_view
-
+from .views import ReferralLinkView
 
 
 urlpatterns = [
@@ -58,7 +58,7 @@ urlpatterns = [
              ), 
              name='password_reset_confirm'),
     path('password_reset_complete/', PasswordResetCompleteView.as_view(), name='password_reset_complete'),
-
+    path('referral/<str:referral_code>/', ReferralLinkView.as_view(), name='referral_link'),
 
     # БЛОГ
     path('blog/', blog, name="blog"),

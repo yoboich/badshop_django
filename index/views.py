@@ -434,3 +434,20 @@ def MyBonus(request):
     }
     return render(request, 'cabinet/my_bonus.html', context=context)
 
+from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
+from django.urls import reverse
+from django.views.generic import View
+
+
+class ReferralLinkView(View):
+    def get(self, request, *args, **kwargs):
+        referral_code = kwargs.get('referral_code')
+        if referral_code:
+            # Устанавливаем реферральный код в куки
+            response = HttpResponseRedirect(reverse('registration'))
+            response.set_cookie('referral_code', referral_code)
+            return response
+        else:
+            # Если реферральный код отсутствует, перенаправляем на страницу по умолчанию
+            return redirect('index')
