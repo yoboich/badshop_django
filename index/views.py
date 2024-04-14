@@ -130,14 +130,15 @@ def index(request):
 
     context = {
         'title': 'Главная страница',
-        'items_sales': ITEMS.filter(discount__gt=0),
+        'items_sales': ITEMS.filter(discount__gt=0, hidden=False),
         'categories': Category.objects.all(),
         'slider1': SliderTop.objects.all(),
         'slider2': SliderTwo.objects.all(),
-        'popular_items': Item.objects.all().order_by('-rating'),
+        'popular_items': Item.objects.filter(hidden=False).order_by('-rating'),
         'brends': Brend.objects.all(),
         'cart_items': cart_items,
         'favorite_items': favorite_items,
+        'posts': Post.objects.all(),
     }
 
     return render(request, 'index/index.html', context)
@@ -181,7 +182,7 @@ def item(request, item_slug):
     else:
         form = ReviewForm(request=request)
 
-    items = Item.objects.all()
+    items = Item.objects.filter(hidden=False)
     item = items.get(slug=item_slug)
     cart = Cart.get_or_create_cart(request)
     context = {
@@ -409,7 +410,7 @@ def filter_catalog_view(request):
         'cart': cart,
         'price_max': max_item_price,
         'brends': Brend.objects.all(),
-        'bads': ActiveBad.objects.all(),
+        'bads': ActiveBad.objects.all().order_by('name'),
         'categories': Category.objects.all()
     }
 

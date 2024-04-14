@@ -178,6 +178,48 @@
             </p>
           </div>
         </div>
+        <div class="accordion-item">
+          <button id="accordion-button-6" aria-expanded="false"><span class="accordion-title">Отзывы</span><span class="icon" aria-hidden="true"></span></button>
+          <div class="accordion-content">
+            <div class="rating_layout">
+              <div class="rating_top">
+                <div class="comments_rating">
+                  <h2> Отзывов: {{ratings.all.count}}</h2>
+                  <div class="rating_layout_star" data-total-value="{{item.rating}}">
+                    <div class="rating_star" data-item-value="5">★</div>
+                    <div class="rating_star" data-item-value="4">★</div>
+                    <div class="rating_star" data-item-value="3">★</div>
+                    <div class="rating_star" data-item-value="2">★</div>
+                    <div class="rating_star" data-item-value="1">★</div>
+                  </div>
+                  {{item.rating}}
+                </div>
+                <a href="#" id="AddReview" class="AddReview">Оставить отзыв</a>
+              </div>
+              {% for rating in ratings%}
+              <div class="rating_item">
+                <div class="comment_user">
+                  <h2>{{rating.user.first_name}} {{rating.user.last_name}}</h2>
+                  <div class="date_and_rating">
+                    <div class="date_rating">{{rating.date_added}}</div>
+                    <div class="rating_layout_star" data-total-value="{{rating.rating}}">
+                      <div class="rating_star" data-item-value="5">★</div>
+                      <div class="rating_star" data-item-value="4">★</div>
+                      <div class="rating_star" data-item-value="3">★</div>
+                      <div class="rating_star" data-item-value="2">★</div>
+                      <div class="rating_star" data-item-value="1">★</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="comment">
+                <span>Комментарий</span>
+                {{rating.text}}
+              </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>        
       </div>
     
 
@@ -194,6 +236,8 @@
       <label for="tab-btn-4">Информация о доставке</label>
       <input type="radio" name="tab-btn" id="tab-btn-5" value="">
       <label for="tab-btn-5">Сертификат</label>
+      <input type="radio" name="tab-btn" id="tab-btn-6" value="">
+      <label for="tab-btn-6">Отзывы</label>
       <div id="content-1">
             {{item.text|safe}}
       </div>
@@ -216,44 +260,47 @@
         {% endfor %}
         {%endif%}
       </div>
-    </div>
-    <div class="rating_layout">
-      <div class="rating_top">
-        <div class="comments_rating">
-          <h2> Отзывов: {{ratings.all.count}}</h2>
-          <div class="rating_layout_star" data-total-value="{{item.rating}}">
-            <div class="rating_star" data-item-value="5">★</div>
-            <div class="rating_star" data-item-value="4">★</div>
-            <div class="rating_star" data-item-value="3">★</div>
-            <div class="rating_star" data-item-value="2">★</div>
-            <div class="rating_star" data-item-value="1">★</div>
-          </div>
-          {{item.rating}}
-        </div>
-        <a href="#" id="AddReview" class="AddReview">Оставить отзыв</a>
-      </div>
-      {% for rating in ratings%}
-      <div class="rating_item">
-        <div class="comment_user">
-          <h2>{{rating.user.first_name}} {{rating.user.last_name}}</h2>
-          <div class="date_and_rating">
-            <div class="date_rating">{{rating.date_added}}</div>
-            <div class="rating_layout_star" data-total-value="{{rating.rating}}">
-              <div class="rating_star" data-item-value="5">★</div>
-              <div class="rating_star" data-item-value="4">★</div>
-              <div class="rating_star" data-item-value="3">★</div>
-              <div class="rating_star" data-item-value="2">★</div>
-              <div class="rating_star" data-item-value="1">★</div>
+      <div id="content-6" style="padding: 25px 0px 0px 0px;">
+        <div class="rating_layout">
+          <div class="rating_top">
+            <div class="comments_rating">
+              <h2> Отзывов: {{ratings.all.count}}</h2>
+              <div class="rating_layout_star" data-total-value="{{item.rating}}">
+                <div class="rating_star" data-item-value="5">★</div>
+                <div class="rating_star" data-item-value="4">★</div>
+                <div class="rating_star" data-item-value="3">★</div>
+                <div class="rating_star" data-item-value="2">★</div>
+                <div class="rating_star" data-item-value="1">★</div>
+              </div>
+              {{item.rating}}
             </div>
+            <a href="#" id="AddReview" class="AddReview">Оставить отзыв</a>
           </div>
+          {% for rating in ratings%}
+          <div class="rating_item">
+            <div class="comment_user">
+              <h2>{{rating.user.first_name}} {{rating.user.last_name}}</h2>
+              <div class="date_and_rating">
+                <div class="date_rating">{{rating.date_added}}</div>
+                <div class="rating_layout_star" data-total-value="{{rating.rating}}">
+                  <div class="rating_star" data-item-value="5">★</div>
+                  <div class="rating_star" data-item-value="4">★</div>
+                  <div class="rating_star" data-item-value="3">★</div>
+                  <div class="rating_star" data-item-value="2">★</div>
+                  <div class="rating_star" data-item-value="1">★</div>
+                </div>
+              </div>
+            </div>
+            <div class="comment">
+            <span>Комментарий</span>
+            {{rating.text}}
+          </div>
+          </div>
+          {% endfor %}
         </div>
-        <div class="comment">
-        <span>Комментарий</span>
-        {{rating.text}}
       </div>
-      </div>
-      {% endfor %}
     </div>
+
 
     <div class="carousel-wrap" style="width:100%;margin: 0px 0px 90px 0px!IMPORTANT;">
       <span class="item-title">Альтернативные предложения</span>
@@ -332,7 +379,7 @@
     .tabs>div {
       /* скрыть контент по умолчанию */
       display: none;
-      border: 1px solid #e0e0e0;
+      /* border: 1px solid #e0e0e0; */
       padding: 10px 15px;
       font-size: 16px;
     }
@@ -342,7 +389,8 @@
     #tab-btn-2:checked~#content-2,
     #tab-btn-3:checked~#content-3,
     #tab-btn-4:checked~#content-4,
-    #tab-btn-5:checked~#content-5 {
+    #tab-btn-5:checked~#content-5,
+    #tab-btn-6:checked~#content-6 {
       display: block;
     }
   
@@ -352,14 +400,28 @@
       vertical-align: middle;
       user-select: none;
       background-color: #f5f5f5;
-      border: 1px solid #e0e0e0;
-      padding: 9px 20px;
+      /* border: 1px solid #e0e0e0; */
+      padding: 15px 25px;
       font-size: 16px;
       line-height: 1.5;
       transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out;
       cursor: pointer;
       position: relative;
       top: 1px;
+      width: 19.5%;
+      min-width: fit-content;
+      border-right: 1px solid #0000000e;
+    }
+
+    .tabs>label:first-of-type {
+       /* стили для первого элемента label */
+       border-radius: 25px 0px 0px 25px;
+    }
+
+    .tabs>label:last-of-type {
+      /* стили для последнего элемента label */
+      border-radius: 0px 25px 25px 0px;
+      border:none;
     }
   
     .tabs>label:not(:first-of-type) {
@@ -367,8 +429,9 @@
     }
   
     .tabs>input[type="radio"]:checked+label {
-      background-color: #fff;
-      border-bottom: 1px solid #fff;
+      /* background-color: #fff;
+      border-bottom: 1px solid #fff; */
+      color: #00b44e;
     }
     .accordion{margin: 0px 0px 40px 0px;}
 .accordion .accordion-item {

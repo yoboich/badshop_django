@@ -8,13 +8,16 @@
         
                 <!-- slide-number-1 -->
                 <div class="swiper-slide">
-                  <div class="image-box">
-                    {%if slider.slug %}
-                    <a href="{{slider.slug}}"></a><img src="{{slider.image.url}}" alt="restaurant" />
+                  {%if slider.link %}
+                  <a href="{{slider.link}}">
+                  <div class="image-box">                    
+                    <img src="{{slider.image.url}}" alt="restaurant" />
                     {%else%}
-                    <a href="#"></a><img src="{{slider.image.url}}" alt="restaurant" />
+                    <a href="#">
+                    <div class="image-box">       
+                    <img src="{{slider.image.url}}" alt="restaurant" />
                     {%endif%}
-                    <div class="centered-text">
+                    <!-- <div class="centered-text">
                       {% comment %} <div class="text-wrapper">
                         {{slider.title}}
                         <p>{{slider.text}}</p>
@@ -22,8 +25,9 @@
                       <div class="button-wrapper">
                         <a href=""><button>ПЕРЕЙТИ В КАТАЛОГ</button></a>
                       </div> {% endcomment %}
-                    </div>
+                    </div> -->
                   </div>
+                </a>
                 </div>
         {% endfor %}
       </div>
@@ -83,9 +87,11 @@
       
               <!-- slide-number-1 -->
               <div class="swiper-slide">
+                {% if slider.link %}
+                <a href="{{slider.link}}">
                 <div class="image-box">
                   <img src="{{slider.image.url}}" alt="restaurant" />
-                  <div class="centered-text">
+                  <!-- <div class="centered-text">
                     {% comment %} <div class="text-wrapper">
                       {{slider.title}}
                       <p>{{slider.text}}</p>
@@ -93,8 +99,14 @@
                     <div class="button-wrapper">
                       <a href=""><button>ПЕРЕЙТИ В КАТАЛОГ</button></a>
                     </div> {% endcomment %}
-                  </div>
-                </div>
+                  </div> -->
+                {% else %}
+                <a href="#">
+                <div class="image-box">
+                <img src="{{slider.image.url}}" alt="restaurant" />
+                {% endif %}
+              </div>
+            </a>
               </div>
 
       {% endfor %}
@@ -145,6 +157,29 @@
     </div>
   </div>
 
+    <div class="index-blog">
+      <div class="index-blog-layout">
 
+
+
+        <div class="itc-slider" data-slider="itc-slider">
+          <div class="itc-slider-wrapper">
+            <div class="itc-slider-items">
+              {% for post in posts %}                            
+              <div class="itc-slider-item">
+                <div class="inc-slider-item-card">
+                  <img src="{{ post.image.url}}" alt="">
+                  {{ post.title }}
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          <!-- Кнопки для перехода к предыдущему и следующему слайду -->
+          <button class="itc-slider-btn itc-slider-btn-prev"></button>
+          <button class="itc-slider-btn itc-slider-btn-next"></button>
+        </div>
+      </div>
+    </div>
 
 {% endblock %}

@@ -35,6 +35,7 @@ class Item(models.Model):
     text = RichTextField(blank=True, null=True, verbose_name="Описание товара")
     compound = RichTextField(blank=True, null=True, verbose_name="Состав товара")
     delivery = RichTextField(blank=True, null=True, verbose_name="Информация о доставке")
+    hidden = models.BooleanField(default=False, blank=True, null=True, verbose_name='Скрыть товар')
     categories = models.ManyToManyField(
         verbose_name="Категория",
         to='Category', 

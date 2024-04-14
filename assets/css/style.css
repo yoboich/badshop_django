@@ -2435,6 +2435,19 @@ p.mobile-cirtificate{
     max-height: 165px;
     margin: 0px 20px 0px 0px;
 }
+
+.index-blog{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: #FCF8D2;
+}
+.index-blog-layout{
+    width: 95%;
+    margin: 0 auto;
+    max-width: 1790px;
+}
+
 @media (max-width: 1460px) {
     .navigation a {
         font-size: 16px;
@@ -2444,7 +2457,10 @@ p.mobile-cirtificate{
 .open-catalog-filter{
     display: none;
 }
-
+/*
+    РАЗРАБОТЧИК ПРОЕКТА: ARTEM BOYKO
+    tg: @cristian_mur \ @thomas_jefferson
+*/
 .close-catalog-filter{
     position: absolute;
     font-size: 25px;

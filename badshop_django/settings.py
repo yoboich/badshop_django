@@ -56,7 +56,6 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'mathfilters',
-    
     'users',
     'items',
     'orders',

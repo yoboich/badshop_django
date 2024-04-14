@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
   <link rel="stylesheet" href="{% static 'css/swiper.css' %}">
+  <link rel="stylesheet" href="{% static 'css/slider.css' %}">
   <link href="
 https://cdn.jsdelivr.net/npm/owl.carousel@2.3.4/dist/assets/owl.carousel.min.css
 " rel="stylesheet">
@@ -32,17 +33,26 @@ https://cdn.jsdelivr.net/npm/owl.carousel@2.3.4/dist/assets/owl.carousel.min.css
             Вход | Регистрация
           </a>
         </div>
-        <h2 style="font-size: 19px;font-weight: 700;margin: 20px 0px 20px 20px;">Каталог</h2>
-      <ul>
-        {%for i in categories %}
+        <!-- <h2 style="font-size: 19px;font-weight: 700;margin: 20px 0px 20px 20px;">Каталог</h2> -->
+      <ul style="margin: 19px 0px 0px 0px;">
+        <!-- {%for i in categories %}
         <li><a href="{% url 'filter_catalog_view' %}?category={{i.id}}">
           {% if i.image %}
           <img src="{{ i.image.url }}" /> {{ i.name }}</a></li>
           {% endif %}
-        {%endfor%}
+        {%endfor%} -->
+        <li><a href="{% url 'index' %}" class="">ГЛАВНАЯ</a></li>
+        <li><a href="{% url 'brends' %}" class="">БРЕНДЫ</a></li>
+        <li><a href="{% url 'pay' %}" class="">ОПЛАТА И ДОСТАВКА</a></li>
+        <li><a href="{% url 'sale' %}" class="">АКЦИИ</a></li>
+        <li><a href="{% url 'catalog_categories' %}" class="">КАТАЛОГ</a></li>
+        <li><a href="{% url 'blog' %}" class="">БЛОГ</a></li>
+        <li><a href="{% url 'about' %}" class="">О КОМПАНИИ</a></li>
+        <li><a href="{% url 'partners' %}" class="">ПАРТНЕРАМ</a></li>
+        <li><a href="{% url 'contacts' %}" class="">КОНТАКТЫ</a></li>
       </ul>
-      <a class="modal-user-link" href="tel:+8002007070" style="width: 95%;margin: 0 auto;display:flex;justify-content: center;margin: auto auto 25px;">
-        8 800 200-70-70
+      <a class="modal-user-link" href="tel:+79956006542" style="width: 95%;margin: 0 auto;display:flex;justify-content: center;margin: auto auto 25px;">
+        8 (995)-600-65-42
       </a>
       </div>
     </div>

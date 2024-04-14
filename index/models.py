@@ -17,12 +17,12 @@ class Sale(models.Model):
         verbose_name = "Акция"
         verbose_name_plural = "Акции"
         
-
 class SliderTop(models.Model):
     image = models.ImageField(upload_to="sliders/%Y/%m/%d/")
     title = models.CharField(max_length=255)
     text = models.CharField(max_length=255)
     slug = models.SlugField(blank=True, null=True)
+    link = models.CharField(max_length=299, blank=True, null=True)
     
     def __str__(self):
         return self.title
@@ -37,6 +37,7 @@ class SliderTwo(models.Model):
     title = models.CharField(max_length=255)
     text = models.CharField(max_length=255)
     slug = models.SlugField(blank=True, null=True)
+    link = models.CharField(max_length=299, blank=True, null=True)
     
     def __str__(self):
         return self.title
